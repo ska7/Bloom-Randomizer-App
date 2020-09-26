@@ -1,0 +1,78 @@
+/*
+INFO :
+(1.) First, user got to authorize via Facebook button, the app receives an access token with the permissions needed. 
+* permissions scope="instagram_basic, public_profile, instagram_manage_comments, pages_show_list"
+
+(2.) The first request is made to - https://graph.facebook.com/me/accounts?access_token={access_token}
+'me' in the request refers to the FB user providing the access token. The goal here is to get an id of the business FB page connected to the business instagram page.
+
+Sample response:
+ "data": [
+        {
+            "access_token": "EAAEiZCqJCufMBACLnxWkqaPPgC8T1OHt9LXU0uy3bAk0CfIHB9AOqmV9Q48qBg0BbYD5GHF8lQMetKnYGKKxzfTGjZAeDXwtabbCVAPqZBXMRxee5Hn8rATONWbi8XQMxpZAimPk7JiyaAQ6R1FAeTYwrRoZCyY0kEz8GwNZBCy8g0wMUtIx7eTPT9AQuspi0ZD",
+            "category": "Деятель искусств",
+            "category_list": [
+                {
+                    "id": "1601",
+                    "name": "Деятели искусств"
+                }
+            ],
+            "name": "testernikita", - a business FB page.
+            "id": "104372884733216",  - an ID of the above business FB page. This is what we need to capture
+            "tasks": [
+                "ANALYZE",
+                "ADVERTISE",
+                "MODERATE",
+                "CREATE_CONTENT",
+                "MANAGE"
+            ]
+        }
+Pe@ceLove177!
+
+
+
+
+
+(3.) The next request is made to https://graph.facebook.com/{FB page ID}?fields=instagram_business_account&access_token={access token}
+This step allows us to get the id of
+This will bring us the following:
+{
+    "instagram_business_account": {
+        "id": "17841440194840379" - is exactly what we need
+    },
+    "id": "104372884733216"
+}
+
+(4.) Then, a request is made to https://graph.facebook.com/v8.0/{instagram_business_account_id}/media?access_token={access_token}
+ig business account id - 17841440194840379 in my case.
+
+This request gets us the list of all media on the IG user (Ids)
+
+Sample response:
+
+    "data": [
+        {
+            "id": "17891427622623896"  - post #1
+        },
+        {
+            "id": "17887110184625897" - post #2 etc
+        }
+    ]
+
+(5.) The final request is made to https://graph.facebook.com/v8.0/{ig_media_id}/comments?access_token={access_token}
+
+Render profile pic for comment:
+
+https://www.instagram.com/{username provided by IG Comment node}/?__a=1 
+*/
+
+                                                    IMPLEMENTATION
+
+I. On the top FB login button, search field in the middle. You paste the link into it, it takes the photo and makes a background out of it.
+II. The app checks if the user has authotized. If so, the app starts to look into all the comments and randomly picks one.
+If not, the message appears prompting the user to authorize.
+
+Login Buggon on the top
+Input field on the edge between black and white. As soon as the comment renders, input field slides underneath, and the comment appears.
+
+TRY TO MAKE BLACK SAND TURN WHITE AND WHITE BACKGROUND TURN NIGHT-ISH ON HOVER

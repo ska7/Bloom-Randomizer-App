@@ -1,0 +1,220 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: Verdana, sans-serif; */
+}
+.App {
+  position: relative;
+  background-image: url("./img/background.png");
+  background-size: cover;
+  background-position: 0px -450px;
+  /* background-position: center; */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  font-family: Verdana, sans-serif;
+}
+
+/* FB Button*/
+
+.fbLogin-section {
+  position: absolute;
+  top: 1rem;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.fbButton {
+  margin-top: 2px;
+  padding: 1rem;
+  font-size: 1.5rem;
+  color: rgb(161, 161, 161);
+  background: #f9f9f9;
+  border: solid 3px rgb(161, 161, 161);
+  transition: all 0.6s ease;
+}
+
+.fbButton:hover {
+  cursor: pointer;
+  color: white;
+  background: rgb(72, 103, 170);
+  border: solid 3px black;
+}
+
+.aboutLink {
+  position: absolute;
+  font-size: 0.8rem;
+  height: 1.2rem;
+  width: 20rem;
+  top: 2px;
+  left: 10px;
+  transition: all 0.5s ease;
+}
+
+.aboutLink:hover {
+  cursor: pointer;
+  font-size: 0.85rem;
+  transform: translateY(-1px);
+}
+
+/* INPUT */
+
+.input-section {
+  position: absolute;
+  bottom: 10rem;
+}
+
+.input-form {
+  position: relative;
+  height: 70px;
+  width: 50vw;
+}
+
+.label-name {
+  font-size: 1.3rem;
+  position: absolute;
+  color: azure;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  border-bottom: 3px solid white;
+}
+.input-field {
+  width: 100%;
+  height: 100%;
+  color: rgb(255, 255, 255);
+  padding-top: 20px;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.content-name {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  transition: all 0.3s ease;
+  /* color: black; */
+}
+
+.input-field:focus + .label-name .content-name,
+.input-field:valid + .label-name .content-name {
+  font-size: 1.1rem;
+  transform: translateY(-200%);
+}
+
+.input-field:focus .App {
+  background-position: 0px -450px;
+}
+
+/* COMMENT */
+
+.comment-section {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: 12rem;
+  left: 0%;
+  height: 10rem;
+  width: 100vw;
+}
+
+.comment-box {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 50% 50%;
+  height: 10rem;
+  width: 30%;
+}
+
+.comment-box-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1rem;
+  font-family: "Libre Baskerville", serif;
+}
+
+.comment-box-name h1 {
+  transition: all 0.5s ease;
+}
+
+.comment-box-name h1:hover {
+  cursor: pointer;
+  text-shadow: 2px 2px 8px rgb(148, 22, 100);
+}
+.comment-box-insta {
+  height: 50px;
+  width: 50px;
+  margin: 10px;
+  padding-left: 2px;
+  transition: all 0.5s ease;
+}
+
+.comment-box-insta:hover {
+  filter: drop-shadow(2px 2px 6px rgb(148, 22, 100));
+}
+
+.comment-box-comment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(207, 35, 35);
+}
+
+/* Profile Pic Circle */
+.comment-box-picture {
+  position: relative;
+
+  grid-row-start: 1;
+  grid-row-end: 3;
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-pic {
+  height: 100%;
+}
+.circle {
+  z-index: 1;
+  position: absolute;
+  height: 98%;
+  width: 105%;
+  -webkit-transition: -webkit-transform 1s;
+}
+
+.circle:hover {
+  -webkit-transform: rotate(180deg) translateZ(0);
+  cursor: pointer;
+}
+.circle-content {
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.profile-pic {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}

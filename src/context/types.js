@@ -1,0 +1,5 @@
+export const LOGIN_SUCCEEDED = "LOGIN_SUCCEEDED";
+export const SHOW_LOADER = "SHOW_LOADER";
+export const GET_POST = "GET_POST";
+export const FETCH_COMMENTS = "FETCH_COMMENTS";
+export const FETCH_RANDOM_COMMENT = "FETCH_RANDOM_COMMENT";
