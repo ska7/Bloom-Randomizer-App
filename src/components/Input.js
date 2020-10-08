@@ -1,20 +1,31 @@
-import React, { useContext, useState } from "react";
-import "../App.css";
-import {GlobalContext} from "../context/globalContext";
+import React, { useContext, useEffect, useState } from "react";
+import "../App.scss";
+import { GlobalContext } from "../context/globalContext";
 
 const Input = () => {
-    const { setPost } = useContext(GlobalContext);
-    const [state, setState] = useState("");
+  const { setPostID, findPostID, fetchPosts, isLoggedIn } = useContext(
+    GlobalContext
+  );
+  const [state, setState] = useState("");
 
-  const handleEnterPress = (e) => {
+  const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
-        setPost(state)
-        console.log(state)
+      try {
+        const id = await findPostID(state);
+
+        setPostID(id);
+
+        fetchPosts();
+        console.log("posts fetched");
+      } catch {
+        setState("");
+        console.log("Post ID is null");
+      }
     }
   };
 
   return (
-    <div className="input-form">
+    <div className={`input-form ${isLoggedIn ? "slideIn" : ""}`}>
       <input
         onKeyPress={handleEnterPress}
         value={state}
@@ -24,9 +35,10 @@ const Input = () => {
         type="text"
         required="yes"
       ></input>
-      <label className="label-name" for="input-post">
-        <span className="content-name">Paste the link to your post</span>
+      <label className="label-name" htmlFor="input-post">
+        <span className="content-name">Instagram Post</span>
       </label>
+      <button className="go-button">GO</button>
     </div>
   );
 };

@@ -1,22 +1,28 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import "../App.css";
-import { Link } from "react-router-dom";
+import "../App.scss";
+import { GlobalContext } from "../context/globalContext";
 
 const FBLogin = () => {
+  const { userLoggedIn, isLoggedIn } = useContext(GlobalContext);
+  const [slide, setSlide] = useState("");
+
   const responseFacebook = (response) => {
-    console.log(response);
+    setSlide("slideOut");
+    const token = response.accessToken;
+    userLoggedIn(token);
   };
 
-  const aboutLinkStyle = {
-    color: "black",
-  };
+  useEffect(() => {
+    if (isLoggedIn) {
+      setSlide("slideOut");
+    } else if (!isLoggedIn) {
+      setSlide("slideIn");
+    }
+  }, [isLoggedIn]);
 
   return (
-    <div className="fbLogin-section">
-      <Link style={aboutLinkStyle} to="/about">
-        <h1 className="aboutLink">How it works? Click here and learn </h1>
-      </Link>
+    <div className={`fbLogin-section`}>
       <FacebookLogin
         appId="319952016030195"
         autoLoad={false}

@@ -1,46 +1,326 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import axios from "axios";
 import { GlobalContext } from "./globalContext";
 import { globalReducer } from "./globalReducer";
-import firebase from "firebase";
-import { GET_POST, LOGIN_SUCCEEDED } from "./types";
+import {
+  FADE_IN,
+  FETCH_COMMENT_DATA,
+  FETCH_WINNER_COMMENT_ID,
+  GET_POST_ID,
+  GET_POST_INSTA_ID,
+  LOADING,
+  LOAD_COMMENTS,
+  LOGIN_FAILED,
+  LOGIN_SUCCEEDED,
+  POSTS_FETCHED,
+  UPDATE_COMMENTS_COUNT,
+} from "./types";
 
-const url = process.env.REACT_APP_DATABASE_URL;
+const fbUrl = "https://graph.facebook.com/me/accounts?access_token=";
 
 export const GlobalState = ({ children }) => {
   const initState = {
-    isLoggedIn: false,
-    accessToken: "",
+    isLoggedIn: null,
     loading: false,
-    post: "",
-    comments: [],
-    randomComment: {
-      pic: "",
-      username: "",
-      content: "",
-    },
+    tokenReceived: null,
+    postID: "",
+    postInstaID: null,
+    posts: null,
+    winnerCommentID: null,
+    winnerCommentData: null,
+    commentsCount: [],
   };
   const [state, dispatch] = useReducer(globalReducer, initState);
 
-  const initializeFirebase = () => {
-    firebase.initializeApp({
-      apiKey: "AIzaSyCDJvNlD0sikgrAXpY6neGIbwFUgbpVRrw",
-      authDomain: "https://bloomrandomizer.firebaseapp.com",
+  const loader = () => {
+    dispatch({ type: LOADING });
+  };
+
+  // Login Related Functions
+  const storeLoginStatus = (token) => {
+    if (token) {
+      localStorage.setItem("status", true);
+    } else if (token === "") {
+      localStorage.removeItem("status");
+    }
+  };
+
+  const signOut = () => {
+    localStorage.removeItem("accessToken");
+    loginCheck();
+  };
+
+  const userLoggedIn = (token) => {
+    // adding token to local storage
+    localStorage.setItem("accessToken", token);
+    setTimeout(() => {
+      storeLoginStatus(token);
+    }, 2000);
+    dispatch({
+      type: LOGIN_SUCCEEDED,
     });
   };
 
-  const loginCheck = async (userLoggedIn, userLoggedOut) => {
-    const loginStatus = await axios.get(`${url}/token.json`);
-    console.log(loginStatus.data);
-    loginStatus.data === null ? console.log("zabei") : console.log("welcome!");
+  const checkToken = async (token) => {
+    const res = await axios
+      .get(`${fbUrl}${token}`)
+      .then((res) => {
+        return res;
+      })
+      .catch((e) => {
+        return e.response.status;
+      });
+
+    return res;
+  };
+
+  const loginCheck = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const check = await checkToken(accessToken);
+
+    if ((accessToken !== null && check === 400) || accessToken === null) {
+      console.log("400 error in Global State. Token expired or is null.");
+      dispatch({ type: LOGIN_FAILED });
+      storeLoginStatus("");
+      return false;
+    } else {
+      console.log("Success in login check");
+      dispatch({ type: LOGIN_SUCCEEDED });
+
+      return true;
+    }
+  };
+
+  // Instagram Posts Related Functions
+
+  const setPostID = (id) => {
+    dispatch({ type: GET_POST_ID, payload: id });
+  };
+
+  const findPostID = async (post) => {
+    const res = await axios
+      .get(`https://api.instagram.com/oembed/?url=${post}`)
+      .then((response) => {
+        let id = response.data.media_id.split("_");
+        return id[0];
+      })
+      .catch((e) => {
+        console.log(e);
+        return null;
+      });
+
+    return res;
+  };
+
+  const fetchPosts = async () => {
+    loader();
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const fbBusinessPageID = await axios
+        .get(
+          `https://graph.facebook.com/me/accounts?access_token=${accessToken}`
+        )
+        .then((fbRes) => {
+          console.log("fbBusinessPageID", fbRes.data.data[0].id);
+          return fbRes.data.data[0].id;
+        });
+
+      const igBusinessPageID = await axios
+        .get(
+          `https://graph.facebook.com/${fbBusinessPageID}?fields=instagram_business_account&access_token=${accessToken}`
+        )
+        .then((fbRes) => {
+          console.log(
+            "IG Business Page ID",
+            fbRes.data.instagram_business_account.id
+          );
+          return fbRes.data.instagram_business_account.id;
+        });
+
+      const igPosts = await axios
+        .get(
+          `https://graph.facebook.com/v8.0/${igBusinessPageID}/media?access_token=${accessToken}`
+        )
+        .then((fbRes) => {
+          console.log("IG Posts:", fbRes.data.data);
+          return fbRes.data.data;
+        });
+      dispatch({ type: POSTS_FETCHED, payload: igPosts });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchPostInfo = async (id, token) => {
+    const res = await axios
+      .get(
+        `https://graph.facebook.com/v8.0/${id}?fields=comments_count, caption,id,ig_id,like_count,permalink,timestamp,username&access_token=${token}`
+      )
+      .then((res) => {
+        return res.data.ig_id;
+      });
+    return res;
+  };
+
+  const matchID = async (array, callback, token) => {
+    for (const id of array) {
+      const ig_id = await callback(id, token);
+      if (ig_id === state.postID) {
+        return id;
+      } else {
+        console.log("MATCH ID FUNCTION, NO ID MATCHED");
+      }
+    }
+  };
+
+  const matchPost = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      // Create an array with IDs
+      const IDs = state.posts.map((post) => {
+        return post.id;
+      });
+      // Map through all the IDs and return the one mathing postID.
+      const matchedID = await matchID(IDs, fetchPostInfo, accessToken);
+      console.log("ID was matched successfully:", matchedID);
+      dispatch({ type: GET_POST_INSTA_ID, payload: matchedID });
+    } catch (err) {
+      console.log("Error occured during post match:", err);
+    }
+  };
+
+  // Comments related functions
+
+  const fetchBatch = async (url) => {
+    let cursor = "";
+    // Fetching primary batch
+    const comments = await axios.get(url).then((res) => {
+      cursor = res.data.hasOwnProperty("paging")
+        ? res.data.paging.cursors.after
+        : "";
+      return res.data.data;
+    });
+
+    return {
+      batch: comments,
+      cursor: cursor,
+    };
+  };
+
+  const pushComments = (commentsArray, batch) => {
+    console.log("HOW BATCH LOOK LIKE", batch);
+    batch.forEach((comment) => {
+      commentsArray.push(comment);
+    });
+
+    return commentsArray;
+  };
+
+  const winnerCommentID = (comments) => {
+    const index = Math.floor(Math.random() * Math.floor(comments.length));
+    console.log(`RANDOM INDEX IN THE RANGE OF ${comments.length}:${index}`);
+    const commentID = comments[index];
+    console.log(`Random comments chosen is : ${JSON.stringify(commentID.id)}`);
+    return commentID.id;
+  };
+
+  const fetchCommentID = async () => {
+    console.log("Starting fetching comments");
+    const accessToken = localStorage.getItem("accessToken");
+    const primaryBatchUrl = `https://graph.facebook.com/v8.0/${state.postInstaID}/comments?access_token=${accessToken}`;
+    let cursorAfter = "";
+    let fetch = true;
+    let comments = [];
+
+    while (fetch) {
+      // 1. If the comments array is empty, we fetch the first batch
+      console.log("COMMENTS ARRAY BEFORE FETCHING:", comments);
+
+      if (!comments.length) {
+        console.log("FIRST PART OF THE LOOP");
+        const { batch, cursor } = await fetchBatch(primaryBatchUrl);
+        pushComments(comments, batch);
+
+        console.log("COMMENTS ARRAY AFTER FIRST BATCH:", comments);
+        // Break the loop if there's no pagination cursor in the response
+
+        cursorAfter = cursor;
+        // runCommentsCounter(comments);
+        dispatch({ type: LOAD_COMMENTS, payload: comments });
+      }
+      // 2 If the comments array isn't empty and there was a pagination cursor in the last fetch, we fetch the next batch
+      else if (comments && comments.length && cursorAfter) {
+        console.log("SECOND PART OF THE LOOP");
+        const nextBatchUrl = `https://graph.facebook.com/v8.0/${state.postInstaID}/comments?access_token=${accessToken}&limit=50&after=${cursorAfter}&pretty=1`;
+        const { batch, cursor } = await fetchBatch(nextBatchUrl);
+        pushComments(comments, batch);
+
+        // Break the loop if there's no pagination cursor in the response
+
+        cursorAfter = cursor;
+        dispatch({ type: LOAD_COMMENTS, payload: comments });
+      } else {
+        fetch = false;
+
+        break;
+      }
+    }
+    // Comments come in batches so we have to merge them all into one single list
+    dispatch({
+      type: FETCH_WINNER_COMMENT_ID,
+      payload: winnerCommentID(comments),
+    });
+  };
+
+  const fetchCommentData = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const { text, username } = await axios
+      .get(
+        `https://graph.facebook.com/${state.winnerCommentID}?fields=text,username&access_token=${accessToken}`
+      )
+      .then((res) => {
+        return res.data;
+      });
+    const picture = await axios
+      .get(`https://www.instagram.com/${username}/?__a=1 `)
+      .then((res) => {
+        return res.data.graphql.user.profile_pic_url;
+      });
+
+    dispatch({
+      type: FETCH_COMMENT_DATA,
+      payload: {
+        picture: picture,
+        username: username,
+        content: text,
+      },
+    });
+    loader();
   };
 
   return (
     <GlobalContext.Provider
       value={{
-        state,
+        isLoggedIn: state.isLoggedIn,
+        accessToken: state.accessToken,
+        postID: state.postID,
+        posts: state.posts,
+        postInstaID: state.postInstaID,
+        winnerCommentID: state.winnerCommentID,
+        winnerCommentData: state.winnerCommentData,
+        loading: state.loading,
+        commentsCount: state.commentsCount,
+        storeLoginStatus,
         loginCheck,
-        initializeFirebase,
+        userLoggedIn,
+        checkToken,
+        setPostID,
+        findPostID,
+        fetchPosts,
+        matchPost,
+        fetchCommentID,
+        fetchCommentData,
+        signOut,
       }}
     >
       {children}

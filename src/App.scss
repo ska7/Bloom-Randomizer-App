@@ -1,0 +1,444 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+$app_yellow: rgb(179, 146, 0);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: Verdana, sans-serif; */
+}
+
+.spinner {
+  position: absolute;
+  top: 15rem;
+  color: black;
+}
+
+.sign-out-button {
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  margin-top: 2px;
+  padding: 2px;
+  height: 5rem;
+  width: 5rem;
+  font-size: 0.7rem;
+  color: #a1a1a1;
+  background: #f9f9f9;
+  border: solid 1px rgb(161, 161, 161);
+  transition: all 0.6s ease;
+}
+
+.sign-out-button:hover {
+  border: solid 1.5px $app_yellow;
+  transform: translateX(-15px);
+  color: $app_yellow;
+}
+
+.logoLight {
+  position: absolute;
+  top: 0;
+}
+
+.logoDark {
+  position: absolute;
+  top: 0;
+}
+
+.App {
+  position: relative;
+  overflow: hidden;
+  background-image: url("./img/background\ -\ Copy.png");
+  background-size: cover;
+  background-position: 0px -450px;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+  font-family: Verdana, sans-serif;
+}
+
+.loggedIn {
+  background-image: url("./img/background\ -\ Copy.png");
+}
+
+.logged-out-screen {
+  position: absolute;
+  min-width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logged-in-screen {
+  position: absolute;
+  min-width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+/* Pop Ups */
+
+.logged-out-pop-up {
+  position: absolute;
+  bottom: 12rem;
+  height: 200px;
+  width: 700px;
+  display: flex;
+  height: 4rem;
+  justify-content: center;
+  align-items: center;
+  animation: firstPopIn 0.5s ease forwards;
+}
+
+.logged-out-pop-up img {
+  height: 170px;
+}
+
+/* Pop Up Animation*/
+
+.logged-out-pop-up {
+  position: absolute;
+}
+
+@keyframes firstPopIn {
+  0% {
+    transform: translateX(100rem);
+  }
+  50% {
+    transform: translateX(-4rem);
+  }
+  100% {
+    transform: translateX(0rem);
+  }
+}
+
+@keyframes secondPop {
+  0% {
+  }
+  70% {
+    transform: translateX(-27rem);
+  }
+  100% {
+    transform: translateX(-25rem);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100rem);
+  }
+  100% {
+    transform: translateX(0rem);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0rem);
+  }
+  100% {
+    transform: translateX(-100rem);
+  }
+}
+
+.slideOut {
+  animation: slideOut 1s ease forwards;
+}
+
+.slideIn {
+  animation: slideIn 0.7s ease forwards;
+}
+
+.hide {
+  position: absolute;
+  top: 0rem;
+  right: 200rem !important;
+}
+
+.logged-in-pop-up {
+  position: absolute;
+  right: 0rem;
+  animation: secondPop 0.5s ease forwards;
+  bottom: 23rem;
+  height: 200px;
+  width: 700px;
+  display: flex;
+  height: 4rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.logged-in-pop-up img {
+  height: 170px;
+}
+
+/* FB Button*/
+
+.fbLogin-section {
+  position: absolute;
+  top: 15rem;
+  right: 0rem;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.fbButton {
+  margin-top: 2px;
+  padding: 1rem;
+  height: 5rem;
+  width: 20rem;
+  font-size: 1.5rem;
+  color: rgb(161, 161, 161);
+  background: #f9f9f9;
+  border: solid 3px rgb(161, 161, 161);
+  transition: all 0.6s ease;
+}
+
+.fbButton:hover {
+  cursor: pointer;
+  color: white;
+  background: rgb(72, 103, 170);
+  border: solid 3px black;
+}
+
+.aboutLink {
+  position: absolute;
+  font-size: 0.8rem;
+  height: 1.2rem;
+  width: 20rem;
+  top: 2px;
+  left: 10px;
+  transition: all 0.5s ease;
+}
+
+.aboutLink:hover {
+  cursor: pointer;
+  font-size: 0.85rem;
+  transform: translateY(-1px);
+}
+
+/* INPUT */
+
+.input-section {
+  position: absolute;
+  bottom: 8rem;
+}
+
+.input-form {
+  position: relative;
+  height: 70px;
+  width: 50vw;
+}
+
+.label-name {
+  font-size: 1.3rem;
+  position: absolute;
+  color: azure;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  border-bottom: 3px solid white;
+}
+.input-field {
+  width: 100%;
+  height: 100%;
+  color: rgb(255, 255, 255);
+  padding-top: 20px;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.content-name {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  transition: all 0.3s ease;
+  /* color: black; */
+}
+
+.input-field:focus + .label-name .content-name,
+.input-field:valid + .label-name .content-name {
+  font-size: 1.1rem;
+  transform: translateY(-200%);
+}
+
+.input-field:focus .App {
+  background-position: 0px -450px;
+}
+
+.go-button {
+  position: absolute;
+  right: 0;
+  bottom: 1rem;
+  height: 1.7rem;
+  width: 10rem;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+  animation: pulse 2s alternate infinite;
+  &:hover {
+    color: $app_yellow;
+    border: 1px solid $app_yellow;
+  }
+}
+
+/* COMMENT */
+
+.comment-section {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  right: -100rem;
+  top: 12rem;
+
+  height: 10rem;
+  width: 100vw;
+}
+
+.comment-box {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 50% 50%;
+  height: 10rem;
+  width: 30%;
+}
+
+.comment-box-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1rem;
+  font-family: "Libre Baskerville", serif;
+}
+
+.comment-box-name h1 {
+  transition: all 0.5s ease;
+}
+
+.comment-box-name h1:hover {
+  cursor: pointer;
+  text-shadow: 2px 2px 8px rgb(201, 172, 108);
+}
+.comment-box-insta {
+  height: 50px;
+  width: 50px;
+  margin: 10px;
+  padding-left: 2px;
+  transition: all 0.5s ease;
+}
+
+.comment-box-insta:hover {
+  filter: drop-shadow(2px 2px 6px rgb(201, 172, 108));
+}
+
+.comment-box-comment {
+  text-align: center;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(150, 103, 53);
+}
+
+/* Profile Pic Circle */
+.comment-box-picture {
+  position: relative;
+
+  grid-row-start: 1;
+  grid-row-end: 3;
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-pic {
+  height: 100%;
+}
+.circle {
+  z-index: 1;
+  position: absolute;
+  height: 100%;
+  width: 115%;
+  -webkit-transition: -webkit-transform 1s;
+}
+
+@-moz-keyframes spin {
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 100000ms linear infinite;
+}
+
+/* .circle:hover {
+  -webkit-transform: rotate(25deg) translateZ(0);
+  cursor: pointer;
+} */
+.circle-content {
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.profile-pic {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+/* ANIMATIONS */
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px 2px $app_yellow;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 5px 5px $app_yellow;
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px 2px $app_yellow;
+  }
+}

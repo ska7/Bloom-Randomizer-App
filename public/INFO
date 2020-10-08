@@ -66,6 +66,9 @@ Render profile pic for comment:
 https://www.instagram.com/{username provided by IG Comment node}/?__a=1 
 */
 
+
+
+
                                                     IMPLEMENTATION
 
 I. On the top FB login button, search field in the middle. You paste the link into it, it takes the photo and makes a background out of it.

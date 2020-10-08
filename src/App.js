@@ -1,19 +1,16 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Randomizer from "./pages/Randomizer";
-import About from "./pages/About";
+import React, { useContext, useEffect } from "react";
+import "./App.scss";
+
 import { GlobalState } from "./context/GlobalState";
+
+import UserLoggedIn from "./components/UserLoggedIn";
+import UserLoggedOut from "./components/UserLoggedOut";
+import Randomizer from "./pages/Randomizer";
 
 function App() {
   return (
     <GlobalState>
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Randomizer} />
-          <Route path="/about" component={About} />
-        </Switch>
-      </Router>
+      <Randomizer />
     </GlobalState>
   );
 }
