@@ -1,18 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "../App.scss";
 import { GlobalContext } from "../context/globalContext";
 
 const Input = () => {
-  const { setPostID, findPostID, fetchPosts, isLoggedIn } = useContext(
+  const { setPostID, findPostID, fetchPosts, isLoggedIn, loader } = useContext(
     GlobalContext
   );
   const [state, setState] = useState("");
+  const [slide, setSlide] = useState("");
 
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
       try {
+        setState("");
+        setSlide("slideOut");
         const id = await findPostID(state);
-
         setPostID(id);
 
         fetchPosts();
@@ -25,7 +28,7 @@ const Input = () => {
   };
 
   return (
-    <div className={`input-form ${isLoggedIn ? "slideIn" : ""}`}>
+    <div className={`input-form`}>
       <input
         onKeyPress={handleEnterPress}
         value={state}

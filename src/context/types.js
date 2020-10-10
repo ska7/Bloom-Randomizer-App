@@ -7,3 +7,6 @@ export const FETCH_WINNER_COMMENT_ID = "FETCH_WINNER_COMMENT_ID";
 export const POSTS_FETCHED = "POSTS_FETCHED";
 export const FETCH_COMMENT_DATA = "FETCH_COMMENT_DATA";
 export const LOAD_COMMENTS = "LOAD_COMMENTS";
+export const INIT = "INIT";
+export const NEW_WINNER = "NEW_WINNER";
+export const NEW_GIVE_AWAY = "NEW_GIVE_AWAY";

@@ -4,6 +4,7 @@ import Avatar from "../img/LoggedOutPopUp.png";
 
 export default function LoggedOutPopUp() {
   const [state, setState] = useState(false);
+
   const { isLoggedIn } = useContext(GlobalContext);
 
   const popUp = (

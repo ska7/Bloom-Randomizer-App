@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 import axios from "axios";
 import { GlobalContext } from "./globalContext";
 import { globalReducer } from "./globalReducer";
@@ -8,12 +8,14 @@ import {
   FETCH_WINNER_COMMENT_ID,
   GET_POST_ID,
   GET_POST_INSTA_ID,
+  INIT,
   LOADING,
   LOAD_COMMENTS,
   LOGIN_FAILED,
   LOGIN_SUCCEEDED,
+  NEW_GIVE_AWAY,
+  NEW_WINNER,
   POSTS_FETCHED,
-  UPDATE_COMMENTS_COUNT,
 } from "./types";
 
 const fbUrl = "https://graph.facebook.com/me/accounts?access_token=";
@@ -32,9 +34,14 @@ export const GlobalState = ({ children }) => {
   };
   const [state, dispatch] = useReducer(globalReducer, initState);
 
-  const loader = () => {
-    dispatch({ type: LOADING });
+  const loader = () => dispatch({ type: LOADING });
+
+  const newWinner = () => {
+    dispatch({ type: NEW_WINNER });
+    loader();
   };
+
+  const newGiveAway = () => dispatch({ type: NEW_GIVE_AWAY });
 
   // Login Related Functions
   const storeLoginStatus = (token) => {
@@ -47,7 +54,7 @@ export const GlobalState = ({ children }) => {
 
   const signOut = () => {
     localStorage.removeItem("accessToken");
-    loginCheck();
+    dispatch({ type: INIT });
   };
 
   const userLoggedIn = (token) => {
@@ -114,6 +121,7 @@ export const GlobalState = ({ children }) => {
 
   const fetchPosts = async () => {
     loader();
+    dispatch({ type: LOAD_COMMENTS, payload: "Fetching data" });
     const accessToken = localStorage.getItem("accessToken");
     try {
       const fbBusinessPageID = await axios
@@ -286,7 +294,6 @@ export const GlobalState = ({ children }) => {
       .then((res) => {
         return res.data.graphql.user.profile_pic_url;
       });
-
     dispatch({
       type: FETCH_COMMENT_DATA,
       payload: {
@@ -310,6 +317,9 @@ export const GlobalState = ({ children }) => {
         winnerCommentData: state.winnerCommentData,
         loading: state.loading,
         commentsCount: state.commentsCount,
+        newWinner,
+        newGiveAway,
+        loader,
         storeLoginStatus,
         loginCheck,
         userLoggedIn,

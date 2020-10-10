@@ -9,10 +9,43 @@ $app_yellow: rgb(179, 146, 0);
   /* font-family: Verdana, sans-serif; */
 }
 
-.spinner {
+.loader {
   position: absolute;
   top: 15rem;
+  left: 40rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   color: black;
+  .comments-count {
+    padding: 1rem;
+  }
+}
+
+.new-winner-button,
+.new-give-button {
+  position: absolute;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  top: 20rem;
+  height: 5rem;
+  width: 10rem;
+  transition: all 0.5s ease;
+  &:hover {
+    color: $app_yellow;
+    border: 1px solid $app_yellow;
+    transform: translateY(-5px);
+  }
+}
+
+.new-winner-button {
+  left: 35rem;
+}
+
+.new-give-button {
+  right: 35rem;
 }
 
 .sign-out-button {
@@ -64,17 +97,7 @@ $app_yellow: rgb(179, 146, 0);
   background-image: url("./img/background\ -\ Copy.png");
 }
 
-.logged-out-screen {
-  position: absolute;
-  min-width: 100vw;
-  min-height: 100vh;
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-}
-
+.logged-out-screen,
 .logged-in-screen {
   position: absolute;
   min-width: 100vw;
@@ -85,6 +108,7 @@ $app_yellow: rgb(179, 146, 0);
   align-items: center;
   flex-direction: column;
 }
+
 /* Pop Ups */
 
 .logged-out-pop-up {
@@ -109,55 +133,6 @@ $app_yellow: rgb(179, 146, 0);
   position: absolute;
 }
 
-@keyframes firstPopIn {
-  0% {
-    transform: translateX(100rem);
-  }
-  50% {
-    transform: translateX(-4rem);
-  }
-  100% {
-    transform: translateX(0rem);
-  }
-}
-
-@keyframes secondPop {
-  0% {
-  }
-  70% {
-    transform: translateX(-27rem);
-  }
-  100% {
-    transform: translateX(-25rem);
-  }
-}
-
-@keyframes slideIn {
-  0% {
-    transform: translateX(100rem);
-  }
-  100% {
-    transform: translateX(0rem);
-  }
-}
-
-@keyframes slideOut {
-  0% {
-    transform: translateX(0rem);
-  }
-  100% {
-    transform: translateX(-100rem);
-  }
-}
-
-.slideOut {
-  animation: slideOut 1s ease forwards;
-}
-
-.slideIn {
-  animation: slideIn 0.7s ease forwards;
-}
-
 .hide {
   position: absolute;
   top: 0rem;
@@ -166,8 +141,9 @@ $app_yellow: rgb(179, 146, 0);
 
 .logged-in-pop-up {
   position: absolute;
-  right: 0rem;
-  animation: secondPop 0.5s ease forwards;
+  right: 26rem;
+
+  animation: secondPop 0.5s ease;
   bottom: 23rem;
   height: 200px;
   width: 700px;
@@ -305,8 +281,8 @@ $app_yellow: rgb(179, 146, 0);
   position: absolute;
   display: flex;
   justify-content: center;
-  right: -100rem;
-  top: 12rem;
+  right: 0rem;
+  top: 13rem;
 
   height: 10rem;
   width: 100vw;
@@ -385,22 +361,6 @@ $app_yellow: rgb(179, 146, 0);
   -webkit-transition: -webkit-transform 1s;
 }
 
-@-moz-keyframes spin {
-  to {
-    -moz-transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes spin {
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .spin {
   animation: spin 100000ms linear infinite;
 }
@@ -425,20 +385,88 @@ $app_yellow: rgb(179, 146, 0);
 }
 
 /* ANIMATIONS */
+@-moz-keyframes spin {
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes pulse {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 5px 2px $app_yellow;
+    box-shadow: 0 0 5px 1px $app_yellow;
   }
 
   70% {
     transform: scale(1);
-    box-shadow: 0 0 5px 5px $app_yellow;
+    box-shadow: 0 0 5px 1px $app_yellow;
   }
 
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 5px 2px $app_yellow;
+    box-shadow: 0 0 5px 1px $app_yellow;
   }
+}
+
+@keyframes firstPopIn {
+  0% {
+    transform: translateX(100rem);
+  }
+  50% {
+    transform: translateX(-4rem);
+  }
+  100% {
+    transform: translateX(0rem);
+  }
+}
+
+@keyframes secondPop {
+  0% {
+    transform: translateX(50rem);
+  }
+  70% {
+    transform: translateX(-5rem);
+  }
+  100% {
+    transform: translateX(0rem);
+  }
+}
+
+/* CSS Transition Group*/
+
+.fade-enter {
+  opacity: 1;
+  transition: all 0.3s ease;
+  transform: translateX(100rem);
+}
+.fade-enter-active {
+  // opacity: 1;
+  // transition: all 0.5s ease-in;
+  // transform: translateX(25rem);
+}
+
+.fade-enter-done {
+  opacity: 1;
+  transition: all 0.3s ease;
+  transform: translateX(0rem);
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateX(0rem);
+}
+.fade-exit-active {
+  transition: all 0.5s ease-in;
+  transform: translateX(-250rem);
+  opacity: 0.5;
 }

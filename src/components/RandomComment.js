@@ -16,9 +16,20 @@ const RandomComment = () => {
     fetchCommentData,
     winnerCommentData,
     commentsCount,
+    newWinner,
+    newGiveAway,
   } = useContext(GlobalContext);
 
   const [commentData, setCommentData] = useState(null);
+
+  const handleClickNewWinner = () => {
+    setCommentData("");
+    newWinner();
+  };
+
+  const handleClickNewGiveAway = () => {
+    newGiveAway();
+  };
 
   useEffect(() => {
     if (posts !== null && postInstaID === null) {
@@ -26,7 +37,7 @@ const RandomComment = () => {
     } else if (
       postInstaID !== null &&
       !winnerCommentID &&
-      !commentsCount.length
+      (!commentsCount.length || typeof commentsCount === "string")
     ) {
       fetchCommentID();
     } else if (winnerCommentID !== null && !commentData) {
@@ -39,11 +50,19 @@ const RandomComment = () => {
   return (
     <Fragment>
       {winnerCommentData ? (
-        <Comment
-          picture={winnerCommentData.picture}
-          username={winnerCommentData.username}
-          content={winnerCommentData.content}
-        />
+        <Fragment>
+          <Comment
+            picture={winnerCommentData.picture}
+            username={winnerCommentData.username}
+            content={winnerCommentData.content}
+          />
+          <button className="new-winner-button" onClick={handleClickNewWinner}>
+            Еще <br></br>Рандом
+          </button>
+          <button className="new-give-button" onClick={handleClickNewGiveAway}>
+            Другой <br></br> Пост
+          </button>
+        </Fragment>
       ) : null}
     </Fragment>
   );

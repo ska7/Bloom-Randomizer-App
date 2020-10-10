@@ -9,70 +9,124 @@ import Comment from "../components/RandomComment";
 
 import LogoLight from "../img/logo.png";
 import Spinner from "../components/Spinner";
-import { Spring, Transition } from "react-spring/renderprops";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import FacebookLogin from "../components/FacebookLogin";
 import Input from "../components/Input";
 import LoggedInPopUp from "../components/LoggedInPopUp";
 
 export default function Randomizer() {
-  const [loggedOutPage, setLoggedOutPage] = useState("");
-  const [loggedInPage, setLoggedInPage] = useState("");
+  const [loggedOutPage, setLoggedOutPage] = useState(false);
+  const [loggedInPage, setLoggedInPage] = useState(false);
+  const [load, setLoad] = useState(false);
+  const [show, setShow] = useState(null);
+
   const {
     loginCheck,
     isLoggedIn,
     loading,
     commentsCount,
     signOut,
+    winnerCommentData,
   } = useContext(GlobalContext);
 
-  const slideCheck = (isLoggedIn, status) => {
-    // const status = true;
-    if (isLoggedIn && status) {
-      setLoggedOutPage("hide");
-      setLoggedInPage("slideIn");
-    } else if (isLoggedIn) {
-      setLoggedOutPage("slideOut");
-      setLoggedInPage("slideIn");
-    } else if (!isLoggedIn) {
-      setLoggedOutPage("slideIn");
-      setLoggedInPage("hide");
+  const slideCheck = (isLoggedIn, loading, winnerCommentData) => {
+    if (isLoggedIn) {
+      setLoggedOutPage(false);
+      setLoggedInPage(true);
+    } else if (isLoggedIn === false) {
+      setLoggedOutPage(true);
+      setLoggedInPage(false);
     }
   };
+
+  const loadingCheck = (loading, data) => {
+    if (!loading && data) {
+      setShow(false);
+    } else if (!loading && data === null) {
+      setShow(true);
+    }
+  };
+
   // Storing login status in the local storage to avoid unnecessary rendering
-  const status = localStorage.getItem("status");
+
   useEffect(() => {
     loginCheck();
-    slideCheck(isLoggedIn, status);
-  }, [isLoggedIn, status]);
+    slideCheck(isLoggedIn, loading, winnerCommentData);
+    loadingCheck(loading, winnerCommentData);
+  }, [isLoggedIn, loading, winnerCommentData]);
 
   return (
-    <Fragment>
-      <div className="App">
-        <div className={`logged-out-screen ${loggedOutPage}`}>
-          <div className={`logoDark `}>
-            <img src={LogoDark}></img>
-          </div>
-          <LoggedOutPopUp />
-          <FacebookLogin />
-        </div>
-        {loading ? <Spinner commentsCount={commentsCount} /> : null}
-        <div className={`logged-in-screen ${loggedInPage}`}>
-          <div className={`logoLight`}>
-            <img src={LogoLight}></img>
-          </div>
-          <button className="sign-out-button" onClick={signOut}>
-            ВЫХОД
-          </button>
-          <LoggedInPopUp />
-          <div className="input-section">
-            <Input />
-          </div>
-          <div className="comment-section">
-            <Comment />
-          </div>
-        </div>
-      </div>
-    </Fragment>
+    // <Fragment>
+    <div className="App">
+      <TransitionGroup component={null}>
+        {loggedOutPage && (
+          <CSSTransition
+            classNames="fade"
+            in={loggedOutPage}
+            key={loggedOutPage}
+            timeout={500}
+          >
+            <div className={`logged-out-screen`}>
+              <div className={`logoDark `}>
+                <img src={LogoDark}></img>
+              </div>
+              <LoggedOutPopUp loading={loading} />
+              <FacebookLogin />
+            </div>
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+      <TransitionGroup component={null}>
+        {loading && winnerCommentData === null && (
+          <CSSTransition
+            classNames="fade"
+            in={loading}
+            key={loading}
+            timeout={300}
+          >
+            <Spinner commentsCount={commentsCount} />
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+      <TransitionGroup component={null}>
+        {loggedInPage && (
+          <CSSTransition
+            classNames="fade"
+            in={loggedInPage}
+            key={loggedInPage}
+            timeout={300}
+          >
+            <div className="logged-in-screen">
+              <div className={`logoLight`}>
+                <img src={LogoLight}></img>
+              </div>
+              <button className="sign-out-button" onClick={signOut}>
+                ВЫХОД
+              </button>
+              {!loading && winnerCommentData === null && (
+                <CSSTransition
+                  classNames="fade"
+                  in={show}
+                  key={loading}
+                  timeout={300}
+                >
+                  <Fragment>
+                    <LoggedInPopUp />
+                    <div className="input-section">
+                      <Input />
+                    </div>
+                  </Fragment>
+                </CSSTransition>
+              )}
+              <div className="comment-section">
+                <Comment />
+              </div>
+            </div>
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+    </div>
+    // </Fragment>
   );
 }
 
