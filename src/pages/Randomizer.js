@@ -26,7 +26,13 @@ export default function Randomizer() {
     loading,
     commentsCount,
     signOut,
+    matchPost,
+    fetchCommentID,
+    winnerCommentID,
     winnerCommentData,
+    postInstaID,
+    fetchCommentData,
+    posts,
   } = useContext(GlobalContext);
 
   const slideCheck = (isLoggedIn, loading, winnerCommentData) => {
@@ -47,16 +53,35 @@ export default function Randomizer() {
     }
   };
 
-  // Storing login status in the local storage to avoid unnecessary rendering
-
+  // useEffect for components animation
   useEffect(() => {
     loginCheck();
     slideCheck(isLoggedIn, loading, winnerCommentData);
     loadingCheck(loading, winnerCommentData);
   }, [isLoggedIn, loading, winnerCommentData]);
 
+  // useEffect for the randomizer logic p1
+  useEffect(() => {
+    if (posts !== null && postInstaID === null) {
+      matchPost();
+    } else if (winnerCommentID !== null && winnerCommentData === null) {
+      fetchCommentData();
+    }
+  }, [postInstaID, posts, winnerCommentID, fetchCommentData]);
+
+  // useEffect for the randomizer logic p2
+  useEffect(() => {
+    if (
+      !winnerCommentData &&
+      postInstaID !== null &&
+      !winnerCommentID &&
+      (commentsCount.length < 1 || typeof commentsCount === "string")
+    ) {
+      fetchCommentID();
+    }
+  }, [winnerCommentData, postInstaID, winnerCommentID, commentsCount]);
+
   return (
-    // <Fragment>
     <div className="App">
       <TransitionGroup component={null}>
         {loggedOutPage && (
@@ -94,7 +119,7 @@ export default function Randomizer() {
             classNames="fade"
             in={loggedInPage}
             key={loggedInPage}
-            timeout={300}
+            timeout={500}
           >
             <div className="logged-in-screen">
               <div className={`logoLight`}>
@@ -118,6 +143,7 @@ export default function Randomizer() {
                   </Fragment>
                 </CSSTransition>
               )}
+
               <div className="comment-section">
                 <Comment />
               </div>
@@ -126,26 +152,5 @@ export default function Randomizer() {
         )}
       </TransitionGroup>
     </div>
-    // </Fragment>
   );
 }
-
-// return (
-//   <Fragment>
-//     <Spring
-//       from={{
-//         opacity: 0,
-//       }}
-//       to={{ opacity: 1 }}
-//       config={{ delay: 200, duration: 700 }}
-//     >
-//       {(props) => (
-//         <div style={props}>
-//           <div className="App ">
-//             <UserLoggedOut visible={fade} />
-//           </div>
-//         </div>
-//       )}
-//     </Spring>
-//   </Fragment>
-// );

@@ -6,8 +6,10 @@ export default function Spinner({ commentsCount }) {
   return (
     <Fragment>
       <div className="loader">
-        <div className="spinner spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
+        <div className="spinner-section">
+          <div className="spinner spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
         </div>
         <span className="comments-count">
           {typeof commentsCount === "string"

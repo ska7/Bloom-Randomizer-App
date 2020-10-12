@@ -12,14 +12,20 @@ $app_yellow: rgb(179, 146, 0);
 .loader {
   position: absolute;
   top: 15rem;
-  left: 40rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  left: 35rem;
+  width: 25rem;
   color: black;
   .comments-count {
     padding: 1rem;
+  }
+  .spinner-section,
+  .comments-count {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 }
 
@@ -30,22 +36,25 @@ $app_yellow: rgb(179, 146, 0);
   border: 1px solid white;
   color: white;
   top: 20rem;
-  height: 5rem;
-  width: 10rem;
+  height: 3rem;
+  width: 14rem;
+
   transition: all 0.5s ease;
   &:hover {
     color: $app_yellow;
     border: 1px solid $app_yellow;
     transform: translateY(-5px);
+    height: 4rem;
+    width: 15rem;
   }
 }
 
 .new-winner-button {
-  left: 35rem;
+  left: 30rem;
 }
 
 .new-give-button {
-  right: 35rem;
+  right: 30rem;
 }
 
 .sign-out-button {
@@ -289,46 +298,36 @@ $app_yellow: rgb(179, 146, 0);
 }
 
 .comment-box {
-  position: relative;
-  display: grid;
-  grid-template-columns: 30% 70%;
-  grid-template-rows: 50% 50%;
-  height: 10rem;
-  width: 30%;
-}
-
-.comment-box-name {
+  // position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 10rem;
+  width: 100%;
+}
+
+.comment-box-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
+
   font-size: 1rem;
   font-family: "Libre Baskerville", serif;
-}
-
-.comment-box-name h1 {
   transition: all 0.5s ease;
-}
 
-.comment-box-name h1:hover {
-  cursor: pointer;
-  text-shadow: 2px 2px 8px rgb(201, 172, 108);
-}
-.comment-box-insta {
-  height: 50px;
-  width: 50px;
-  margin: 10px;
-  padding-left: 2px;
-  transition: all 0.5s ease;
-}
-
-.comment-box-insta:hover {
-  filter: drop-shadow(2px 2px 6px rgb(201, 172, 108));
+  &:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px 8px rgb(201, 172, 108);
+  }
 }
 
 .comment-box-comment {
   text-align: center;
+  max-width: 100%;
+  max-height: 50%;
   font-size: 0.8rem;
   display: flex;
   flex-direction: column;
@@ -336,46 +335,56 @@ $app_yellow: rgb(179, 146, 0);
   color: rgb(150, 103, 53);
 }
 
-/* Profile Pic Circle */
-.comment-box-picture {
-  position: relative;
-
-  grid-row-start: 1;
-  grid-row-end: 3;
-  height: 90%;
-  width: 90%;
+.comment-box-content {
+  width: 25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.profile-pic {
-  height: 100%;
+/* Profile Pic Circle */
+.comment-box-picture {
+  position: relative;
+  margin-right: 5rem;
+  margin-left: 5rem;
+  height: 10rem;
+  width: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .circle {
-  z-index: 1;
-  position: absolute;
-  height: 100%;
-  width: 115%;
-  -webkit-transition: -webkit-transform 1s;
-}
-
-.spin {
+  // position: absolute;
+  height: 200%;
+  width: 200%;
   animation: spin 100000ms linear infinite;
+  transition: all 0.3s ease;
 }
 
-/* .circle:hover {
-  -webkit-transform: rotate(25deg) translateZ(0);
-  cursor: pointer;
-} */
 .circle-content {
   position: absolute;
-  height: 90%;
-  width: 90%;
+  height: 100%;
+  width: 100%;
   border-radius: 50%;
   overflow: hidden;
-  transition: all 0.5s ease;
+  border: 3px solid;
+  border-top-color: rgb(243, 214, 215);
+  border-bottom-color: rgb(249, 106, 108);
+  border-right-color: rgb(202, 92, 141);
+  border-left-color: rgb(134, 166, 108);
+  transition: all 0.3s ease;
+  &:hover {
+    cursor: pointer;
+    height: 105%;
+    width: 105%;
+  }
+}
+
+.circle-content:hover ~ .circle {
+  height: 170%;
+  width: 170%;
 }
 
 .profile-pic {

@@ -59,10 +59,16 @@ const handlers = {
     winnerCommentData: null,
     commentsCount: [],
   }),
-  [NEW_GIVE_AWAY]: (state) => ({
-    ...state,
+  [NEW_GIVE_AWAY]: () => ({
+    isLoggedIn: true,
     loading: false,
+    tokenReceived: null,
+    postID: "",
+    postInstaID: null,
+    posts: null,
+    winnerCommentID: null,
     winnerCommentData: null,
+    commentsCount: [],
   }),
   DEFAULT: (state) => state,
 };

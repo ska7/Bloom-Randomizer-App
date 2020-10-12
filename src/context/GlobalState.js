@@ -121,7 +121,7 @@ export const GlobalState = ({ children }) => {
 
   const fetchPosts = async () => {
     loader();
-    dispatch({ type: LOAD_COMMENTS, payload: "Fetching data" });
+    dispatch({ type: LOAD_COMMENTS, payload: "Собираю комменты" });
     const accessToken = localStorage.getItem("accessToken");
     try {
       const fbBusinessPageID = await axios

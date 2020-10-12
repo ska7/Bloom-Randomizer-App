@@ -1,28 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import "../App.scss";
 import { GlobalContext } from "../context/globalContext";
 
 const FBLogin = () => {
-  const { userLoggedIn, isLoggedIn } = useContext(GlobalContext);
-  const [slide, setSlide] = useState("");
+  const { userLoggedIn } = useContext(GlobalContext);
 
   const responseFacebook = (response) => {
-    setSlide("slideOut");
-    const token = response.accessToken;
-    userLoggedIn(token);
+    // The response with the status property means login failure
+    if (!response.hasOwnProperty("status")) {
+      userLoggedIn(response.accessToken);
+    }
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      setSlide("slideOut");
-    } else if (!isLoggedIn) {
-      setSlide("slideIn");
-    }
-  }, [isLoggedIn]);
-
   return (
-    <div className={`fbLogin-section`}>
+    <div className="fbLogin-section">
       <FacebookLogin
         appId="319952016030195"
         autoLoad={false}
@@ -31,7 +23,7 @@ const FBLogin = () => {
         callback={responseFacebook}
         render={(renderProps) => (
           <button className="fbButton" onClick={renderProps.onClick}>
-            Login with Facebook
+            Войти с Facebook
           </button>
         )}
       />
