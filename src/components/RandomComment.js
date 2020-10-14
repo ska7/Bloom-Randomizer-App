@@ -31,7 +31,7 @@ const RandomComment = () => {
         <Fragment>
           <Comment
             picture={winnerCommentData.picture}
-            username={formatUsername(winnerCommentData.username)}
+            username={winnerCommentData.username}
             content={formatComment(winnerCommentData.content)}
           />
           <button className="new-winner-button" onClick={handleClickNewWinner}>
