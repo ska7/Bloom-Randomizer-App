@@ -23,7 +23,7 @@ const fbUrl = "https://graph.facebook.com/me/accounts?access_token=";
 export const GlobalState = ({ children }) => {
   const initState = {
     isLoggedIn: null,
-    loading: false,
+    loading: null,
     tokenReceived: null,
     postID: "",
     postInstaID: null,
