@@ -21,11 +21,11 @@ const Comment = ({ picture, username, content }) => {
         </div>
         <div className="comment-box-content">
           <div className="comment-box-name">
-            <h1>
+            
               <a style={aStyle} href={instaUrl} target="_blank">
                 {username}
               </a>
-            </h1>
+            
           </div>
           <div className="comment-box-comment">
             <b>{content}</b>

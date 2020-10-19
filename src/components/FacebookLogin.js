@@ -17,7 +17,9 @@ const FBLogin = () => {
     <div className="fbLogin-section">
       <FacebookLogin
         appId="319952016030195"
-        autoLoad={false}
+        // autoLoad={false}
+        onFailure={() => console.log('FB Login failed and that is On Failure')}
+        autoload={false}
         fields="name,email,picture"
         scope="instagram_basic, public_profile, instagram_manage_comments, pages_show_list, pages_read_engagement"
         callback={responseFacebook}
