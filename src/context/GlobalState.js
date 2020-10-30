@@ -104,18 +104,19 @@ export const GlobalState = ({ children }) => {
     dispatch({ type: GET_POST_ID, payload: id });
   };
 
-  const findPostID = async (post) => {
+  const findPostID = async (post, token) => {
     const res = await axios
-      .get(`https://api.instagram.com/oembed/?url=${post}`)
-      .then((response) => {
+      .get(`https://graph.facebook.com/v8.0/instagram_oembed?url=${post}&access_token=${token}`)
+      .then(response => {
+        console.log(response)
         let id = response.data.media_id.split("_");
         return id[0];
       })
       .catch((e) => {
-        console.log(e);
+        console.log(`Error during finding the post ${e}`);
         return null;
       });
-
+    
     return res;
   };
 

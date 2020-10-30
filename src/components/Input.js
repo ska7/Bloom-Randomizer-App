@@ -1,8 +1,8 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "../App.scss";
 import { GlobalContext } from "../context/globalContext";
 import LoggedInPopUp from "./LoggedInPopUp";
+import axios from 'axios'
 
 const Input = () => {
   const { setPostID, findPostID, fetchPosts, isLoggedIn, loader, newGiveAway } = useContext(
@@ -13,8 +13,9 @@ const Input = () => {
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
       try {
+        const token = localStorage.getItem('accessToken')
+        const id = await findPostID(state, token);
         setState("");
-        const id = await findPostID(state);
         if (id) {
           console.log('ENTER PRESSED INPUT', id)
           setPostID(id);
@@ -25,28 +26,32 @@ const Input = () => {
           console.log('hey')
         }
       } catch {
-        setState("");
         console.log("Post ID is null");
       }
     }
   };
 
+  // const handleGoButtonClick = async () => {
+  //   try {
+  //     const id = await findPostID(state);
+  //     setState("");
+  //       if (id) {
+  //         console.log('ENTER PRESSED INPUT', id)
+  //         setPostID(id);
+  //         fetchPosts();
+  //         console.log("posts fetched");
+  //       } else {
+  //         newGiveAway();
+  //       }
+  //   } catch {
+  //     setState("");
+  //     console.log("Post ID is null");
+  //   }
+  // }
+
   const handleGoButtonClick = async () => {
-    try {
-      setState("");
-        const id = await findPostID(state);
-        if (id) {
-          console.log('ENTER PRESSED INPUT', id)
-          setPostID(id);
-          fetchPosts();
-          console.log("posts fetched");
-        } else {
-          newGiveAway();
-        }
-    } catch {
-      setState("");
-      console.log("Post ID is null");
-    }
+    const res = await axios.get('https://www.instagram.com/p/CDlfM7Cg9-0/')
+    .then(response => console.log(`Ебаный ответ ${JSON.stringify(response.keys)}`))
   }
 
   return (
