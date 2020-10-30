@@ -17,8 +17,9 @@ import LoggedInPopUp from "../components/LoggedInPopUp";
 export default function Randomizer() {
   const [loggedOutPage, setLoggedOutPage] = useState(false);
   const [loggedInPage, setLoggedInPage] = useState(false);
-  const [load, setLoad] = useState(false);
-  const [show, setShow] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [showInput, setShowInput] = useState(false);
+  const [showComment, setShowComment] = useState(false);
 
   const {
     loginCheck,
@@ -46,12 +47,28 @@ export default function Randomizer() {
   };
 
   const loadingCheck = (loading, data) => {
-    if (!loading && data) {
-      setShow(false);
-    } else if (!loading && data === null) {
-      setShow(true);
+    if (!loading && data) { 
+      setLoader(false)
+    } else if (loading && data === null) {
+      setLoader(true)
     }
   };
+
+  const showInputCheck = (loading, commentData) => {
+    if (!loading && !commentData) {
+      setShowInput(true)
+    } else {
+      setShowInput(false)
+    }
+  } 
+
+  const showCommentCheck = (commentData) => {
+    if (commentData) {
+      setShowComment(true);
+    } else {
+      setShowComment(false);
+    }
+  }
 
   // useEffect for components animation
   useEffect(() => {
@@ -62,6 +79,7 @@ export default function Randomizer() {
 
   // useEffect for the randomizer logic p1
   useEffect(() => {
+    
     if (posts !== null && postInstaID === null) {
       matchPost();
     } else if (winnerCommentID !== null && winnerCommentData === null) {
@@ -81,15 +99,21 @@ export default function Randomizer() {
     }
   }, [winnerCommentData, postInstaID, winnerCommentID, commentsCount]);
 
+  useEffect(() => {
+    showInputCheck(loading, winnerCommentData);
+    showCommentCheck(winnerCommentData);
+  }, [loading, winnerCommentData])
+
   return (
     <div className="App">
+      <div className={`blister ${showComment && 'slide'}`}></div>
       <TransitionGroup component={null}>
         {loggedOutPage && (
           <CSSTransition
             classNames="fade"
             in={loggedOutPage}
             key={loggedOutPage}
-            timeout={500}
+            timeout={300}
           >
             <div className={`logged-out-screen`}>
               <div className={`logoDark `}>
@@ -102,10 +126,10 @@ export default function Randomizer() {
         )}
       </TransitionGroup>
       <TransitionGroup component={null}>
-        {loading && winnerCommentData === null && (
+        {loader && (
           <CSSTransition
             classNames="fade"
-            in={loading}
+            in={loader}
             key={loading}
             timeout={300}
           >
@@ -113,13 +137,15 @@ export default function Randomizer() {
           </CSSTransition>
         )}
       </TransitionGroup>
+
+      {/* // Everything above is ok */}
       <TransitionGroup component={null}>
         {loggedInPage && (
           <CSSTransition
             classNames="fade"
             in={loggedInPage}
             key={loggedInPage}
-            timeout={500}
+            timeout={300}
           >
             <div className="logged-in-screen">
               <div className={`logoLight`}>
@@ -128,25 +154,33 @@ export default function Randomizer() {
               <button className="sign-out-button" onClick={signOut}>
                 ВЫХОД
               </button>
-              {!loading && winnerCommentData === null && (
-                <CSSTransition
+              <TransitionGroup component={null}>
+                {showInput && (
+                    <CSSTransition
+                      classNames="fade"
+                      in={showInput}
+                      key={showInput}
+                      timeout={300}
+                    >
+                      <Fragment>
+                        <Input />
+                      </Fragment>  
+                    </CSSTransition>
+                )}
+              </TransitionGroup>
+              <TransitionGroup component={null}>
+                {showComment && (
+                  <CSSTransition
                   classNames="fade"
-                  in={show}
-                  key={loading}
+                  in={showComment}
                   timeout={300}
-                >
-                  <Fragment>
-                    <LoggedInPopUp />
-                    <div className="input-section">
-                      <Input />
+                  >
+                    <div className="comment-section">
+                      <Comment />
                     </div>
-                  </Fragment>
-                </CSSTransition>
-              )}
-
-              <div className="comment-section">
-                <Comment />
-              </div>
+                  </CSSTransition>
+                )}
+              </TransitionGroup>
             </div>
           </CSSTransition>
         )}
