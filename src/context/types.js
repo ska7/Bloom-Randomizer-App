@@ -1,7 +1,7 @@
 export const LOGIN_SUCCEEDED = "LOGIN_SUCCEEDED";
 export const LOADING = "LOADING";
 export const LOGIN_FAILED = "LOGIN_FAILED";
-export const GET_POST_ID = "GET_POST_ID";
+export const GET_POST_URL = "GET_POST_URL";
 export const GET_POST_INSTA_ID = "GET_POST_INSTA_ID";
 export const FETCH_WINNER_COMMENT_ID = "FETCH_WINNER_COMMENT_ID";
 export const POSTS_FETCHED = "POSTS_FETCHED";

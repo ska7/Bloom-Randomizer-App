@@ -4,6 +4,8 @@ import {
   FETCH_WINNER_COMMENT_ID,
   GET_POST_ID,
   GET_POST_INSTA_ID,
+  GET_POST_INSTA_URL,
+  GET_POST_URL,
   INIT,
   LOADING,
   LOAD_COMMENTS,
@@ -23,7 +25,7 @@ const handlers = {
   }),
 
   [LOGIN_FAILED]: (state) => ({ ...state, isLoggedIn: false }),
-  [GET_POST_ID]: (state, { payload }) => ({ ...state, postID: payload }),
+  [GET_POST_URL]: (state, { payload }) => ({ ...state, postURL: payload }),
   [GET_POST_INSTA_ID]: (state, { payload }) => ({
     ...state,
     postInstaID: payload,

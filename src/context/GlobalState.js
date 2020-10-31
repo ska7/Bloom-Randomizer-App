@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import axios from "axios";
+import bigInt from 'big-integer';
 import { GlobalContext } from "./globalContext";
 import { globalReducer } from "./globalReducer";
 import {
@@ -8,6 +9,7 @@ import {
   FETCH_WINNER_COMMENT_ID,
   GET_POST_ID,
   GET_POST_INSTA_ID,
+  GET_POST_URL,
   INIT,
   LOADING,
   LOAD_COMMENTS,
@@ -25,7 +27,7 @@ export const GlobalState = ({ children }) => {
     isLoggedIn: null,
     loading: null,
     tokenReceived: null,
-    postID: "",
+    postURL: "",
     postInstaID: null,
     posts: null,
     winnerCommentID: null,
@@ -100,25 +102,23 @@ export const GlobalState = ({ children }) => {
 
   // Instagram Posts Related Functions
 
-  const setPostID = (id) => {
-    dispatch({ type: GET_POST_ID, payload: id });
-  };
+  const getPostURL = (url) => {
+    dispatch({ type: GET_POST_URL, payload: url })
+  }
 
-  const findPostID = async (post, token) => {
-    const res = await axios
-      .get(`https://graph.facebook.com/v8.0/instagram_oembed?url=${post}&access_token=${token}`)
-      .then(response => {
-        console.log(response)
-        let id = response.data.media_id.split("_");
-        return id[0];
-      })
-      .catch((e) => {
-        console.log(`Error during finding the post ${e}`);
-        return null;
-      });
-    
-    return res;
-  };
+  function getInstagramUrlFromMediaId(media_id) {
+    var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+    var shortenedId = '';
+    // media_id = media_id.substring(0, media_id.indexOf('_'));
+
+    while (media_id > 0) {
+        var remainder = bigInt(media_id).mod(64);
+        media_id = bigInt(media_id).minus(remainder).divide(64).toString();
+        shortenedId = alphabet.charAt(remainder) + shortenedId;
+    }
+
+    return 'https://www.instagram.com/p/' + shortenedId + '/';
+}
 
   const fetchPosts = async () => {
     loader();
@@ -160,7 +160,7 @@ export const GlobalState = ({ children }) => {
     }
   };
 
-  const fetchPostInfo = async (id, token) => {
+  const fetchPostIgId = async (id, token) => {
     const res = await axios
       .get(
         `https://graph.facebook.com/v8.0/${id}?fields=comments_count, caption,id,ig_id,like_count,permalink,timestamp,username&access_token=${token}`
@@ -174,7 +174,8 @@ export const GlobalState = ({ children }) => {
   const matchID = async (array, callback, token) => {
     for (const id of array) {
       const ig_id = await callback(id, token);
-      if (ig_id === state.postID) {
+      const url = getInstagramUrlFromMediaId(ig_id);
+      if (url === state.postURL) {
         return id;
       } else {
         console.log("MATCH ID FUNCTION, NO ID MATCHED");
@@ -190,7 +191,7 @@ export const GlobalState = ({ children }) => {
         return post.id;
       });
       // Map through all the IDs and return the one mathing postID.
-      const matchedID = await matchID(IDs, fetchPostInfo, accessToken);
+      const matchedID = await matchID(IDs, fetchPostIgId, accessToken);
       console.log("ID was matched successfully:", matchedID);
       dispatch({ type: GET_POST_INSTA_ID, payload: matchedID });
     } catch (err) {
@@ -199,6 +200,8 @@ export const GlobalState = ({ children }) => {
   };
 
   // Comments related functions
+
+  // Function to fetch a single comments batch
 
   const fetchBatch = async (url) => {
     let cursor = "";
@@ -216,6 +219,7 @@ export const GlobalState = ({ children }) => {
     };
   };
 
+  // Function to merge one comments batch with all others
   const pushComments = (commentsArray, batch) => {
     console.log("HOW BATCH LOOK LIKE", batch);
     batch.forEach((comment) => {
@@ -311,7 +315,7 @@ export const GlobalState = ({ children }) => {
       value={{
         isLoggedIn: state.isLoggedIn,
         accessToken: state.accessToken,
-        postID: state.postID,
+        postURL: state.postURL,
         posts: state.posts,
         postInstaID: state.postInstaID,
         winnerCommentID: state.winnerCommentID,
@@ -325,8 +329,7 @@ export const GlobalState = ({ children }) => {
         loginCheck,
         userLoggedIn,
         checkToken,
-        setPostID,
-        findPostID,
+        getPostURL,
         fetchPosts,
         matchPost,
         fetchCommentID,

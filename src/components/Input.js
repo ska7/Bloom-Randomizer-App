@@ -2,32 +2,32 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import "../App.scss";
 import { GlobalContext } from "../context/globalContext";
 import LoggedInPopUp from "./LoggedInPopUp";
-import axios from 'axios'
+import axios from 'axios';
+
 
 const Input = () => {
-  const { setPostID, findPostID, fetchPosts, isLoggedIn, loader, newGiveAway } = useContext(
+  const { getPostURL, fetchPosts, isLoggedIn, loader, newGiveAway } = useContext(
     GlobalContext
   );
   const [state, setState] = useState("");
 
+  const validateInput = async (input) => {
+    const test = await axios.get(input)
+    .then(() => {return input}).catch(e => {return false})
+    return test
+  }
+
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
-      try {
-        const token = localStorage.getItem('accessToken')
-        const id = await findPostID(state, token);
-        setState("");
-        if (id) {
-          console.log('ENTER PRESSED INPUT', id)
-          setPostID(id);
+      const url = await validateInput(state);
+        if (url) {
+          console.log('ENTER PRESSED INPUT', url)
+          getPostURL(url);
           fetchPosts();
           console.log("posts fetched");
         } else {
-          newGiveAway();
-          console.log('hey')
+          setState('')
         }
-      } catch {
-        console.log("Post ID is null");
-      }
     }
   };
 
@@ -49,10 +49,23 @@ const Input = () => {
   //   }
   // }
 
+  
   const handleGoButtonClick = async () => {
-    const res = await axios.get('https://www.instagram.com/p/CDlfM7Cg9-0/')
-    .then(response => console.log(`Ебаный ответ ${JSON.stringify(response.keys)}`))
+    const url = await validateInput(state);
+        if (url) {
+          console.log('ENTER PRESSED INPUT', url)
+          getPostURL(url);
+          fetchPosts();
+          console.log("posts fetched");
+        } else {
+          setState('')
+        }
   }
+
+
+
+
+   
 
   return (
       <div className="input-section">
