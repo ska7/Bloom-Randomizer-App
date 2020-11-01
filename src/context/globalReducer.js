@@ -46,9 +46,9 @@ const handlers = {
   [LOADING]: (state) => ({ ...state, loading: !state.loading }),
   [INIT]: () => ({
     isLoggedIn: null,
-    loading: false,
+    loading: null,
     tokenReceived: null,
-    postID: "",
+    postURL: "",
     postInstaID: null,
     posts: null,
     winnerCommentID: null,

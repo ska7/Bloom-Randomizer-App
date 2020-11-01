@@ -1,7 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap");
 
 $iphones: 375px;
 $laptop: 1536px;
@@ -26,16 +24,13 @@ $app_yellow: rgb(179, 146, 0);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
 }
 
 .App {
   position: relative;
   overflow: hidden;
   background-image: url("./img/background\ -\ Copy.png");
-  background-size: cover;
   // background-position: 0px 0px; // for iPad
-  background-position: 0px -400px;
   background-repeat: no-repeat;
   background-attachment: fixed;
   min-width: 100vw;
@@ -53,26 +48,200 @@ $app_yellow: rgb(179, 146, 0);
   align-items: center;
   flex-direction: column;
 }
-@media (min-width: 761px) and (max-width: 1920px) {
 
-  .App {
-    background-position: 0px -380px;
+/* FB Button*/
+
+.fbLogin-section {
+  margin-top: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .fbButton {
+    margin-top: 2px;
+    padding: 1rem;
+    height: 5rem;
+    width: 30%;
+    font-size: 1.5rem;
+    color: $app_yellow;
+    // color: rgb(88, 88, 88);
+    background: rgb(255, 255, 255, 0.2);
+    border: solid 3px rgb(71, 71, 71);
+    border-radius: 5px;
+    box-shadow: 0 0 50px 10px black;
+    transition: all 0.6s ease;
+    &:hover {
+      cursor: pointer;
+      color: white;
+      background: rgb(72, 103, 170);
+      border: solid 3px black;
+    }
   }
-  
+}
+
+/* INPUT SECTION */
+
+.input-section {
+  margin-top: 25rem;
+  @include center-horizontally;
+  width: 100%;
+}
+
+.input-form {
+  position: relative;
+  height: 70px;
+  width: 60%;
+  .label-name {
+    font-size: 1.3rem;
+    position: absolute;
+    color: azure;
+    bottom: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    border-bottom: 3px solid white;
+  }
+  .input-field {
+    width: 100%;
+    height: 100%;
+    color: rgb(255, 255, 255);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: none;
+    background: transparent;
+    outline: none;
+  }
+
+  .content-name {
+    position: absolute;
+
+    bottom: 0px;
+    left: 0px;
+    transition: all 0.3s ease;
+  }
+
+  .input-field:focus + .label-name .content-name,
+  .input-field:valid + .label-name .content-name {
+    font-size: 1.1rem;
+    transform: translateY(-200%);
+  }
+
+  .input-field:focus .App {
+    background-position: 0px -450px;
+  }
+
+  .go-button {
+    position: absolute;
+    right: 0;
+    bottom: 1rem;
+    height: 1.7rem;
+    width: 10rem;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+    animation: pulse 2s alternate infinite;
+    &:hover {
+      color: $app_yellow;
+      border: 1px solid $app_yellow;
+    }
+  }
+}
+
+/* Pop Ups */
+
+.logged-out-pop-up {
+  position: absolute;
+  bottom: 12rem;
+  height: 200px;
+  width: 700px;
+  display: flex;
+  height: 4rem;
+  justify-content: center;
+  align-items: center;
+  animation: firstPopIn 0.5s ease forwards;
+  img {
+    height: 170px;
+  }
+}
+
+.logged-in-pop-up {
+  position: absolute;
+  animation: secondPop 0.5s ease;
+  top: 18rem;
+  height: 200px;
+  width: 700px;
+  display: flex;
+  height: 4rem;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 170px;
+  }
+}
+
+.logged-in-top {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  .logoLight {
+    padding-left: 15%;
+  }
+  .sign-out-button {
+    margin-top: 2px;
+    padding: 2px;
+    height: 5rem;
+    width: 5rem;
+    font-size: 0.75rem;
+    color: rgb(66, 66, 66);
+    background: rgb(255, 255, 255, 0.2);
+    border: solid 2px rgb(71, 71, 71);
+    border-radius: 5px;
+    box-shadow: 0 0 50px 3px black;
+    transition: all 0.6s ease;
+    &:hover {
+      border: solid 2px $app_yellow;
+      transform: translateX(-10px);
+      color: $app_yellow;
+    }
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1920px) {
+  .App {
+    background-size: cover;
+    background-position: 0px -400px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1439px) {
+  .App {
+    background-size: cover;
+    background-position: 0px -100px;
+  }
+
   .blister {
     position: absolute;
     height: 100%;
-    background: linear-gradient(to right, transparent, rgba(247, 231, 86, 0.1), transparent);
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(247, 231, 86, 0.1),
+      transparent
+    );
     width: 25%;
     left: -100rem;
     z-index: 1;
     transition: all 1s ease;
   }
-  
+
   .slide {
     animation: slide 1s ease forwards;
   }
-  
+
   @keyframes slide {
     0% {
       transform: translateX(0rem);
@@ -81,10 +250,10 @@ $app_yellow: rgb(179, 146, 0);
       transform: translateX(200rem);
     }
   }
-  
+
   .loader {
     position: absolute;
-    font-family: 'Amatic SC', cursive;
+    font-family: "Amatic SC", cursive;
     top: 15rem;
     width: 100%;
     color: black;
@@ -99,7 +268,7 @@ $app_yellow: rgb(179, 146, 0);
       width: 100%;
     }
   }
-  
+
   .comment-buttons {
     position: relative;
     margin-top: 6rem;
@@ -128,170 +297,80 @@ $app_yellow: rgb(179, 146, 0);
       }
     }
   }
-  .logged-in-top {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    .logoLight {
-      padding-left: 15%;
-    }
-    .sign-out-button {
-      margin-top: 2px;
-      padding: 2px;
-      height: 5rem;
-      width: 5rem;
-      font-size: 0.75rem;
-      color: rgb(66, 66, 66);
-      background: rgb(255, 255, 255, 0.2);
-      border: solid 2px rgb(71, 71, 71);
-      border-radius: 5px;
-      box-shadow: 0 0 50px 3px black;
-      transition: all 0.6s ease;
-      &:hover {
-        border: solid 2px $app_yellow;
-        transform: translateX(-10px);
-        color: $app_yellow;
-      }
-    }
-  }
-  
-  /* Pop Ups */
-  
-  .logged-out-pop-up {
-    position: absolute;
-    bottom: 12rem;
-    height: 200px;
-    width: 700px;
-    display: flex;
-    height: 4rem;
-    justify-content: center;
-    align-items: center;
-    animation: firstPopIn 0.5s ease forwards;
-    img {
-      height: 170px;
-    }
-  }
-  
-  .logged-in-pop-up {
-    position: absolute;
-    animation: secondPop 0.5s ease;
-    top: 18rem;
-    height: 200px;
-    width: 700px;
-    display: flex;
-    height: 4rem;
-    justify-content: center;
-    align-items: center;
-    img {
-      height: 170px;
-    }
-  }
-  
-  /* FB Button*/
-  
-  .fbLogin-section {
-    margin-top: 10%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    .fbButton {
-      margin-top: 2px;
-      padding: 1rem;
-      height: 5rem;
-      width: 20rem;
-      font-size: 1.5rem;
-      color: $app_yellow;
-      // color: rgb(88, 88, 88);
-      background: rgb(255, 255, 255, 0.2);
-      border: solid 3px rgb(71, 71, 71);
-      border-radius: 5px;
-      box-shadow: 0 0 50px 10px black;
-      transition: all 0.6s ease;
-      &:hover {
-        cursor: pointer;
-        color: white;
-        background: rgb(72, 103, 170);
-        border: solid 3px black;
-      }
-    }
-  }
-  
+
   /* INPUT */
-  
-  .input-section {
-    margin-top: 25rem;
-    @include center-horizontally;
-    width: 100%;
-    
-  }
-  
-  .input-form {
-    position: relative;
-    height: 70px;
-    width: 60%;
-    .label-name {
-      font-size: 1.3rem;
-      position: absolute;
-      color: azure;
-      bottom: 0px;
-      left: 0px;
-      height: 100%;
-      width: 100%;
-      pointer-events: none;
-      border-bottom: 3px solid white;
-    }
-    .input-field {
-      width: 100%;
-      height: 100%;
-      color: rgb(255, 255, 255);
-      padding-top: 20px;
-      padding-bottom: 20px;
-      border: none;
-      background: transparent;
-      outline: none;
-    }
-    
-    .content-name {
-      position: absolute;
-      
-      bottom: 0px;
-      left: 0px;
-      transition: all 0.3s ease;
-    }
-    
-    .input-field:focus + .label-name .content-name,
-    .input-field:valid + .label-name .content-name {
-      font-size: 1.1rem;
-      transform: translateY(-200%);
-    }
-    
-    .input-field:focus .App {
-      background-position: 0px -450px;
-    }
-    
-    .go-button {
-      position: absolute;
-      right: 0;
-      bottom: 1rem;
-      height: 1.7rem;
-      width: 10rem;
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-      outline: none;
-      transition: all 0.3s ease;
-      animation: pulse 2s alternate infinite;
-      &:hover {
-        color: $app_yellow;
-        border: 1px solid $app_yellow;
-      }
-    }
-  }
-  
+
+  // .input-section {
+  //   margin-top: 25rem;
+  //   @include center-horizontally;
+  //   width: 100%;
+  // }
+
+  // .input-form {
+  //   position: relative;
+  //   height: 70px;
+  //   width: 60%;
+  //   .label-name {
+  //     font-size: 1.3rem;
+  //     position: absolute;
+  //     color: azure;
+  //     bottom: 0px;
+  //     left: 0px;
+  //     height: 100%;
+  //     width: 100%;
+  //     pointer-events: none;
+  //     border-bottom: 3px solid white;
+  //   }
+  //   .input-field {
+  //     width: 100%;
+  //     height: 100%;
+  //     color: rgb(255, 255, 255);
+  //     padding-top: 20px;
+  //     padding-bottom: 20px;
+  //     border: none;
+  //     background: transparent;
+  //     outline: none;
+  //   }
+
+  //   .content-name {
+  //     position: absolute;
+
+  //     bottom: 0px;
+  //     left: 0px;
+  //     transition: all 0.3s ease;
+  //   }
+
+  //   .input-field:focus + .label-name .content-name,
+  //   .input-field:valid + .label-name .content-name {
+  //     font-size: 1.1rem;
+  //     transform: translateY(-200%);
+  //   }
+
+  //   .input-field:focus .App {
+  //     background-position: 0px -450px;
+  //   }
+
+  //   .go-button {
+  //     position: absolute;
+  //     right: 0;
+  //     bottom: 1rem;
+  //     height: 1.7rem;
+  //     width: 10rem;
+  //     background: transparent;
+  //     border: 1px solid white;
+  //     color: white;
+  //     outline: none;
+  //     transition: all 0.3s ease;
+  //     animation: pulse 2s alternate infinite;
+  //     &:hover {
+  //       color: $app_yellow;
+  //       border: 1px solid $app_yellow;
+  //     }
+  //   }
+  // }
+
   /* COMMENT */
-  
+
   .comment-section {
     position: absolute;
     right: 0;
@@ -354,10 +433,7 @@ $app_yellow: rgb(179, 146, 0);
       }
     }
   }
-  
-  
-  
-  
+
   /* Profile Pic Circle */
   .comment-box-picture {
     position: relative;
@@ -376,7 +452,7 @@ $app_yellow: rgb(179, 146, 0);
     animation: spin 100000ms linear infinite;
     // transition: all 0.3s ease;
   }
-  
+
   .circle-content {
     position: absolute;
     height: 100%;
@@ -395,19 +471,17 @@ $app_yellow: rgb(179, 146, 0);
       width: 102%;
     }
   }
-  
+
   .profile-pic {
     position: absolute;
     height: 100%;
     width: 100%;
-  }  
+  }
 }
-
 
 /* MEDIA QUERIES */
 
 @media (min-width: 1920px) {
-
   .App {
     background-size: cover;
     // background-position: 0px 0px; // for iPad
@@ -416,7 +490,8 @@ $app_yellow: rgb(179, 146, 0);
     background-attachment: fixed;
   }
 
-  .logoDark, .logoLight {
+  .logoDark,
+  .logoLight {
     width: 50vw;
     img {
       width: 100%;
@@ -432,7 +507,8 @@ $app_yellow: rgb(179, 146, 0);
     }
   }
 
-  .new-give-button,.new-winner-button {
+  .new-give-button,
+  .new-winner-button {
     height: 3rem * 1.5;
     width: 14rem * 1.5;
     &:hover {
@@ -440,7 +516,6 @@ $app_yellow: rgb(179, 146, 0);
       width: 15rem * 1.5;
       font-size: 19px;
       box-shadow: 0.1px 0 10px 0.5px $app_yellow;
-      
     }
   }
 
@@ -470,15 +545,15 @@ $app_yellow: rgb(179, 146, 0);
     .content-name {
       font-size: 24px;
     }
-  .input-field:focus + .label-name .content-name,
-  .input-field:valid + .label-name .content-name {
-    font-size: 19px;
-    transform: translateY(-200%);
-  }
-  .go-button {
-    height: 1.7rem * 1.2;
-    width: 10rem * 1.2;
-  }
+    .input-field:focus + .label-name .content-name,
+    .input-field:valid + .label-name .content-name {
+      font-size: 19px;
+      transform: translateY(-200%);
+    }
+    .go-button {
+      height: 1.7rem * 1.2;
+      width: 10rem * 1.2;
+    }
   }
 
   .loader {
@@ -490,55 +565,55 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   /* COMMENT SECTION */
-.comment-box-wrapper {
-  max-width: 100%;
-  border-top: 0.1px solid black;
-  border-bottom: 0.1px solid black;
-  .comment-box {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 10rem;
-    max-width: 60%;
-    min-width: 50%;
-    margin-right: auto;
-    margin-left: auto;
-    .comment-box-picture {
-      max-width: 50%;
-    }
-    .comment-box-content {
-      max-width: 50%;
-      @include center-horizontally;
-      .comment-box-name {
-        // @include center-horizontally;
-        max-width: 100%;
-        // max-height: 100%;
-        font-family: "Libre Baskerville", serif;
-        transition: all 0.5s ease;
-        text-decoration: underline;
-        &:hover {
-          cursor: pointer;
-          text-shadow: 2px 2px 8px rgb(201, 172, 108);
+  .comment-box-wrapper {
+    max-width: 100%;
+    border-top: 0.1px solid black;
+    border-bottom: 0.1px solid black;
+    .comment-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 10rem;
+      max-width: 60%;
+      min-width: 50%;
+      margin-right: auto;
+      margin-left: auto;
+      .comment-box-picture {
+        max-width: 50%;
+      }
+      .comment-box-content {
+        max-width: 50%;
+        @include center-horizontally;
+        .comment-box-name {
+          // @include center-horizontally;
+          max-width: 100%;
+          // max-height: 100%;
+          font-family: "Libre Baskerville", serif;
+          transition: all 0.5s ease;
+          text-decoration: underline;
+          &:hover {
+            cursor: pointer;
+            text-shadow: 2px 2px 8px rgb(201, 172, 108);
+          }
+        }
+
+        .comment-box-comment {
+          text-align: center;
+          // max-width: 100%;
+          max-height: 50%;
+          font-size: 0.8rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: rgb(150, 103, 53);
         }
       }
-  
-      .comment-box-comment {
-        text-align: center;
-        // max-width: 100%;
-        max-height: 50%;
-        font-size: 0.8rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: rgb(150, 103, 53);
-      }
-    }
     }
   }
 }
 
-@media (min-width: 375px) and (max-width:759px) {
+@media (min-width: 375px) and (max-width: 759px) {
   .App {
     background-position: -50px -80px;
     background-size: 775px 1212px;
@@ -595,7 +670,6 @@ $app_yellow: rgb(179, 146, 0);
       max-width: 100vw;
     }
   }
-
 
   .logged-in-pop-up {
     position: absolute;
@@ -662,7 +736,7 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   /* INPUT SECTION */
-  
+
   .input-form {
     position: relative;
     .go-button {
@@ -692,7 +766,7 @@ $app_yellow: rgb(179, 146, 0);
     @include center-horizontally;
     bottom: 17rem;
   }
-  
+
   .input-form {
     position: relative;
     height: 70px;
@@ -718,21 +792,21 @@ $app_yellow: rgb(179, 146, 0);
       background: transparent;
       outline: none;
     }
-    
+
     .content-name {
       position: absolute;
-      
+
       bottom: 0px;
       left: 0px;
       transition: all 0.3s ease;
     }
-    
+
     .input-field:focus + .label-name .content-name,
     .input-field:valid + .label-name .content-name {
       font-size: 1.1rem;
       transform: translateY(-200%);
     }
-    
+
     .input-field:focus .App {
       background-position: 0px -450px;
     }
@@ -771,7 +845,7 @@ $app_yellow: rgb(179, 146, 0);
       }
     }
   }
-  
+
   .comment-section {
     position: absolute;
     right: 0;
@@ -839,11 +913,11 @@ $app_yellow: rgb(179, 146, 0);
             font-size: 24px;
             max-width: 100%;
           }
-      }    
+        }
       }
     }
   }
-  
+
   /* Profile Pic Circle */
   .comment-box-picture {
     position: relative;
@@ -862,7 +936,7 @@ $app_yellow: rgb(179, 146, 0);
     animation: spin 100000ms linear infinite;
     // transition: all 0.3s ease;
   }
-  
+
   .circle-content {
     position: absolute;
     height: 100%;
@@ -881,12 +955,12 @@ $app_yellow: rgb(179, 146, 0);
       width: 102%;
     }
   }
-  
+
   .profile-pic {
     position: absolute;
     height: 100%;
     width: 100%;
-  }  
+  }
 }
 
 // CSS Transition Group

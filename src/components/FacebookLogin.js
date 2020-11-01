@@ -9,6 +9,7 @@ const FBLogin = () => {
   const responseFacebook = (response) => {
     // The response with the status property means login failure
     if (!response.hasOwnProperty("status")) {
+      console.log(`FB Button Response ${response}`);
       userLoggedIn(response.accessToken);
     }
   };
@@ -18,7 +19,7 @@ const FBLogin = () => {
       <FacebookLogin
         appId="319952016030195"
         // autoLoad={false}
-        onFailure={() => console.log('FB Login failed and that is On Failure')}
+        onFailure={() => console.log("FB Login failed and that is On Failure")}
         autoload={false}
         fields="name,email,picture"
         scope="instagram_basic, public_profile, instagram_manage_comments, pages_show_list, pages_read_engagement"

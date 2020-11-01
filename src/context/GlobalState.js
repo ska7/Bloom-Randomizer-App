@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import axios from "axios";
-import bigInt from 'big-integer';
+import bigInt from "big-integer";
 import { GlobalContext } from "./globalContext";
 import { globalReducer } from "./globalReducer";
 import {
@@ -62,9 +62,9 @@ export const GlobalState = ({ children }) => {
   const userLoggedIn = (token) => {
     // adding token to local storage
     localStorage.setItem("accessToken", token);
-    setTimeout(() => {
-      storeLoginStatus(token);
-    }, 2000);
+    // setTimeout(() => {
+    //   storeLoginStatus(token);
+    // }, 2000);
     dispatch({
       type: LOGIN_SUCCEEDED,
     });
@@ -86,11 +86,12 @@ export const GlobalState = ({ children }) => {
   const loginCheck = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const check = await checkToken(accessToken);
+    console.log(`Access token while checking ${accessToken}`);
 
     if ((accessToken !== null && check === 400) || accessToken === null) {
       console.log("400 error in Global State. Token expired or is null.");
       dispatch({ type: LOGIN_FAILED });
-      storeLoginStatus("");
+      // storeLoginStatus("");
       return false;
     } else {
       console.log("Success in login check");
@@ -103,22 +104,23 @@ export const GlobalState = ({ children }) => {
   // Instagram Posts Related Functions
 
   const getPostURL = (url) => {
-    dispatch({ type: GET_POST_URL, payload: url })
-  }
+    dispatch({ type: GET_POST_URL, payload: url });
+  };
 
   function getInstagramUrlFromMediaId(media_id) {
-    var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-    var shortenedId = '';
+    var alphabet =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+    var shortenedId = "";
     // media_id = media_id.substring(0, media_id.indexOf('_'));
 
     while (media_id > 0) {
-        var remainder = bigInt(media_id).mod(64);
-        media_id = bigInt(media_id).minus(remainder).divide(64).toString();
-        shortenedId = alphabet.charAt(remainder) + shortenedId;
+      var remainder = bigInt(media_id).mod(64);
+      media_id = bigInt(media_id).minus(remainder).divide(64).toString();
+      shortenedId = alphabet.charAt(remainder) + shortenedId;
     }
 
-    return 'https://www.instagram.com/p/' + shortenedId + '/';
-}
+    return "https://www.instagram.com/p/" + shortenedId + "/";
+  }
 
   const fetchPosts = async () => {
     loader();

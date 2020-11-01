@@ -47,20 +47,20 @@ export default function Randomizer() {
   };
 
   const loadingCheck = (loading, data) => {
-    if (!loading && data) { 
-      setLoader(false)
+    if (!loading && data) {
+      setLoader(false);
     } else if (loading && data === null) {
-      setLoader(true)
+      setLoader(true);
     }
   };
 
   const showInputCheck = (loading, commentData) => {
     if (!loading && !commentData) {
-      setShowInput(true)
+      setShowInput(true);
     } else {
-      setShowInput(false)
+      setShowInput(false);
     }
-  } 
+  };
 
   const showCommentCheck = (commentData) => {
     if (commentData) {
@@ -68,7 +68,7 @@ export default function Randomizer() {
     } else {
       setShowComment(false);
     }
-  }
+  };
 
   // useEffect for components animation
   useEffect(() => {
@@ -79,7 +79,6 @@ export default function Randomizer() {
 
   // useEffect for the randomizer logic p1
   useEffect(() => {
-    
     if (posts !== null && postInstaID === null) {
       matchPost();
     } else if (winnerCommentID !== null && winnerCommentData === null) {
@@ -102,11 +101,11 @@ export default function Randomizer() {
   useEffect(() => {
     showInputCheck(loading, winnerCommentData);
     showCommentCheck(winnerCommentData);
-  }, [loading, winnerCommentData])
+  }, [loading, winnerCommentData]);
 
   return (
     <div className="App">
-      <div className={`blister ${showComment && 'slide'}`}></div>
+      <div className={`blister ${showComment && "slide"}`}></div>
       <TransitionGroup component={null}>
         {loggedOutPage && (
           <CSSTransition
@@ -148,32 +147,34 @@ export default function Randomizer() {
             timeout={300}
           >
             <div className="logged-in-screen">
-              <div className={`logoLight`}>
-                <img src={LogoLight}></img>
+              <div className="logged-in-top">
+                <div className={`logoLight`}>
+                  <img src={LogoLight}></img>
+                </div>
+                <button className="sign-out-button" onClick={signOut}>
+                  ВЫХОД
+                </button>
               </div>
-              <button className="sign-out-button" onClick={signOut}>
-                ВЫХОД
-              </button>
               <TransitionGroup component={null}>
                 {showInput && (
-                    <CSSTransition
-                      classNames="fade"
-                      in={showInput}
-                      key={showInput}
-                      timeout={300}
-                    >
-                      <Fragment>
-                        <Input />
-                      </Fragment>  
-                    </CSSTransition>
+                  <CSSTransition
+                    classNames="fade"
+                    in={showInput}
+                    key={showInput}
+                    timeout={300}
+                  >
+                    <Fragment>
+                      <Input />
+                    </Fragment>
+                  </CSSTransition>
                 )}
               </TransitionGroup>
               <TransitionGroup component={null}>
                 {showComment && (
                   <CSSTransition
-                  classNames="fade"
-                  in={showComment}
-                  timeout={300}
+                    classNames="fade"
+                    in={showComment}
+                    timeout={300}
                   >
                     <div className="comment-section">
                       <Comment />
