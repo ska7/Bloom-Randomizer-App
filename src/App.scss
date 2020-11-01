@@ -1,5 +1,6 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Trispace:wght@500&display=swap");
 
 $iphones: 375px;
 $laptop: 1536px;
@@ -32,7 +33,7 @@ $app_yellow: rgb(179, 146, 0);
   background-image: url("./img/background\ -\ Copy.png");
   // background-position: 0px 0px; // for iPad
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  // background-attachment: fixed;
   min-width: 100vw;
   min-height: 100vh;
   font-family: Verdana, sans-serif;
@@ -83,6 +84,7 @@ $app_yellow: rgb(179, 146, 0);
 .input-section {
   margin-top: 25rem;
   @include center-horizontally;
+  height: auto;
   width: 100%;
 }
 
@@ -169,15 +171,12 @@ $app_yellow: rgb(179, 146, 0);
 .logged-in-pop-up {
   position: absolute;
   animation: secondPop 0.5s ease;
-  top: 18rem;
-  height: 200px;
-  width: 700px;
-  display: flex;
-  height: 4rem;
-  justify-content: center;
-  align-items: center;
+  height: 25%;
+  width: 100%;
+  @include center-horizontally;
   img {
-    height: 170px;
+    height: 100%;
+    min-width: 45%;
   }
 }
 
@@ -189,6 +188,7 @@ $app_yellow: rgb(179, 146, 0);
   align-items: center;
   .logoLight {
     padding-left: 15%;
+    // width: auto;
   }
   .sign-out-button {
     margin-top: 2px;
@@ -210,450 +210,183 @@ $app_yellow: rgb(179, 146, 0);
   }
 }
 
+.loader {
+  position: absolute;
+  font-family: "Amatic SC", cursive;
+  top: 15rem;
+  width: 100%;
+  color: black;
+  .comments-count {
+    padding: 1rem;
+    font-size: 30px;
+  }
+  .spinner-section,
+  .comments-count {
+    padding: 1rem;
+    @include center-horizontally;
+    width: 100%;
+  }
+}
+
+/* COMMENT */
+
+.comment-section {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 35%;
+  margin-right: auto;
+  margin-left: auto;
+  height: 10rem;
+  width: 100vw;
+}
+.comment-box-wrapper {
+  max-width: 100%;
+  // border-top: 0.1px solid black;
+  // border-bottom: 0.1px solid black;
+  background: rgb(255, 255, 255, 0.05);
+  box-shadow: 0 0 50px 10px black;
+  .comment-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 10rem;
+    max-width: 60%;
+    min-width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    .comment-box-picture {
+      max-width: 50%;
+    }
+    .comment-box-content {
+      max-width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .comment-box-comment {
+        text-align: center;
+        max-width: 90%;
+        max-height: 50%;
+        font-size: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: rgb(134, 90, 42);
+        text-shadow: 0 0 10px whitesmoke;
+      }
+      .comment-box-name {
+        // @include center-horizontally;
+        max-width: 100%;
+        font-size: 30px;
+        // max-height: 100%;
+        font-family: "Libre Baskerville", serif;
+        transition: all 0.5s ease;
+        // text-decoration: underline;
+        text-shadow: 0 0 10px rgb(219, 219, 219);
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+/* Profile Pic Circle */
+.comment-box-picture {
+  position: relative;
+  margin-left: 5rem;
+  height: 10rem;
+  width: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.circle {
+  // position: absolute;
+  height: 205%;
+  width: 205%;
+  animation: spin 100000ms linear infinite;
+  // transition: all 0.3s ease;
+}
+
+.circle-content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgb(214, 212, 212);
+  // border-top-color: rgb(243, 214, 215);
+  // border-bottom-color: rgb(249, 106, 108);
+  // border-right-color: rgb(202, 92, 141);
+  // border-left-color: rgb(134, 166, 108);
+  transition: all 0.1s ease;
+  &:hover {
+    cursor: pointer;
+    height: 102%;
+    width: 102%;
+  }
+}
+
+.profile-pic {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.comment-buttons {
+  position: relative;
+  margin-top: 6rem;
+  height: 10rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  .new-winner-button,
+  .new-give-button {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 3px;
+    color: white;
+    height: 3rem;
+    width: 30%;
+    transition: all 0.5s ease;
+    &:hover {
+      color: $app_yellow;
+      border: 1px solid $app_yellow;
+      transform: translateY(-5px);
+      height: 4rem;
+    }
+  }
+}
+
 @media (min-width: 1440px) and (max-width: 1920px) {
   .App {
     background-size: cover;
     background-position: 0px -400px;
   }
-}
-
-@media (min-width: 761px) and (max-width: 1439px) {
-  .App {
-    background-size: cover;
-    background-position: 0px -100px;
-  }
-
-  .blister {
-    position: absolute;
-    height: 100%;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(247, 231, 86, 0.1),
-      transparent
-    );
-    width: 25%;
-    left: -100rem;
-    z-index: 1;
-    transition: all 1s ease;
-  }
-
-  .slide {
-    animation: slide 1s ease forwards;
-  }
-
-  @keyframes slide {
-    0% {
-      transform: translateX(0rem);
-    }
-    100% {
-      transform: translateX(200rem);
-    }
-  }
-
-  .loader {
-    position: absolute;
-    font-family: "Amatic SC", cursive;
-    top: 15rem;
-    width: 100%;
-    color: black;
-    .comments-count {
-      padding: 1rem;
-      font-size: 30px;
-    }
-    .spinner-section,
-    .comments-count {
-      padding: 1rem;
-      @include center-horizontally;
-      width: 100%;
-    }
-  }
-
-  .comment-buttons {
-    position: relative;
-    margin-top: 6rem;
-    height: 10rem;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    .new-winner-button,
-    .new-give-button {
-      background: transparent;
-      border: 1px solid white;
-      border-radius: 3px;
-      color: white;
-      height: 3rem;
-      width: 30%;
-      transition: all 0.5s ease;
-      &:hover {
-        color: $app_yellow;
-        border: 1px solid $app_yellow;
-        transform: translateY(-5px);
-        height: 4rem;
-      }
-    }
-  }
-
-  /* INPUT */
-
-  // .input-section {
-  //   margin-top: 25rem;
-  //   @include center-horizontally;
-  //   width: 100%;
-  // }
-
-  // .input-form {
-  //   position: relative;
-  //   height: 70px;
-  //   width: 60%;
-  //   .label-name {
-  //     font-size: 1.3rem;
-  //     position: absolute;
-  //     color: azure;
-  //     bottom: 0px;
-  //     left: 0px;
-  //     height: 100%;
-  //     width: 100%;
-  //     pointer-events: none;
-  //     border-bottom: 3px solid white;
-  //   }
-  //   .input-field {
-  //     width: 100%;
-  //     height: 100%;
-  //     color: rgb(255, 255, 255);
-  //     padding-top: 20px;
-  //     padding-bottom: 20px;
-  //     border: none;
-  //     background: transparent;
-  //     outline: none;
-  //   }
-
-  //   .content-name {
-  //     position: absolute;
-
-  //     bottom: 0px;
-  //     left: 0px;
-  //     transition: all 0.3s ease;
-  //   }
-
-  //   .input-field:focus + .label-name .content-name,
-  //   .input-field:valid + .label-name .content-name {
-  //     font-size: 1.1rem;
-  //     transform: translateY(-200%);
-  //   }
-
-  //   .input-field:focus .App {
-  //     background-position: 0px -450px;
-  //   }
-
-  //   .go-button {
-  //     position: absolute;
-  //     right: 0;
-  //     bottom: 1rem;
-  //     height: 1.7rem;
-  //     width: 10rem;
-  //     background: transparent;
-  //     border: 1px solid white;
-  //     color: white;
-  //     outline: none;
-  //     transition: all 0.3s ease;
-  //     animation: pulse 2s alternate infinite;
-  //     &:hover {
-  //       color: $app_yellow;
-  //       border: 1px solid $app_yellow;
-  //     }
-  //   }
-  // }
-
-  /* COMMENT */
-
-  .comment-section {
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 35%;
-    margin-right: auto;
-    margin-left: auto;
-    height: 10rem;
-    width: 100vw;
-  }
-  .comment-box-wrapper {
-    max-width: 100%;
-    // border-top: 0.1px solid black;
-    // border-bottom: 0.1px solid black;
-    background: rgb(255, 255, 255, 0.05);
-    box-shadow: 0 0 50px 10px black;
-    .comment-box {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
-      align-items: center;
-      height: 10rem;
-      max-width: 60%;
-      min-width: 50%;
-      margin-right: auto;
-      margin-left: auto;
-      .comment-box-picture {
-        max-width: 50%;
-      }
-      .comment-box-content {
-        max-width: 50%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .comment-box-comment {
-          text-align: center;
-          max-width: 90%;
-          max-height: 50%;
-          font-size: 0.8rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: rgb(134, 90, 42);
-          text-shadow: 0 0 10px whitesmoke;
-        }
-        .comment-box-name {
-          // @include center-horizontally;
-          max-width: 100%;
-          font-size: 30px;
-          // max-height: 100%;
-          font-family: "Libre Baskerville", serif;
-          transition: all 0.5s ease;
-          // text-decoration: underline;
-          text-shadow: 0 0 10px rgb(219, 219, 219);
-          &:hover {
-            cursor: pointer;
-          }
-        }
-      }
-    }
-  }
-
-  /* Profile Pic Circle */
-  .comment-box-picture {
-    position: relative;
-    margin-left: 5rem;
-    height: 10rem;
-    width: 10rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .circle {
-    // position: absolute;
-    height: 205%;
-    width: 205%;
-    animation: spin 100000ms linear infinite;
-    // transition: all 0.3s ease;
-  }
-
-  .circle-content {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid rgb(214, 212, 212);
-    // border-top-color: rgb(243, 214, 215);
-    // border-bottom-color: rgb(249, 106, 108);
-    // border-right-color: rgb(202, 92, 141);
-    // border-left-color: rgb(134, 166, 108);
-    transition: all 0.1s ease;
-    &:hover {
-      cursor: pointer;
-      height: 102%;
-      width: 102%;
-    }
-  }
-
-  .profile-pic {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-  }
-}
-
-/* MEDIA QUERIES */
-
-@media (min-width: 1920px) {
-  .App {
-    background-size: cover;
-    // background-position: 0px 0px; // for iPad
-    background-position: 0px -500px;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-
-  .logoDark,
-  .logoLight {
-    width: 50vw;
-    img {
-      width: 100%;
-    }
-  }
-
-  .fbLogin-section {
-    height: 7rem;
-    top: 23rem;
-    .fbButton {
-      height: 90%;
-      width: 20%;
-    }
-  }
-
-  .new-give-button,
-  .new-winner-button {
-    height: 3rem * 1.5;
-    width: 14rem * 1.5;
-    &:hover {
-      height: 4rem * 1.5;
-      width: 15rem * 1.5;
-      font-size: 19px;
-      box-shadow: 0.1px 0 10px 0.5px $app_yellow;
-    }
-  }
-
-  .logged-out-pop-up {
-    height: 300px;
-    width: 800px;
-    img {
-      height: 65%;
-    }
-  }
 
   .logged-in-pop-up {
-    height: 300px;
-    width: 800px;
-    img {
-      height: 70%;
-    }
-  }
-
-  .sign-out-button {
-    height: 6rem;
-    width: 6rem;
-  }
-
-  .input-form {
-    width: 60vw;
-    .content-name {
-      font-size: 24px;
-    }
-    .input-field:focus + .label-name .content-name,
-    .input-field:valid + .label-name .content-name {
-      font-size: 19px;
-      transform: translateY(-200%);
-    }
-    .go-button {
-      height: 1.7rem * 1.2;
-      width: 10rem * 1.2;
-    }
-  }
-
-  .loader {
-    top: 20rem;
-    font-family: "Libre Baskerville", serif;
-    span {
-      font-size: 20px;
-    }
-  }
-
-  /* COMMENT SECTION */
-  .comment-box-wrapper {
-    max-width: 100%;
-    border-top: 0.1px solid black;
-    border-bottom: 0.1px solid black;
-    .comment-box {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
-      align-items: center;
-      height: 10rem;
-      max-width: 60%;
-      min-width: 50%;
-      margin-right: auto;
-      margin-left: auto;
-      .comment-box-picture {
-        max-width: 50%;
-      }
-      .comment-box-content {
-        max-width: 50%;
-        @include center-horizontally;
-        .comment-box-name {
-          // @include center-horizontally;
-          max-width: 100%;
-          // max-height: 100%;
-          font-family: "Libre Baskerville", serif;
-          transition: all 0.5s ease;
-          text-decoration: underline;
-          &:hover {
-            cursor: pointer;
-            text-shadow: 2px 2px 8px rgb(201, 172, 108);
-          }
-        }
-
-        .comment-box-comment {
-          text-align: center;
-          // max-width: 100%;
-          max-height: 50%;
-          font-size: 0.8rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: rgb(150, 103, 53);
-        }
-      }
-    }
+    top: 30%;
   }
 }
 
+// Mobile Devices
 @media (min-width: 375px) and (max-width: 759px) {
   .App {
-    background-position: -50px -80px;
+    background-position: -50px -100px;
     background-size: 775px 1212px;
   }
 
-  .loader {
-    // border: 1px solid black;
-    position: absolute;
-    top: 15rem;
-    // left: 0;
-    // right: 0;
-    // margin-left: auto;
-    // margin-right: auto;
-    // width: 25rem;
-    width: 100%;
-    color: black;
-    .comments-count {
-      padding: 1rem;
-    }
-    .spinner-section,
-    .comments-count {
-      padding: 1rem;
-      @include center-horizontally;
-      width: 100%;
-    }
-  }
-
-  .logoLight {
-    position: absolute;
-    top: 0rem;
-    img {
-      padding-top: 2rem;
-      max-height: 50vh;
-      max-width: 100vw;
-    }
-  }
+  // Logged Out Part
 
   .logoDark {
-    position: absolute;
-    top: 0rem;
+    width: 100%;
     img {
       padding-top: 2rem;
       max-height: 50vh;
@@ -663,47 +396,40 @@ $app_yellow: rgb(179, 146, 0);
 
   .logged-out-pop-up {
     position: absolute;
-    bottom: 12rem;
+    bottom: 25%;
     animation: firstPopIn 0.5s ease;
-    img {
-      height: 120px;
-      max-width: 100vw;
-    }
-  }
-
-  .logged-in-pop-up {
-    position: absolute;
-    animation: secondPop 0.5s ease;
-    bottom: 10rem;
-    height: 100px;
+    min-height: 20%;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     img {
-      height: 120px;
-      max-width: 100vw;
+      height: 100%;
+      min-width: 375px;
     }
   }
 
   /* FB LOGIN */
   .fbLogin-section {
-    position: absolute;
-    top: 19rem;
-    right: 0rem;
-    padding: 0;
-    margin: 0;
+    margin-right: auto;
+    margin-left: auto;
+    height: 40%;
     width: 100vw;
     display: flex;
     justify-content: center;
     .fbButton {
       @include center-horizontally;
-      margin-top: 2px;
+      width: auto;
+
+      max-width: 500px;
+      height: 100%;
+      font-size: 20px;
+      // font-family: "Libre Baskerville", serif;
+      font-family: "Amatic SC";
+      transition: all 0.5s ease;
+      margin-top: auto;
+      margin-bottom: auto;
       padding: 1rem;
       height: 4rem;
       width: 19rem;
-      font-size: 1rem;
-      color: $app_yellow;
+      color: rgb(150, 110, 37);
       // color: rgb(88, 88, 88);
       background: rgb(255, 255, 255, 0.2);
       border: solid 3px rgb(71, 71, 71);
@@ -712,6 +438,10 @@ $app_yellow: rgb(179, 146, 0);
       transition: all 0.6s ease;
       &:hover {
         cursor: pointer;
+        text-shadow: 2px 2px 8px rgb(201, 172, 108);
+      }
+      h1 {
+        max-width: 100%;
         color: white;
         background: rgb(72, 103, 170);
         border: solid 3px black;
@@ -719,26 +449,74 @@ $app_yellow: rgb(179, 146, 0);
     }
   }
 
-  .sign-out-button {
+  // Logged in part
+
+  .logged-in-pop-up {
     position: absolute;
-    width: 17rem;
-    height: 2rem;
-    top: 47rem;
-    left: 0;
-    right: 0;
-    font-size: 0.8rem;
-    margin-right: auto;
-    margin-left: auto;
-    background: rgb(224, 222, 222, 0.1);
-    color: rgb(224, 222, 222);
-    border: 1px solid rgb(224, 222, 222);
-    border-radius: 3px;
+    animation: secondPop 0.5s ease;
+    bottom: 10rem;
+    height: 100px;
+    width: 100%;
+    img {
+      height: 100%;
+      min-width: 375px;
+    }
+  }
+
+  .logged-in-pop-up {
+    position: absolute;
+    animation: secondPop 0.5s ease;
+    height: 25%;
+    width: 100%;
+    @include center-horizontally;
+    img {
+      height: 100%;
+      min-width: 45%;
+    }
+  }
+
+  .logged-in-top {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    .logoLight {
+      padding-left: 15%;
+      // width: auto;
+    }
+    .sign-out-button {
+      margin-top: 2px;
+      padding: 2px;
+      height: 5rem;
+      width: 5rem;
+      font-size: 0.75rem;
+      color: rgb(66, 66, 66);
+      background: rgb(255, 255, 255, 0.2);
+      border: solid 2px rgb(71, 71, 71);
+      border-radius: 5px;
+      box-shadow: 0 0 50px 3px black;
+      transition: all 0.6s ease;
+      &:hover {
+        border: solid 2px $app_yellow;
+        transform: translateX(-10px);
+        color: $app_yellow;
+      }
+    }
   }
 
   /* INPUT SECTION */
 
+  .input-section {
+    position: relative;
+    @include center-horizontally;
+    margin-top: 85%;
+  }
+
   .input-form {
     position: relative;
+    height: 70px;
+    width: 80vw;
     .go-button {
       height: 2rem;
       width: 18rem;
@@ -760,32 +538,21 @@ $app_yellow: rgb(179, 146, 0);
         border: 1px solid $app_yellow;
       }
     }
-  }
-  .input-section {
-    position: absolute;
-    @include center-horizontally;
-    bottom: 17rem;
-  }
-
-  .input-form {
-    position: relative;
-    height: 70px;
-    width: 80vw;
     .label-name {
       font-size: 1.3rem;
       position: absolute;
-      color: azure;
+      color: rgb(236, 236, 236);
       bottom: 0px;
       left: 0px;
       height: 100%;
       width: 100%;
       pointer-events: none;
-      border-bottom: 3px solid white;
+      border-bottom: 3px solid rgb(230, 230, 230);
     }
     .input-field {
       width: 100%;
       height: 100%;
-      color: rgb(255, 255, 255);
+      color: rgb(5, 5, 5);
       padding-top: 20px;
       padding-bottom: 20px;
       border: none;
@@ -807,161 +574,169 @@ $app_yellow: rgb(179, 146, 0);
       transform: translateY(-200%);
     }
 
-    .input-field:focus .App {
-      background-position: 0px -450px;
-    }
-  }
-
-  /* COMMENT SECTION */
-
-  .comment-buttons {
-    position: relative;
-    margin-top: 6rem;
-    height: 10rem;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    .new-winner-button,
-    .new-give-button {
-      border: 1px solid red;
-      background: transparent;
-      border: 1px solid white;
-      border-radius: 3px;
-      color: white;
-      height: 3rem;
-      min-width: 30%;
-      max-width: 100%;
-      transition: all 0.5s ease;
-      &:hover {
-        color: $app_yellow;
-        border: 1px solid $app_yellow;
-        transform: translateY(-5px);
-        height: 4rem;
-        // width: 15rem;
+    .comment-box-comment {
+      text-align: center;
+      .input-field:focus .App {
+        background-position: 0px -450px;
       }
     }
-  }
 
-  .comment-section {
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 35%;
-    margin-right: auto;
-    margin-left: auto;
-    height: 10rem;
-    width: 100vw;
-  }
-  .comment-box-wrapper {
-    position: relative;
-    max-width: 100%;
-    height: 10rem;
-    background: rgb(255, 255, 255, 0.05);
-    box-shadow: 0 0 50px 10px black;
-    .comment-box {
-      position: absolute;
+    /* COMMENT SECTION */
+
+    .comment-buttons {
+      position: relative;
+      margin-top: 6rem;
+      height: 10rem;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      justify-content: space-around;
+      flex-direction: row;
+      justify-content: space-evenly;
       align-items: center;
-      height: 5rem;
-      max-width: 100%;
-      min-width: 50%;
-      top: -2rem;
-      left: 0;
+      .new-winner-button,
+      .new-give-button {
+        border: 1px solid red;
+        background: transparent;
+        border: 1px solid white;
+        border-radius: 3px;
+        color: white;
+        height: 3rem;
+        min-width: 30%;
+        max-width: 100%;
+        max-height: 50%;
+        font-size: 0.8rem;
+        transition: all 0.5s ease;
+        &:hover {
+          color: $app_yellow;
+          border: 1px solid $app_yellow;
+          transform: translateY(-5px);
+          height: 4rem;
+          // width: 15rem;
+        }
+      }
+    }
+
+    .comment-section {
+      position: absolute;
       right: 0;
+      left: 0;
+      top: 35%;
       margin-right: auto;
       margin-left: auto;
-      .comment-box-picture {
-        max-width: 7rem;
-        max-height: 7rem;
-        margin-right: auto;
-        margin-left: auto;
-      }
-      .comment-box-content {
-        width: 100%;
+      height: 10rem;
+      width: 100vw;
+    }
+    .comment-box-wrapper {
+      position: relative;
+      max-width: 100%;
+      height: 10rem;
+      background: rgb(255, 255, 255, 0.05);
+      box-shadow: 0 0 50px 10px black;
+      .comment-box {
+        position: absolute;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
-        .comment-box-comment {
-          text-align: center;
-          max-width: 90%;
-          max-height: 50%;
-          font-size: 0.7rem;
+        color: rgb(150, 103, 53);
+        height: 5rem;
+        max-width: 100%;
+        min-width: 50%;
+        top: -2rem;
+        left: 0;
+        right: 0;
+        margin-right: auto;
+        margin-left: auto;
+        .comment-box-picture {
+          max-width: 7rem;
+          max-height: 7rem;
+          margin-right: auto;
+          margin-left: auto;
+        }
+        .comment-box-content {
+          width: 100%;
           display: flex;
           flex-direction: column;
+          justify-content: center;
           align-items: center;
-          color: rgb(134, 90, 42);
-          text-shadow: 0 0 10px whitesmoke;
-        }
-        .comment-box-name {
-          text-align: center;
-          padding-top: 3rem;
-          max-width: 100%;
-          font-family: "Libre Baskerville", serif;
-          transition: all 0.5s ease;
-          text-shadow: 0 0 10px rgb(219, 219, 219);
-          &:hover {
-            cursor: pointer;
+          .comment-box-comment {
+            text-align: center;
+            max-width: 90%;
+            max-height: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgb(134, 90, 42);
+            text-shadow: 0 0 10px whitesmoke;
           }
-          a {
-            font-size: 24px;
+          .comment-box-name {
+            text-align: center;
+            padding-top: 3rem;
             max-width: 100%;
+            font-family: "Libre Baskerville", serif;
+            transition: all 0.5s ease;
+            text-shadow: 0 0 10px rgb(219, 219, 219);
+            &:hover {
+              cursor: pointer;
+            }
+            a {
+              font-size: 24px;
+              max-width: 100%;
+            }
           }
         }
       }
     }
-  }
 
-  /* Profile Pic Circle */
-  .comment-box-picture {
-    position: relative;
-    margin-left: 5rem;
-    height: 10rem;
-    width: 10rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .circle {
-    // position: absolute;
-    height: 205%;
-    width: 205%;
-    animation: spin 100000ms linear infinite;
-    // transition: all 0.3s ease;
-  }
+    /* Profile Pic Circle */
+    .comment-box-picture {
+      position: relative;
+      margin-left: 5rem;
+      height: 10rem;
+      width: 10rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .circle {
+      // position: absolute;
+      height: 205%;
+      width: 205%;
+      animation: spin 100000ms linear infinite;
+      // transition: all 0.3s ease;
+    }
 
-  .circle-content {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid rgb(214, 212, 212);
-    // border-top-color: rgb(243, 214, 215);
-    // border-bottom-color: rgb(249, 106, 108);
-    // border-right-color: rgb(202, 92, 141);
-    // border-left-color: rgb(134, 166, 108);
-    transition: all 0.1s ease;
-    &:hover {
-      cursor: pointer;
-      height: 102%;
-      width: 102%;
+    .circle-content {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgb(214, 212, 212);
+      // border-top-color: rgb(243, 214, 215);
+      // border-bottom-color: rgb(249, 106, 108);
+      // border-right-color: rgb(202, 92, 141);
+      // border-left-color: rgb(134, 166, 108);
+      transition: all 0.1s ease;
+      &:hover {
+        cursor: pointer;
+        height: 102%;
+        width: 102%;
+      }
+    }
+
+    .profile-pic {
+      position: absolute;
+      height: 100%;
+      width: 100%;
     }
   }
-
-  .profile-pic {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-  }
 }
+
+// End of mobile devices media query
 
 // CSS Transition Group
 
@@ -986,8 +761,20 @@ $app_yellow: rgb(179, 146, 0);
   transform: translateX(-200rem);
   opacity: 0.5;
 }
-
 /* ANIMATIONS */
+.slide {
+  animation: slide 1s ease forwards;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0rem);
+  }
+  100% {
+    transform: translateX(200rem);
+  }
+}
+
 @-moz-keyframes spin {
   to {
     -moz-transform: rotate(360deg);

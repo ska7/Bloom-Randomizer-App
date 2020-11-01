@@ -137,7 +137,6 @@ export default function Randomizer() {
         )}
       </TransitionGroup>
 
-      {/* // Everything above is ok */}
       <TransitionGroup component={null}>
         {loggedInPage && (
           <CSSTransition
