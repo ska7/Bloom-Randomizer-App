@@ -7,6 +7,7 @@ import {
   FADE_IN,
   FETCH_COMMENT_DATA,
   FETCH_WINNER_COMMENT_ID,
+  GET_COMMENTS_QUANTITY,
   GET_POST_ID,
   GET_POST_INSTA_ID,
   GET_POST_URL,
@@ -33,6 +34,7 @@ export const GlobalState = ({ children }) => {
     winnerCommentID: null,
     winnerCommentData: null,
     commentsCount: [],
+    commentsQuantity: 0,
   };
   const [state, dispatch] = useReducer(globalReducer, initState);
 
@@ -163,11 +165,13 @@ export const GlobalState = ({ children }) => {
   };
 
   const fetchPostIgId = async (id, token) => {
+    let commentsNumber = 0;
     const res = await axios
       .get(
-        `https://graph.facebook.com/v8.0/${id}?fields=comments_count, caption,id,ig_id,like_count,permalink,timestamp,username&access_token=${token}`
+        `https://graph.facebook.com/v8.0/${id}?fields=comments_count,id,ig_id&access_token=${token}`
       )
       .then((res) => {
+        commentsNumber = res.data.comments_count;
         return res.data.ig_id;
       });
     return res;
@@ -266,7 +270,7 @@ export const GlobalState = ({ children }) => {
       // 2 If the comments array isn't empty and there was a pagination cursor in the last fetch, we fetch the next batch
       else if (comments && comments.length && cursorAfter) {
         console.log("SECOND PART OF THE LOOP");
-        const nextBatchUrl = `https://graph.facebook.com/v8.0/${state.postInstaID}/comments?access_token=${accessToken}&limit=50&after=${cursorAfter}&pretty=1`;
+        const nextBatchUrl = `https://graph.facebook.com/v8.0/${state.postInstaID}/comments?fields=id,text,username&access_token=${accessToken}&limit=50&after=${cursorAfter}&pretty=1`;
         const { batch, cursor } = await fetchBatch(nextBatchUrl);
         pushComments(comments, batch);
 
@@ -280,7 +284,6 @@ export const GlobalState = ({ children }) => {
         break;
       }
     }
-    // Comments come in batches so we have to merge them all into one single list
     dispatch({
       type: FETCH_WINNER_COMMENT_ID,
       payload: winnerCommentID(comments),
@@ -324,6 +327,7 @@ export const GlobalState = ({ children }) => {
         winnerCommentData: state.winnerCommentData,
         loading: state.loading,
         commentsCount: state.commentsCount,
+        commentsQuantity: state.commentsQuantity,
         newWinner,
         newGiveAway,
         loader,

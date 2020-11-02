@@ -2,6 +2,7 @@ import {
   FADE_IN,
   FETCH_COMMENT_DATA,
   FETCH_WINNER_COMMENT_ID,
+  GET_COMMENTS_QUANTITY,
   GET_POST_ID,
   GET_POST_INSTA_ID,
   GET_POST_INSTA_URL,
@@ -54,6 +55,10 @@ const handlers = {
     winnerCommentID: null,
     winnerCommentData: null,
     commentsCount: [],
+  }),
+  [GET_COMMENTS_QUANTITY]: (state, { payload }) => ({
+    ...state,
+    commentsQuantity: payload,
   }),
   [NEW_WINNER]: (state) => ({
     ...state,

@@ -20,6 +20,7 @@ export default function Randomizer() {
   const [loader, setLoader] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [showComment, setShowComment] = useState(false);
+  const [commentsNumber, setCommentsNumber] = useState(null);
 
   const {
     loginCheck,
@@ -34,9 +35,10 @@ export default function Randomizer() {
     postInstaID,
     fetchCommentData,
     posts,
+    commentsQuantity,
   } = useContext(GlobalContext);
 
-  const slideCheck = (isLoggedIn, loading, winnerCommentData) => {
+  const slideCheck = (isLoggedIn) => {
     if (isLoggedIn) {
       setLoggedOutPage(false);
       setLoggedInPage(true);
@@ -132,7 +134,10 @@ export default function Randomizer() {
             key={loading}
             timeout={300}
           >
-            <Spinner commentsCount={commentsCount} />
+            <Spinner
+              commentsCount={commentsCount}
+              commentsQuantity={commentsQuantity}
+            />
           </CSSTransition>
         )}
       </TransitionGroup>
@@ -146,14 +151,13 @@ export default function Randomizer() {
             timeout={300}
           >
             <div className="logged-in-screen">
-              <div className="logged-in-top">
-                <div className={`logoLight`}>
-                  <img src={LogoLight}></img>
-                </div>
-                <button className="sign-out-button" onClick={signOut}>
-                  ВЫХОД
-                </button>
+              <div className={`logoLight`}>
+                <img src={LogoLight}></img>
               </div>
+              <button className="sign-out-button" onClick={signOut}>
+                ВЫХОД
+              </button>
+
               <TransitionGroup component={null}>
                 {showInput && (
                   <CSSTransition

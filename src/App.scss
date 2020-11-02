@@ -92,6 +92,7 @@ $app_yellow: rgb(179, 146, 0);
   position: relative;
   height: 70px;
   width: 60%;
+  font-family: "Amatic";
   .label-name {
     font-size: 1.3rem;
     position: absolute;
@@ -180,33 +181,28 @@ $app_yellow: rgb(179, 146, 0);
   }
 }
 
-.logged-in-top {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  .logoLight {
-    padding-left: 15%;
-    // width: auto;
-  }
-  .sign-out-button {
-    margin-top: 2px;
-    padding: 2px;
-    height: 5rem;
-    width: 5rem;
-    font-size: 0.75rem;
-    color: rgb(66, 66, 66);
-    background: rgb(255, 255, 255, 0.2);
-    border: solid 2px rgb(71, 71, 71);
-    border-radius: 5px;
-    box-shadow: 0 0 50px 3px black;
-    transition: all 0.6s ease;
-    &:hover {
-      border: solid 2px $app_yellow;
-      transform: translateX(-10px);
-      color: $app_yellow;
-    }
+.logoLight {
+  // padding-left: 15%;
+  // width: auto;
+}
+
+.sign-out-button {
+  margin-top: 2px;
+  font-family: "Amatic";
+  padding: 2px;
+  height: 5rem;
+  width: 5rem;
+  font-size: 0.75rem;
+  color: rgb(66, 66, 66);
+  background: rgb(255, 255, 255, 0.2);
+  border: solid 2px rgb(71, 71, 71);
+  border-radius: 5px;
+  box-shadow: 0 0 50px 3px black;
+  transition: all 0.6s ease;
+  &:hover {
+    border: solid 2px $app_yellow;
+    transform: translateX(-10px);
+    color: $app_yellow;
   }
 }
 
@@ -374,18 +370,26 @@ $app_yellow: rgb(179, 146, 0);
   .logged-in-pop-up {
     top: 30%;
   }
+
+  .sign-out-button {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    box-shadow: 0 0 50px 3px black;
+  }
 }
 
 // Mobile Devices
 @media (min-width: 375px) and (max-width: 759px) {
   .App {
-    background-position: -50px -100px;
-    background-size: 775px 1212px;
+    background-position: -50px -50px;
+    background-size: 875px 1312px;
   }
 
   // Logged Out Part
 
   .logoDark {
+    margin-top: 20%;
     width: 100%;
     img {
       padding-top: 2rem;
@@ -398,7 +402,7 @@ $app_yellow: rgb(179, 146, 0);
     position: absolute;
     bottom: 25%;
     animation: firstPopIn 0.5s ease;
-    min-height: 20%;
+    min-height: 15%;
     width: 100%;
     img {
       height: 100%;
@@ -410,7 +414,7 @@ $app_yellow: rgb(179, 146, 0);
   .fbLogin-section {
     margin-right: auto;
     margin-left: auto;
-    height: 40%;
+    height: 30%;
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -463,45 +467,30 @@ $app_yellow: rgb(179, 146, 0);
     }
   }
 
-  .logged-in-pop-up {
-    position: absolute;
-    animation: secondPop 0.5s ease;
-    height: 25%;
-    width: 100%;
+  .logoLight {
+    margin-top: 45px;
     @include center-horizontally;
-    img {
-      height: 100%;
-      min-width: 45%;
-    }
+    max-width: 759px;
+  }
+  img {
+    width: 100%;
   }
 
-  .logged-in-top {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    .logoLight {
-      padding-left: 15%;
-      // width: auto;
-    }
-    .sign-out-button {
-      margin-top: 2px;
-      padding: 2px;
-      height: 5rem;
-      width: 5rem;
-      font-size: 0.75rem;
-      color: rgb(66, 66, 66);
-      background: rgb(255, 255, 255, 0.2);
-      border: solid 2px rgb(71, 71, 71);
-      border-radius: 5px;
-      box-shadow: 0 0 50px 3px black;
-      transition: all 0.6s ease;
-      &:hover {
-        border: solid 2px $app_yellow;
-        transform: translateX(-10px);
-        color: $app_yellow;
-      }
+  .sign-out-button {
+    margin-top: 2px;
+    padding: 2px;
+    height: 2rem;
+    width: 70%;
+    font-size: 0.75rem;
+    color: rgb(66, 66, 66);
+    background: rgb(255, 255, 255, 0.2);
+    border: solid 2px rgb(71, 71, 71);
+    border-radius: 5px;
+    transition: all 0.6s ease;
+    &:hover {
+      border: solid 2px $app_yellow;
+      transform: translateX(-10px);
+      color: $app_yellow;
     }
   }
 
@@ -510,7 +499,7 @@ $app_yellow: rgb(179, 146, 0);
   .input-section {
     position: relative;
     @include center-horizontally;
-    margin-top: 85%;
+    margin-top: 120%;
   }
 
   .input-form {
@@ -552,7 +541,7 @@ $app_yellow: rgb(179, 146, 0);
     .input-field {
       width: 100%;
       height: 100%;
-      color: rgb(5, 5, 5);
+      color: rgb(224, 224, 224);
       padding-top: 20px;
       padding-bottom: 20px;
       border: none;
@@ -571,7 +560,8 @@ $app_yellow: rgb(179, 146, 0);
     .input-field:focus + .label-name .content-name,
     .input-field:valid + .label-name .content-name {
       font-size: 1.1rem;
-      transform: translateY(-200%);
+      transform: translateY(-150%);
+      color: rgb(231, 231, 231);
     }
 
     .comment-box-comment {
@@ -605,7 +595,7 @@ $app_yellow: rgb(179, 146, 0);
         min-width: 30%;
         max-width: 100%;
         max-height: 50%;
-        font-size: 0.8rem;
+        font-size: 0.6rem;
         transition: all 0.5s ease;
         &:hover {
           color: $app_yellow;
@@ -733,6 +723,182 @@ $app_yellow: rgb(179, 146, 0);
       height: 100%;
       width: 100%;
     }
+  }
+
+  // Loader
+
+  .loader {
+    // border: 1px solid black;
+    position: absolute;
+    top: 15rem;
+    // left: 0;
+    // right: 0;
+    // margin-left: auto;
+    // margin-right: auto;
+    // width: 25rem;
+    width: 100%;
+    color: black;
+    .comments-count {
+      padding: 1rem;
+    }
+    .spinner-section,
+    .comments-count {
+      padding: 1rem;
+      @include center-horizontally;
+      width: 100%;
+    }
+  }
+
+  // Comment Section
+
+  /* COMMENT SECTION */
+
+  .comment-section {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 45%;
+    margin-right: auto;
+    margin-left: auto;
+    height: 10rem;
+    width: 100vw;
+  }
+  .comment-box-wrapper {
+    position: relative;
+    max-width: 100%;
+    height: 10rem;
+    background: rgb(255, 255, 255, 0.05);
+    box-shadow: 0 0 50px 10px black;
+    .comment-box {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      height: 5rem;
+      max-width: 100%;
+      min-width: 50%;
+      top: -2rem;
+      left: 0;
+      right: 0;
+      margin-right: auto;
+      margin-left: auto;
+      .comment-box-picture {
+        max-width: 7rem;
+        max-height: 7rem;
+        margin-right: auto;
+        margin-left: auto;
+      }
+      .comment-box-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .comment-box-comment {
+          text-align: center;
+          max-width: 90%;
+          max-height: 50%;
+          font-size: 0.7rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: rgb(134, 90, 42);
+          text-shadow: 0 0 10px whitesmoke;
+        }
+        .comment-box-name {
+          text-align: center;
+          padding-top: 3rem;
+          max-width: 100%;
+          font-family: "Libre Baskerville", serif;
+          transition: all 0.5s ease;
+          text-shadow: 0 0 10px rgb(219, 219, 219);
+          &:hover {
+            cursor: pointer;
+          }
+          a {
+            font-size: 24px;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .comment-buttons {
+    position: relative;
+    margin-top: 6rem;
+    height: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    font-family: "Amatic";
+    .new-winner-button,
+    .new-give-button {
+      border: 1px solid red;
+      background: transparent;
+      border: 1px solid white;
+      border-radius: 3px;
+      color: white;
+      height: 3rem;
+      min-width: 30%;
+      max-width: 100%;
+      transition: all 0.5s ease;
+      &:hover {
+        color: $app_yellow;
+        border: 1px solid $app_yellow;
+        transform: translateY(-5px);
+        height: 4rem;
+        // width: 15rem;
+      }
+    }
+  }
+  /* Profile Pic Circle */
+  .comment-box-picture {
+    position: relative;
+    margin-left: 5rem;
+    height: 10rem;
+    width: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .circle {
+    // position: absolute;
+    height: 205%;
+    width: 205%;
+    animation: spin 100000ms linear infinite;
+    // transition: all 0.3s ease;
+  }
+
+  .circle-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgb(214, 212, 212);
+    // border-top-color: rgb(243, 214, 215);
+    // border-bottom-color: rgb(249, 106, 108);
+    // border-right-color: rgb(202, 92, 141);
+    // border-left-color: rgb(134, 166, 108);
+    transition: all 0.1s ease;
+    &:hover {
+      cursor: pointer;
+      height: 102%;
+      width: 102%;
+    }
+  }
+
+  .profile-pic {
+    position: absolute;
+    height: 100%;
+    width: 100%;
   }
 }
 

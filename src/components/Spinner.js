@@ -1,8 +1,6 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { Spring, Transition } from "react-spring/renderprops";
-import { GlobalContext } from "../context/globalContext";
+import React, { Fragment } from "react";
 
-export default function Spinner({ commentsCount }) {
+export default function Spinner({ commentsCount, commentsQuantity }) {
   return (
     <Fragment>
       <div className="loader">
