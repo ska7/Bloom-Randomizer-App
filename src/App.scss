@@ -34,8 +34,8 @@ $app_yellow: rgb(179, 146, 0);
   // background-position: 0px 0px; // for iPad
   background-repeat: no-repeat;
   // background-attachment: fixed;
-  min-width: 100vw;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   font-family: Verdana, sans-serif;
 }
 
@@ -45,7 +45,6 @@ $app_yellow: rgb(179, 146, 0);
   width: 100vw;
   height: 100vh;
   display: flex;
-  // justify-content: space-around;
   align-items: center;
   flex-direction: column;
 }
@@ -82,15 +81,15 @@ $app_yellow: rgb(179, 146, 0);
 /* INPUT SECTION */
 
 .input-section {
-  margin-top: 25rem;
+  position: relative;
   @include center-horizontally;
-  height: auto;
+  height: 80%;
   width: 100%;
 }
 
 .input-form {
   position: relative;
-  height: 70px;
+  height: auto;
   width: 60%;
   font-family: "Amatic";
   .label-name {
@@ -173,7 +172,7 @@ $app_yellow: rgb(179, 146, 0);
   position: absolute;
   animation: secondPop 0.5s ease;
   height: 25%;
-  width: 100%;
+  width: 90%;
   @include center-horizontally;
   img {
     height: 100%;
@@ -182,8 +181,6 @@ $app_yellow: rgb(179, 146, 0);
 }
 
 .logoLight {
-  // padding-left: 15%;
-  // width: auto;
 }
 
 .sign-out-button {
@@ -237,9 +234,7 @@ $app_yellow: rgb(179, 146, 0);
   width: 100vw;
 }
 .comment-box-wrapper {
-  max-width: 100%;
-  // border-top: 0.1px solid black;
-  // border-bottom: 0.1px solid black;
+  width: 100%;
   background: rgb(255, 255, 255, 0.05);
   box-shadow: 0 0 50px 10px black;
   .comment-box {
@@ -248,33 +243,31 @@ $app_yellow: rgb(179, 146, 0);
     justify-content: space-evenly;
     align-items: center;
     height: 10rem;
-    max-width: 60%;
-    min-width: 50%;
+    width: 60%;
+    // min-width: 50%;
     margin-right: auto;
     margin-left: auto;
     .comment-box-picture {
       max-width: 50%;
     }
     .comment-box-content {
-      max-width: 50%;
+      width: 50%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       .comment-box-comment {
         text-align: center;
-        max-width: 90%;
-        max-height: 50%;
-        font-size: 0.8rem;
-        display: flex;
-        flex-direction: column;
+        width: 100%;
+        height: 50%;
         align-items: center;
         color: rgb(134, 90, 42);
         text-shadow: 0 0 10px whitesmoke;
       }
       .comment-box-name {
         // @include center-horizontally;
-        max-width: 100%;
+        width: 100%;
+        text-align: center;
         font-size: 30px;
         // max-height: 100%;
         font-family: "Libre Baskerville", serif;
@@ -367,8 +360,18 @@ $app_yellow: rgb(179, 146, 0);
     background-position: 0px -400px;
   }
 
-  .logged-in-pop-up {
-    top: 30%;
+  .input-section {
+    margin-bottom: 60px;
+    position: relative;
+    height: 100%;
+    .input-form {
+      margin-top: 300px;
+    }
+    .logged-in-pop-up {
+      position: absolute;
+      height: 32%;
+      top: 15%;
+    }
   }
 
   .sign-out-button {

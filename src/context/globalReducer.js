@@ -15,8 +15,7 @@ import {
   NEW_GIVE_AWAY,
   NEW_WINNER,
   POSTS_FETCHED,
-  TOKEN_DISMISSED,
-  TOKEN_RECEIVED,
+  UPDATE_WINNERS,
 } from "./types";
 
 const handlers = {
@@ -26,10 +25,9 @@ const handlers = {
   }),
 
   [LOGIN_FAILED]: (state) => ({ ...state, isLoggedIn: false }),
-  [GET_POST_URL]: (state, { payload }) => ({ ...state, postURL: payload }),
-  [GET_POST_INSTA_ID]: (state, { payload }) => ({
+  [UPDATE_WINNERS]: (state, { payload }) => ({
     ...state,
-    postInstaID: payload,
+    winners: [...state.winners, payload],
   }),
   [LOAD_COMMENTS]: (state, { payload }) => ({
     ...state,
@@ -48,13 +46,12 @@ const handlers = {
   [INIT]: () => ({
     isLoggedIn: null,
     loading: null,
-    tokenReceived: null,
     postURL: "",
-    postInstaID: null,
-    posts: null,
     winnerCommentID: null,
+    winners: [],
     winnerCommentData: null,
     commentsCount: [],
+    commentsQuantity: 0,
   }),
   [GET_COMMENTS_QUANTITY]: (state, { payload }) => ({
     ...state,
@@ -62,20 +59,17 @@ const handlers = {
   }),
   [NEW_WINNER]: (state) => ({
     ...state,
-    winnerCommentID: null,
     winnerCommentData: null,
-    commentsCount: [],
   }),
   [NEW_GIVE_AWAY]: () => ({
     isLoggedIn: true,
-    loading: false,
-    tokenReceived: null,
-    postID: "",
-    postInstaID: null,
-    posts: null,
+    loading: null,
+    postURL: "",
     winnerCommentID: null,
+    winners: [],
     winnerCommentData: null,
     commentsCount: [],
+    commentsQuantity: 0,
   }),
   DEFAULT: (state) => state,
 };

@@ -10,7 +10,6 @@ const FBLogin = () => {
     // The response with the status property means login failure
     console.log(response);
     if (!response.hasOwnProperty("status")) {
-      console.log(`FB Button Response ${response}`);
       userLoggedIn(response.accessToken);
     }
   };

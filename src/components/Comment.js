@@ -26,7 +26,7 @@ const Comment = ({ picture, username, content }) => {
             </a>
           </div>
           <div className="comment-box-comment">
-            <b>{content}</b>
+            <p>{content}</p>
           </div>
         </div>
       </div>

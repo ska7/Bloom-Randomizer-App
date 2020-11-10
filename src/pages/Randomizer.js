@@ -28,14 +28,10 @@ export default function Randomizer() {
     loading,
     commentsCount,
     signOut,
-    matchPost,
-    fetchCommentID,
-    winnerCommentID,
+    postURL,
     winnerCommentData,
-    postInstaID,
-    fetchCommentData,
-    posts,
     commentsQuantity,
+    randomizerLogic,
   } = useContext(GlobalContext);
 
   const slideCheck = (isLoggedIn) => {
@@ -48,10 +44,10 @@ export default function Randomizer() {
     }
   };
 
-  const loadingCheck = (loading, data) => {
-    if (!loading && data) {
+  const loadingCheck = (loading) => {
+    if (!loading) {
       setLoader(false);
-    } else if (loading && data === null) {
+    } else if (loading) {
       setLoader(true);
     }
   };
@@ -76,34 +72,22 @@ export default function Randomizer() {
   useEffect(() => {
     loginCheck();
     slideCheck(isLoggedIn, loading, winnerCommentData);
-    loadingCheck(loading, winnerCommentData);
-  }, [isLoggedIn, loading, winnerCommentData]);
-
-  // useEffect for the randomizer logic p1
-  useEffect(() => {
-    if (posts !== null && postInstaID === null) {
-      matchPost();
-    } else if (winnerCommentID !== null && winnerCommentData === null) {
-      fetchCommentData();
-    }
-  }, [postInstaID, posts, winnerCommentID, fetchCommentData]);
-
-  // useEffect for the randomizer logic p2
-  useEffect(() => {
-    if (
-      !winnerCommentData &&
-      postInstaID !== null &&
-      !winnerCommentID &&
-      (commentsCount.length < 1 || typeof commentsCount === "string")
-    ) {
-      fetchCommentID();
-    }
-  }, [winnerCommentData, postInstaID, winnerCommentID, commentsCount]);
-
-  useEffect(() => {
+    loadingCheck(loading);
     showInputCheck(loading, winnerCommentData);
     showCommentCheck(winnerCommentData);
-  }, [loading, winnerCommentData]);
+  }, [isLoggedIn, loading, winnerCommentData]);
+
+  // useEffect(() => {
+  //   showInputCheck(loading, winnerCommentData);
+  //   showCommentCheck(winnerCommentData);
+  // }, [loading, winnerCommentData]);
+
+  // useEffect for the randomizer logic
+  useEffect(() => {
+    if (postURL) {
+      randomizerLogic();
+    }
+  }, [postURL]);
 
   return (
     <div className="App">
@@ -116,11 +100,11 @@ export default function Randomizer() {
             key={loggedOutPage}
             timeout={300}
           >
-            <div className={`logged-out-screen`}>
-              <div className={`logoDark `}>
+            <div className="logged-out-screen">
+              <div className="logoDark">
                 <img src={LogoDark}></img>
               </div>
-              <LoggedOutPopUp loading={loading} />
+              <LoggedOutPopUp />
               <FacebookLogin />
             </div>
           </CSSTransition>
@@ -166,9 +150,10 @@ export default function Randomizer() {
                     key={showInput}
                     timeout={300}
                   >
-                    <Fragment>
+                    <div className="input-section">
+                      <LoggedInPopUp />
                       <Input />
-                    </Fragment>
+                    </div>
                   </CSSTransition>
                 )}
               </TransitionGroup>

@@ -15,6 +15,7 @@ const RandomComment = () => {
     newGiveAway,
     isLoggedIn,
     signOut,
+    loader,
   } = useContext(GlobalContext);
 
   const winnerSound = useRef();
@@ -27,6 +28,7 @@ const RandomComment = () => {
 
   const handleClickNewWinner = () => {
     if (isLoggedIn) {
+      loader();
       newWinner();
     } else {
       signOut();
@@ -49,8 +51,6 @@ const RandomComment = () => {
   };
 
   useEffect(() => {
-    console.log(winnerSound.current);
-
     if (winnerCommentData) {
       winnerSound.current.play();
       setComment({

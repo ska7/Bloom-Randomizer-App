@@ -11,6 +11,7 @@ const Input = () => {
     isLoggedIn,
     loader,
     newGiveAway,
+    randomizerLogic,
   } = useContext(GlobalContext);
   const [state, setState] = useState("");
 
@@ -30,49 +31,26 @@ const Input = () => {
     if (e.key === "Enter") {
       const url = await validateInput(state);
       if (url) {
-        console.log("ENTER PRESSED INPUT", url);
-        getPostURL(url);
-        fetchPosts();
-        console.log("posts fetched");
+        setState("");
+        randomizerLogic(url);
       } else {
         setState("");
       }
     }
   };
 
-  // const handleGoButtonClick = async () => {
-  //   try {
-  //     const id = await findPostID(state);
-  //     setState("");
-  //       if (id) {
-  //         console.log('ENTER PRESSED INPUT', id)
-  //         setPostID(id);
-  //         fetchPosts();
-  //         console.log("posts fetched");
-  //       } else {
-  //         newGiveAway();
-  //       }
-  //   } catch {
-  //     setState("");
-  //     console.log("Post ID is null");
-  //   }
-  // }
-
   const handleGoButtonClick = async () => {
     const url = await validateInput(state);
     if (url) {
-      console.log("ENTER PRESSED INPUT", url);
-      getPostURL(url);
-      fetchPosts();
-      console.log("posts fetched");
+      setState("");
+      randomizerLogic(url);
     } else {
       setState("");
     }
   };
 
   return (
-    <div className="input-section">
-      <LoggedInPopUp />
+    <>
       <div className="input-form">
         <div className="input-wrapper">
           <input
@@ -95,7 +73,7 @@ const Input = () => {
           GO
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
