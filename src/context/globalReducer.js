@@ -31,7 +31,7 @@ const handlers = {
   }),
   [LOAD_COMMENTS]: (state, { payload }) => ({
     ...state,
-    commentsCount: payload,
+    commentsBank: payload,
   }),
   [FETCH_WINNER_COMMENT_ID]: (state, { payload }) => ({
     ...state,
@@ -50,7 +50,7 @@ const handlers = {
     winnerCommentID: null,
     winners: [],
     winnerCommentData: null,
-    commentsCount: [],
+    commentsBank: [],
     commentsQuantity: 0,
   }),
   [GET_COMMENTS_QUANTITY]: (state, { payload }) => ({
@@ -68,7 +68,7 @@ const handlers = {
     winnerCommentID: null,
     winners: [],
     winnerCommentData: null,
-    commentsCount: [],
+    commentsBank: [],
     commentsQuantity: 0,
   }),
   DEFAULT: (state) => state,

@@ -26,7 +26,7 @@ export default function Randomizer() {
     loginCheck,
     isLoggedIn,
     loading,
-    commentsCount,
+    commentsBank,
     signOut,
     postURL,
     winnerCommentData,
@@ -119,7 +119,7 @@ export default function Randomizer() {
             timeout={300}
           >
             <Spinner
-              commentsCount={commentsCount}
+              commentsCount={commentsBank}
               commentsQuantity={commentsQuantity}
             />
           </CSSTransition>

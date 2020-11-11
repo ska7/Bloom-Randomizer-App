@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-export default function Spinner({ commentsCount, commentsQuantity }) {
+export default function Spinner({ commentsBank, commentsQuantity }) {
   return (
     <Fragment>
       <div className="loader">
@@ -10,9 +10,9 @@ export default function Spinner({ commentsCount, commentsQuantity }) {
           </div>
         </div>
         <span className="comments-count">
-          {typeof commentsCount === "string"
-            ? `${commentsCount}`
-            : `Обработано ${commentsCount.length} комментов`}
+          {typeof commentsBank === "string"
+            ? `${commentsBank}`
+            : `Обработано ${commentsQuantity} комментов`}
         </span>
       </div>
     </Fragment>

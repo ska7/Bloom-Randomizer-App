@@ -32,7 +32,7 @@ export const GlobalState = ({ children }) => {
     winnerCommentID: null,
     winners: [],
     winnerCommentData: null,
-    commentsCount: [],
+    commentsBank: [],
     commentsQuantity: 0,
   };
   const [state, dispatch] = useReducer(globalReducer, initState);
@@ -41,7 +41,7 @@ export const GlobalState = ({ children }) => {
 
   const newWinner = async () => {
     dispatch({ type: NEW_WINNER });
-    fetchCommentData(state.commentsCount, winnerCommentID, state.winners);
+    fetchCommentData(state.commentsBank, winnerCommentID, state.winners);
   };
 
   const newGiveAway = () => dispatch({ type: NEW_GIVE_AWAY });
@@ -243,7 +243,7 @@ export const GlobalState = ({ children }) => {
         // Break the loop if there's no pagination cursor in the response
 
         cursorAfter = cursor;
-        // runCommentsCounter(comments);
+        dispatch({ type: GET_COMMENTS_QUANTITY, payload: comments.length });
         dispatch({ type: LOAD_COMMENTS, payload: comments });
       }
       // 2 If the comments array isn't empty and there was a pagination cursor in the last fetch, we fetch the next batch
@@ -255,22 +255,19 @@ export const GlobalState = ({ children }) => {
         // Break the loop if there's no pagination cursor in the response
 
         cursorAfter = cursor;
+        dispatch({ type: GET_COMMENTS_QUANTITY, payload: comments.length });
         dispatch({ type: LOAD_COMMENTS, payload: comments });
       } else {
         fetch = false;
         break;
       }
     }
-    dispatch({
-      type: FETCH_WINNER_COMMENT_ID,
-      payload: winnerCommentID(comments),
-    });
     return comments;
   };
 
   const winnerCommentID = (comments) => {
     const index = Math.floor(Math.random() * Math.floor(comments.length));
-    console.log(`RANDOM INDEX IN THE RANGE OF ${comments.length}:${index}`);
+    // console.log(`RANDOM INDEX IN THE RANGE OF ${comments.length}:${index}`);
     const commentID = comments[index];
     console.log(`Random comments chosen is : ${JSON.stringify(commentID.id)}`);
     return commentID.id;
@@ -279,6 +276,7 @@ export const GlobalState = ({ children }) => {
   const fetchCommentData = async (comments, getRandomID, winners) => {
     let findingWinner = true;
     const accessToken = localStorage.getItem("accessToken");
+    let newArray = comments;
     // Start the loop. Get random winner ID and fetch comment text and username of the owner
     while (findingWinner) {
       const winnerCommentID = getRandomID(comments);
@@ -289,7 +287,7 @@ export const GlobalState = ({ children }) => {
         .then((res) => {
           return res.data;
         });
-
+      newArray = deleteCommentFromArray(newArray, winnerCommentID);
       // Having the username, check if it's in the winners array. If it is not, fetch the profile picture and dispatch winner comment data
       if (!winners.includes(username)) {
         const picture = await axios
@@ -305,17 +303,17 @@ export const GlobalState = ({ children }) => {
             content: text,
           },
         });
-        const newArray = deleteCommentFromArray(comments, winnerCommentID);
-        dispatch({ type: LOAD_COMMENTS, payload: newArray });
         dispatch({ type: UPDATE_WINNERS, payload: username });
         loader();
         findingWinner = false;
-      } // If it is in the array, delete the winner comment for the comments array
-      else {
+      } // If it is in the array, delete the winner comment from the comments array
+      else if (newArray.length === 0) {
+        console.log(`NO MORE UNIQUE WINNERS, START OVER`);
+        findingWinner = false;
+      } else {
         console.log("FOUND DUPLICATEEEE");
-        const newArray = deleteCommentFromArray(comments, winnerCommentID);
-        dispatch({ type: LOAD_COMMENTS, payload: newArray });
       }
+      dispatch({ type: LOAD_COMMENTS, payload: newArray });
     }
     // End of while loop
   };
@@ -394,7 +392,7 @@ export const GlobalState = ({ children }) => {
         winnerCommentID: state.winnerCommentID,
         winnerCommentData: state.winnerCommentData,
         loading: state.loading,
-        commentsCount: state.commentsCount,
+        commentsBank: state.commentsBank,
         commentsQuantity: state.commentsQuantity,
         newWinner,
         newGiveAway,
