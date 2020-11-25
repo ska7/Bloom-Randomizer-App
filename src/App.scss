@@ -77,12 +77,15 @@ $app_yellow: rgb(179, 146, 0);
     width: 30%;
     font-size: 1.5rem;
     color: $app_yellow;
-    // color: rgb(88, 88, 88);
     background: rgb(255, 255, 255, 0.2);
     border: solid 3px rgb(71, 71, 71);
     border-radius: 5px;
     box-shadow: 0 0 50px 10px black;
     transition: all 0.6s ease;
+    .loader {
+      position: absolute;
+      display: none;
+    }
     &:hover {
       cursor: pointer;
       color: white;
@@ -918,11 +921,16 @@ $app_yellow: rgb(179, 146, 0);
 // CSS Transition Group
 
 .fade-enter {
-  opacity: 1;
+  opacity: 0;
   transition: all 0.3s ease;
   transform: translateX(200rem);
 }
 
+.fade-enter-active {
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  transform: translateX(100rem);
+}
 .fade-enter-done {
   opacity: 1;
   transition: all 0.3s ease;
@@ -935,8 +943,13 @@ $app_yellow: rgb(179, 146, 0);
 }
 .fade-exit-active {
   transition: all 0.5s ease-in;
-  transform: translateX(-250rem);
+  transform: translateX(-200rem);
   opacity: 0.5;
+}
+.fade-exit-done {
+  transition: all 0.5s ease-in;
+  transform: translateX(-350rem);
+  opacity: 0;
 }
 /* ANIMATIONS */
 .slide {
