@@ -27,6 +27,20 @@ $app_yellow: rgb(179, 146, 0);
   box-sizing: border-box;
 }
 
+.blister {
+  position: absolute;
+  height: 100vh;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 218, 9),
+    transparent
+  );
+  width: 25px;
+  opacity: 0.3;
+  left: -5rem;
+}
+
 .App {
   position: relative;
   overflow: hidden;
@@ -43,7 +57,7 @@ $app_yellow: rgb(179, 146, 0);
 .logged-in-screen {
   position: absolute;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -155,7 +169,6 @@ $app_yellow: rgb(179, 146, 0);
 
 .logged-out-pop-up {
   position: absolute;
-  bottom: 12rem;
   height: 200px;
   width: 700px;
   display: flex;
@@ -186,15 +199,13 @@ $app_yellow: rgb(179, 146, 0);
 .sign-out-button {
   margin-top: 2px;
   font-family: "Amatic";
-  padding: 2px;
-  height: 5rem;
-  width: 5rem;
+  width: 70%;
   font-size: 0.75rem;
   color: rgb(66, 66, 66);
   background: rgb(255, 255, 255, 0.2);
   border: solid 2px rgb(71, 71, 71);
   border-radius: 5px;
-  box-shadow: 0 0 50px 3px black;
+  box-shadow: 0 0 30px 1px black;
   transition: all 0.6s ease;
   &:hover {
     border: solid 2px $app_yellow;
@@ -361,21 +372,26 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   .input-section {
-    margin-bottom: 60px;
     position: relative;
     height: 100%;
     .input-form {
       margin-top: 300px;
     }
-    .logged-in-pop-up {
-      position: absolute;
-      height: 32%;
-      top: 15%;
-    }
+  }
+
+  .logged-in-pop-up {
+    height: 32%;
+    top: 15%;
+  }
+
+  .logged-out-pop-up {
+    bottom: 150px;
   }
 
   .sign-out-button {
     position: absolute;
+    width: 75px;
+    height: 75px;
     top: 20px;
     right: 50px;
     box-shadow: 0 0 50px 3px black;
@@ -383,33 +399,32 @@ $app_yellow: rgb(179, 146, 0);
 }
 
 // Mobile Devices
-@media (min-width: 375px) and (max-width: 759px) {
+@media (min-width: 340px) and (max-width: 759px) {
   .App {
-    background-position: -50px -50px;
+    background-position: 11% 11%;
     background-size: 875px 1312px;
   }
-
   // Logged Out Part
 
   .logoDark {
-    margin-top: 20%;
+    margin-top: 100px;
     width: 100%;
     img {
       padding-top: 2rem;
       max-height: 50vh;
-      max-width: 100vw;
+      max-width: 100%;
     }
   }
 
   .logged-out-pop-up {
     position: absolute;
-    bottom: 25%;
+    bottom: 150px;
     animation: firstPopIn 0.5s ease;
     min-height: 15%;
     width: 100%;
     img {
       height: 100%;
-      min-width: 375px;
+      max-width: 370px;
     }
   }
 
@@ -417,16 +432,15 @@ $app_yellow: rgb(179, 146, 0);
   .fbLogin-section {
     margin-right: auto;
     margin-left: auto;
-    height: 30%;
-    width: 100vw;
+    height: 46%;
+    width: 100%;
     display: flex;
     justify-content: center;
     .fbButton {
       @include center-horizontally;
       width: auto;
-
-      max-width: 500px;
-      height: 100%;
+      width: 70%;
+      height: 4rem;
       font-size: 20px;
       // font-family: "Libre Baskerville", serif;
       font-family: "Amatic SC";
@@ -434,8 +448,6 @@ $app_yellow: rgb(179, 146, 0);
       margin-top: auto;
       margin-bottom: auto;
       padding: 1rem;
-      height: 4rem;
-      width: 19rem;
       color: rgb(150, 110, 37);
       // color: rgb(88, 88, 88);
       background: rgb(255, 255, 255, 0.2);
@@ -461,17 +473,17 @@ $app_yellow: rgb(179, 146, 0);
   .logged-in-pop-up {
     position: absolute;
     animation: secondPop 0.5s ease;
-    bottom: 10rem;
-    height: 100px;
+    bottom: 400px;
+    height: 120px;
     width: 100%;
     img {
       height: 100%;
-      min-width: 375px;
+      max-width: 370px;
     }
   }
 
   .logoLight {
-    margin-top: 45px;
+    margin-top: 40px;
     @include center-horizontally;
     max-width: 759px;
   }
@@ -480,9 +492,8 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   .sign-out-button {
-    margin-top: 2px;
-    padding: 2px;
-    height: 2rem;
+    margin-top: 10px;
+    // height: 2rem;
     width: 70%;
     font-size: 0.75rem;
     color: rgb(66, 66, 66);
@@ -490,11 +501,6 @@ $app_yellow: rgb(179, 146, 0);
     border: solid 2px rgb(71, 71, 71);
     border-radius: 5px;
     transition: all 0.6s ease;
-    &:hover {
-      border: solid 2px $app_yellow;
-      transform: translateX(-10px);
-      color: $app_yellow;
-    }
   }
 
   /* INPUT SECTION */
@@ -502,7 +508,7 @@ $app_yellow: rgb(179, 146, 0);
   .input-section {
     position: relative;
     @include center-horizontally;
-    margin-top: 120%;
+    margin-top: 70%;
   }
 
   .input-form {
@@ -540,6 +546,7 @@ $app_yellow: rgb(179, 146, 0);
       width: 100%;
       pointer-events: none;
       border-bottom: 3px solid rgb(230, 230, 230);
+      text-shadow: 0px 0px 15px black;
     }
     .input-field {
       width: 100%;
@@ -554,7 +561,7 @@ $app_yellow: rgb(179, 146, 0);
 
     .content-name {
       position: absolute;
-
+      text-shadow: 0 0 10px 5px black;
       bottom: 0px;
       left: 0px;
       transition: all 0.3s ease;
@@ -760,7 +767,7 @@ $app_yellow: rgb(179, 146, 0);
     position: absolute;
     right: 0;
     left: 0;
-    top: 45%;
+    top: 49%;
     margin-right: auto;
     margin-left: auto;
     height: 10rem;
@@ -769,7 +776,7 @@ $app_yellow: rgb(179, 146, 0);
   .comment-box-wrapper {
     position: relative;
     max-width: 100%;
-    height: 10rem;
+    height: 9rem;
     background: rgb(255, 255, 255, 0.05);
     box-shadow: 0 0 50px 10px black;
     .comment-box {
@@ -789,6 +796,8 @@ $app_yellow: rgb(179, 146, 0);
       .comment-box-picture {
         max-width: 7rem;
         max-height: 7rem;
+        // width: 80%;
+        // height: 100%;
         margin-right: auto;
         margin-left: auto;
       }
@@ -830,8 +839,8 @@ $app_yellow: rgb(179, 146, 0);
 
   .comment-buttons {
     position: relative;
-    margin-top: 6rem;
-    height: 10rem;
+    // margin-top: 6rem;
+    height: 1rem;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
@@ -842,7 +851,6 @@ $app_yellow: rgb(179, 146, 0);
     font-family: "Amatic";
     .new-winner-button,
     .new-give-button {
-      border: 1px solid red;
       background: transparent;
       border: 1px solid white;
       border-radius: 3px;
@@ -927,12 +935,12 @@ $app_yellow: rgb(179, 146, 0);
 }
 .fade-exit-active {
   transition: all 0.5s ease-in;
-  transform: translateX(-200rem);
+  transform: translateX(-250rem);
   opacity: 0.5;
 }
 /* ANIMATIONS */
 .slide {
-  animation: slide 1s ease forwards;
+  animation: slide 2s ease forwards;
 }
 
 @keyframes slide {
@@ -940,7 +948,7 @@ $app_yellow: rgb(179, 146, 0);
     transform: translateX(0rem);
   }
   100% {
-    transform: translateX(200rem);
+    transform: translateX(250rem);
   }
 }
 

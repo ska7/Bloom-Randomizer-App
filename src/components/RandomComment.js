@@ -16,6 +16,7 @@ const RandomComment = () => {
     isLoggedIn,
     signOut,
     loader,
+    commentsBank,
   } = useContext(GlobalContext);
 
   const winnerSound = useRef();
@@ -25,6 +26,8 @@ const RandomComment = () => {
     username: "",
     content: "",
   });
+
+  const [showButton, setShowButton] = useState(true);
 
   const handleClickNewWinner = () => {
     if (isLoggedIn) {
@@ -51,6 +54,7 @@ const RandomComment = () => {
   };
 
   useEffect(() => {
+    commentsBank.length <= 1 && setShowButton(false);
     if (winnerCommentData) {
       winnerSound.current.play();
       setComment({
@@ -59,7 +63,7 @@ const RandomComment = () => {
         content: winnerCommentData.content,
       });
     }
-  }, [winnerCommentData]);
+  }, [winnerCommentData, commentsBank]);
 
   return (
     <Fragment>
@@ -77,9 +81,12 @@ const RandomComment = () => {
         content={formatComment(comment.content)}
       />
       <div className="comment-buttons">
-        <button className="new-winner-button" onClick={handleClickNewWinner}>
-          Еще Рандом
-        </button>
+        {showButton && (
+          // Show this button only if there is still people to choose from
+          <button className="new-winner-button" onClick={handleClickNewWinner}>
+            Еще Рандом
+          </button>
+        )}
         <button className="new-give-button" onClick={handleClickNewGiveAway}>
           Другой Пост
         </button>

@@ -15,6 +15,7 @@ import {
   NEW_GIVE_AWAY,
   NEW_WINNER,
   POSTS_FETCHED,
+  UPDATE_LOADER_STATUS,
   UPDATE_WINNERS,
 } from "./types";
 
@@ -70,6 +71,10 @@ const handlers = {
     winnerCommentData: null,
     commentsBank: [],
     commentsQuantity: 0,
+  }),
+  [UPDATE_LOADER_STATUS]: (state, { payload }) => ({
+    ...state,
+    loaderStatus: payload,
   }),
   DEFAULT: (state) => state,
 };

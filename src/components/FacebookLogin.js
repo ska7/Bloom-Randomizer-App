@@ -28,6 +28,7 @@ const FBLogin = () => {
             className="fbButton"
             // isDisabled={true}
             onClick={renderProps.onClick}
+            redirectUri="https://localhost:3000/"
           >
             Войти с Facebook
           </button>

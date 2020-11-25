@@ -4,12 +4,8 @@ import bigInt from "big-integer";
 import { GlobalContext } from "./globalContext";
 import { globalReducer } from "./globalReducer";
 import {
-  FADE_IN,
   FETCH_COMMENT_DATA,
-  FETCH_WINNER_COMMENT_ID,
   GET_COMMENTS_QUANTITY,
-  GET_POST_ID,
-  GET_POST_INSTA_ID,
   GET_POST_URL,
   INIT,
   LOADING,
@@ -19,10 +15,14 @@ import {
   NEW_GIVE_AWAY,
   NEW_WINNER,
   POSTS_FETCHED,
+  UPDATE_LOADER_STATUS,
   UPDATE_WINNERS,
 } from "./types";
 
+const base_url = "https://localhost:3000/";
 const fbUrl = "https://graph.facebook.com/me/accounts?access_token=";
+const diaBloomAvatar =
+  "https://scontent-waw1-1.cdninstagram.com/v/t51.2885-19/s150x150/120194219_1405772352959804_3358456821050278774_n.jpg?_nc_ht=scontent-waw1-1.cdninstagram.com&_nc_ohc=-OfRSODnoAkAX-QukDj&_nc_tp=25&oh=08de320eec28af9aa253d2fa80ca54bf&oe=5FD4FE85";
 
 export const GlobalState = ({ children }) => {
   const initState = {
@@ -34,14 +34,24 @@ export const GlobalState = ({ children }) => {
     winnerCommentData: null,
     commentsBank: [],
     commentsQuantity: 0,
+    loaderStatus: "",
   };
   const [state, dispatch] = useReducer(globalReducer, initState);
 
   const loader = () => dispatch({ type: LOADING });
 
   const newWinner = async () => {
-    dispatch({ type: NEW_WINNER });
-    fetchCommentData(state.commentsBank, winnerCommentID, state.winners);
+    const loggedIn = await loginCheck();
+    if (loggedIn) {
+      dispatch({
+        type: UPDATE_LOADER_STATUS,
+        payload: "Ищу нового победителя",
+      });
+      dispatch({ type: NEW_WINNER });
+      fetchCommentData(state.commentsBank, winnerCommentID, state.winners);
+    } else {
+      dispatch({ type: INIT });
+    }
   };
 
   const newGiveAway = () => dispatch({ type: NEW_GIVE_AWAY });
@@ -57,7 +67,10 @@ export const GlobalState = ({ children }) => {
 
   const signOut = () => {
     localStorage.removeItem("accessToken");
+    localStorage.clear();
     dispatch({ type: INIT });
+    loginCheck();
+    // window.location.href = base_url;
   };
 
   const userLoggedIn = (token) => {
@@ -122,7 +135,7 @@ export const GlobalState = ({ children }) => {
 
   const fetchPosts = async () => {
     loader();
-    dispatch({ type: LOAD_COMMENTS, payload: "Собираю комменты" });
+    dispatch({ type: UPDATE_LOADER_STATUS, payload: "Собираю комменты" });
     const accessToken = localStorage.getItem("accessToken");
     try {
       const fbBusinessPageID = await axios
@@ -150,6 +163,7 @@ export const GlobalState = ({ children }) => {
         });
 
       dispatch({ type: POSTS_FETCHED, payload: igPosts });
+      dispatch({ type: UPDATE_LOADER_STATUS, payload: "" });
       return igPosts;
     } catch (err) {
       console.log(err);
@@ -278,42 +292,62 @@ export const GlobalState = ({ children }) => {
     const accessToken = localStorage.getItem("accessToken");
     let newArray = comments;
     // Start the loop. Get random winner ID and fetch comment text and username of the owner
-    while (findingWinner) {
-      const winnerCommentID = getRandomID(comments);
-      const { text, username } = await axios
-        .get(
-          `https://graph.facebook.com/${winnerCommentID}?fields=text,username&access_token=${accessToken}`
-        )
-        .then((res) => {
-          return res.data;
-        });
-      newArray = deleteCommentFromArray(newArray, winnerCommentID);
-      // Having the username, check if it's in the winners array. If it is not, fetch the profile picture and dispatch winner comment data
-      if (!winners.includes(username)) {
-        const picture = await axios
-          .get(`https://www.instagram.com/${username}/?__a=1 `)
+    try {
+      while (findingWinner) {
+        const winnerCommentID = getRandomID(comments);
+        const { text, username } = await axios
+          .get(
+            `https://graph.facebook.com/${winnerCommentID}?fields=text,username&access_token=${accessToken}`
+          )
           .then((res) => {
-            return res.data.graphql.user.profile_pic_url;
+            return res.data;
           });
-        dispatch({
-          type: FETCH_COMMENT_DATA,
-          payload: {
-            picture: picture,
-            username: username,
-            content: text,
-          },
-        });
-        dispatch({ type: UPDATE_WINNERS, payload: username });
-        loader();
-        findingWinner = false;
-      } // If it is in the array, delete the winner comment from the comments array
-      else if (newArray.length === 0) {
-        console.log(`NO MORE UNIQUE WINNERS, START OVER`);
-        findingWinner = false;
-      } else {
-        console.log("FOUND DUPLICATEEEE");
+        newArray = deleteCommentFromArray(newArray, winnerCommentID);
+        // Having the username, check if it's in the winners array. If it is not, fetch the profile picture and dispatch winner comment data
+        if (!winners.includes(username)) {
+          const picture = await axios
+            .get(`https://www.instagram.com/${username}/?__a=1 `)
+            .then((res) => {
+              return res.data.graphql.user.profile_pic_url;
+            });
+          dispatch({
+            type: FETCH_COMMENT_DATA,
+            payload: {
+              picture: picture,
+              username: username,
+              content: text,
+            },
+          });
+          dispatch({ type: UPDATE_WINNERS, payload: username });
+          loader();
+          findingWinner = false;
+        } else if (newArray.length <= 1 && winners.includes(username)) {
+          console.log(`NO MORE UNIQUE WINNERS, START OVER`);
+          dispatch({
+            type: FETCH_COMMENT_DATA,
+            payload: {
+              picture: diaBloomAvatar,
+              username: "dia.bloom",
+              content: "Больше не из кого выбирать!",
+            },
+          });
+          loader();
+          findingWinner = false;
+        } else {
+          console.log("FOUND DUPLICATEEEE");
+        }
+        dispatch({ type: LOAD_COMMENTS, payload: newArray });
       }
-      dispatch({ type: LOAD_COMMENTS, payload: newArray });
+    } catch (e) {
+      dispatch({
+        type: FETCH_COMMENT_DATA,
+        payload: {
+          picture: diaBloomAvatar,
+          username: "dia.bloom",
+          content: "Больше не из кого выбирать!",
+        },
+      });
+      loader();
     }
     // End of while loop
   };
@@ -364,7 +398,8 @@ export const GlobalState = ({ children }) => {
 
   const randomizerLogic = async (url) => {
     try {
-      if (state.isLoggedIn) {
+      const loggedIn = await loginCheck();
+      if (loggedIn) {
         // Fetch posts
         const posts = await fetchPosts();
         // Find id of the post with the matching url
@@ -394,6 +429,7 @@ export const GlobalState = ({ children }) => {
         loading: state.loading,
         commentsBank: state.commentsBank,
         commentsQuantity: state.commentsQuantity,
+        loaderStatus: state.loaderStatus,
         newWinner,
         newGiveAway,
         loginCheck,

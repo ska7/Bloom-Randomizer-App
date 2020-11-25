@@ -20,7 +20,6 @@ export default function Randomizer() {
   const [loader, setLoader] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [showComment, setShowComment] = useState(false);
-  const [commentsNumber, setCommentsNumber] = useState(null);
 
   const {
     loginCheck,
@@ -32,6 +31,7 @@ export default function Randomizer() {
     winnerCommentData,
     commentsQuantity,
     randomizerLogic,
+    loaderStatus,
   } = useContext(GlobalContext);
 
   const slideCheck = (isLoggedIn) => {
@@ -70,7 +70,6 @@ export default function Randomizer() {
 
   // useEffect for components animation
   useEffect(() => {
-    loginCheck();
     slideCheck(isLoggedIn, loading, winnerCommentData);
     loadingCheck(loading);
     showInputCheck(loading, winnerCommentData);
@@ -88,6 +87,10 @@ export default function Randomizer() {
       randomizerLogic();
     }
   }, [postURL]);
+
+  useEffect(() => {
+    loginCheck();
+  }, []);
 
   return (
     <div className="App">
@@ -119,7 +122,7 @@ export default function Randomizer() {
             timeout={300}
           >
             <Spinner
-              commentsCount={commentsBank}
+              loaderStatus={loaderStatus}
               commentsQuantity={commentsQuantity}
             />
           </CSSTransition>
