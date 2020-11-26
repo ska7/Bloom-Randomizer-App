@@ -25,7 +25,6 @@ export default function Randomizer() {
     loginCheck,
     isLoggedIn,
     loading,
-    commentsBank,
     signOut,
     postURL,
     winnerCommentData,
@@ -75,11 +74,6 @@ export default function Randomizer() {
     showInputCheck(loading, winnerCommentData);
     showCommentCheck(winnerCommentData);
   }, [isLoggedIn, loading, winnerCommentData]);
-
-  // useEffect(() => {
-  //   showInputCheck(loading, winnerCommentData);
-  //   showCommentCheck(winnerCommentData);
-  // }, [loading, winnerCommentData]);
 
   // useEffect for the randomizer logic
   useEffect(() => {

@@ -70,15 +70,10 @@ export const GlobalState = ({ children }) => {
     localStorage.clear();
     dispatch({ type: INIT });
     loginCheck();
-    // window.location.href = base_url;
   };
 
   const userLoggedIn = (token) => {
-    // adding token to local storage
     localStorage.setItem("accessToken", token);
-    // setTimeout(() => {
-    //   storeLoginStatus(token);
-    // }, 2000);
     dispatch({
       type: LOGIN_SUCCEEDED,
     });
@@ -88,6 +83,7 @@ export const GlobalState = ({ children }) => {
     const res = await axios
       .get(`${fbUrl}${token}`)
       .then((res) => {
+        console.log("RESPONSE FROM INSTA", res);
         return res;
       })
       .catch((e) => {
@@ -399,22 +395,42 @@ export const GlobalState = ({ children }) => {
   const randomizerLogic = async (url) => {
     try {
       const loggedIn = await loginCheck();
-      if (loggedIn) {
-        // Fetch posts
-        const posts = await fetchPosts();
-        // Find id of the post with the matching url
-        const id = await matchPost(posts, url);
-        // Fetch winner comment id
-        const comments = await fetchComments(id);
-        // Fetch winner comment data
-        await fetchCommentData(comments, winnerCommentID, state.winners);
-      } else {
-        dispatch({ type: INIT });
-      }
+
+      // Fetch posts
+      const posts = await fetchPosts();
+      // Find id of the post with the matching url
+      const id = await matchPost(posts, url);
+      // Fetch winner comment id
+      const comments = await fetchComments(id);
+      // Fetch winner comment data
+      await fetchCommentData(comments, winnerCommentID, state.winners);
+      return false;
     } catch (e) {
       console.log(e);
+      dispatch({ type: NEW_GIVE_AWAY });
+      return true;
     }
   };
+  // const randomizerLogic = async (url) => {
+  //   try {
+  //     const loggedIn = await loginCheck();
+  //     if (loggedIn) {
+  //       // Fetch posts
+  //       const posts = await fetchPosts();
+  //       // Find id of the post with the matching url
+  //       const id = await matchPost(posts, url);
+  //       // Fetch winner comment id
+  //       const comments = await fetchComments(id);
+  //       // Fetch winner comment data
+  //       await fetchCommentData(comments, winnerCommentID, state.winners);
+  //     } else {
+  //       dispatch({ type: NEW_GIVE_AWAY });
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //     dispatch({ type: NEW_GIVE_AWAY });
+  //   }
+  // };
 
   return (
     <GlobalContext.Provider

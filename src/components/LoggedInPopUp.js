@@ -21,7 +21,7 @@ export default function LoggedInPopUp() {
         setState(true);
       }, 1500);
     } else if (isLoggedIn && loading) {
-      setState(true);
+      setState(!!state);
       setSlide("slideOut");
     }
   }, [isLoggedIn, loading]);
