@@ -196,6 +196,32 @@ $app_yellow: rgb(179, 146, 0);
   }
 }
 
+// Helper Pop up
+
+.helper-popup {
+  @include center-horizontally;
+}
+
+.helper-popup-menu-overlay {
+}
+
+.guide-card {
+  @include center-horizontally;
+  height: 600px;
+  img {
+    margin-top: 50px;
+    border: 3px solid white;
+    height: 80%;
+    max-width: 100%;
+  }
+  h2 {
+    padding: 10px;
+    height: 20%;
+    color: rgb(255, 255, 255);
+  }
+}
+
+//
 .logoLight {
 }
 
@@ -407,7 +433,7 @@ $app_yellow: rgb(179, 146, 0);
   }
 }
 
-@media (max-height: 749px) {
+@media (max-height: 600px) {
   .App {
     background-position: 11% 20%;
     background-size: 875px 1312px;

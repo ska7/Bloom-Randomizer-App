@@ -100,12 +100,7 @@ const Input = () => {
           GO
         </button>
       </div>
-      <StyledPopup
-        open={popUp}
-        position="left bottom"
-        closeOnDocumentClick
-        onClose={hidePopUp}
-      >
+      <StyledPopup open={popUp} closeOnDocumentClick onClose={hidePopUp}>
         <div>
           Упс, неправильная ссылка. Убедись, что ссылка выглядит примерно
           так&nbsp;{" "}

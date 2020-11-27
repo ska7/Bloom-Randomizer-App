@@ -1,18 +1,22 @@
 import React, { useEffect, useContext, Fragment, useState } from "react";
 import "../App.scss";
+import Carousel from "react-elastic-carousel";
+import "reactjs-popup/dist/index.css";
+import Styled from "styled-components";
+import Popup from "reactjs-popup";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { GlobalContext } from "../context/globalContext";
-
 import LogoDark from "../img/logo_dark.png";
 import LoggedOutPopUp from "../components/LoggedOutPopUp";
-
 import Comment from "../components/RandomComment";
-
 import LogoLight from "../img/logo.png";
 import Spinner from "../components/Spinner";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import FacebookLogin from "../components/FacebookLogin";
 import Input from "../components/Input";
 import LoggedInPopUp from "../components/LoggedInPopUp";
+import { popUpStyle } from "../components/helperPopUpStyle";
+import GuideCard from "../components/GuideCard";
+import { guides } from "../components/guideItems";
 
 export default function Randomizer() {
   const [loggedOutPage, setLoggedOutPage] = useState(false);
@@ -20,6 +24,12 @@ export default function Randomizer() {
   const [loader, setLoader] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [showComment, setShowComment] = useState(false);
+  const [popUp, showPopUp] = useState(false);
+  const hidePopUp = () => showPopUp(false);
+
+  const StyledPopup = Styled(Popup)`
+    ${popUpStyle}
+  `;
 
   const {
     loginCheck,
@@ -101,8 +111,23 @@ export default function Randomizer() {
               <div className="logoDark">
                 <img src={LogoDark}></img>
               </div>
-              <LoggedOutPopUp />
+              <a className="helper-popup" onClick={() => showPopUp(true)}>
+                <LoggedOutPopUp />
+              </a>
               <FacebookLogin />
+              <StyledPopup
+                open={popUp}
+                closeOnDocumentClick
+                onClose={hidePopUp}
+              >
+                <Carousel>
+                  {guides.map((guide) => {
+                    return (
+                      <GuideCard picture={guide.picture} text={guide.text} />
+                    );
+                  })}
+                </Carousel>
+              </StyledPopup>
             </div>
           </CSSTransition>
         )}
