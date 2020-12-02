@@ -31,6 +31,12 @@ export default function Randomizer() {
     ${popUpStyle}
   `;
 
+  const handleKeyPress = (e, func) => {
+    if (((e.key = "38"), "40")) {
+      func();
+    }
+  };
+
   const customArrow = ({ type, onClick, isEdge }) => {
     const pointer =
       type === consts.PREV ? (

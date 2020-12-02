@@ -18,7 +18,7 @@ export const popUpStyle = `
   border-radius: 15px;
   
   @media (min-width: 1440px) and (max-width: 1920px) {
-    height: auto;
+    min-height: 90%;
     width: 50%;
   }
 }`;

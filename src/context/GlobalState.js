@@ -142,6 +142,7 @@ export const GlobalState = ({ children }) => {
           return fbRes.data.data[0].id;
         });
 
+
       const igBusinessPageID = await axios
         .get(
           `https://graph.facebook.com/${fbBusinessPageID}?fields=instagram_business_account&access_token=${accessToken}`
