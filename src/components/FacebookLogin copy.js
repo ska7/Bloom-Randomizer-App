@@ -14,6 +14,10 @@ const FBLogin = () => {
     }
   };
 
+  const buttonTextStyle = {
+    background: black,
+  };
+
   return (
     <div className="fbLogin-section">
       <FacebookLogin
@@ -26,11 +30,10 @@ const FBLogin = () => {
         render={(renderProps) => (
           <button
             className="fbButton"
-            // isDisabled={true}
             onClick={renderProps.onClick}
             redirectUri="https://localhost:3000/"
           >
-            Войти с Facebook
+            <span style={buttonTextStyle}>Войти с Facebook</span>
           </button>
         )}
       />
