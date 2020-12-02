@@ -56,7 +56,7 @@ const Input = () => {
       const url = await validateInput(state);
       if (url) {
         setState("");
-        const res = await randomizerLogic(url);
+        await randomizerLogic(url);
       } else {
         setState("");
         showPopUp(true);

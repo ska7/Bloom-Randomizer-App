@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, Fragment, useState } from "react";
 import "../App.scss";
-import Carousel from "react-elastic-carousel";
+import Carousel, { consts } from "react-elastic-carousel";
 import "reactjs-popup/dist/index.css";
 import Styled from "styled-components";
 import Popup from "reactjs-popup";
@@ -30,6 +30,20 @@ export default function Randomizer() {
   const StyledPopup = Styled(Popup)`
     ${popUpStyle}
   `;
+
+  const customArrow = ({ type, onClick, isEdge }) => {
+    const pointer =
+      type === consts.PREV ? (
+        <span className="carousel-arrow-left">⤾</span>
+      ) : (
+        <span className="carousel-arrow-right">⤿</span>
+      );
+    return (
+      <button className="carousel-arrow" onClick={onClick} disabled={isEdge}>
+        {pointer}
+      </button>
+    );
+  };
 
   const {
     loginCheck,
@@ -120,7 +134,7 @@ export default function Randomizer() {
                 closeOnDocumentClick
                 onClose={hidePopUp}
               >
-                <Carousel>
+                <Carousel itemPadding={[0, 0, 10, 0]} renderArrow={customArrow}>
                   {guides.map((guide) => {
                     return (
                       <GuideCard picture={guide.picture} text={guide.text} />

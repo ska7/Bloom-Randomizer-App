@@ -211,10 +211,8 @@ $app_yellow: rgb(179, 146, 0);
   img {
     margin-top: 50px;
     border: 3px solid white;
-    height: 80%;
-    max-width: 100%;
   }
-  h2 {
+  p {
     padding: 10px;
     height: 20%;
     color: rgb(255, 255, 255);
@@ -430,6 +428,14 @@ $app_yellow: rgb(179, 146, 0);
     top: 20px;
     right: 50px;
     box-shadow: 0 0 50px 3px black;
+  }
+  .guide-card {
+    img {
+      margin-top: 50px;
+      border: 3px solid white;
+      max-height: 90%;
+      max-width: 80%;
+    }
   }
 }
 
@@ -977,6 +983,15 @@ $app_yellow: rgb(179, 146, 0);
     }
   }
 
+  .guide-card {
+    img {
+      margin-top: 50px;
+      border: 3px solid white;
+      max-height: 85%;
+      max-width: 80%;
+    }
+  }
+
   /* FB LOGIN */
   .fbLogin-section {
     margin-right: auto;
@@ -1497,6 +1512,72 @@ $app_yellow: rgb(179, 146, 0);
   transform: translateX(-350rem);
   opacity: 0;
 }
+
+// Carousel
+
+.carousel-arrow-right,
+.carousel-arrow-left {
+  position: absolute;
+  @include center-horizontally;
+  background: transparent;
+  border: none;
+  outline: none;
+  user-select: none;
+  color: $app_yellow;
+  font-size: 35px;
+  height: 50px;
+  width: 50px;
+  margin-top: auto;
+  margin-bottom: auto;
+  background: transparent;
+  border-radius: 50%;
+  border: 1px solid $app_yellow;
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  transition: all 0.3s ease;
+}
+.carousel-arrow-right {
+  z-index: 2;
+  position: absolute;
+  right: 0;
+}
+.carousel-arrow-left {
+  z-index: 2;
+  position: absolute;
+  left: 0;
+}
+.carousel-arrow {
+  background: transparent;
+  border: none;
+}
+
+.carousel-arrow-left:hover,
+.carousel-arrow-right:hover {
+  background: $app_yellow;
+  color: black;
+  border: 1px solid black;
+  outline: none;
+  animation: spinAnimation 1s, scaleAnimation 1s;
+}
+
+.carousel-arrow:disabled {
+  visibility: hidden;
+}
+
+.rec.rec-dot {
+  color: yellow;
+  background: black;
+  border: 1px solid $app_yellow;
+}
+
+.rec.rec-dot_active {
+  color: rgb(134, 134, 131);
+  background: $app_yellow;
+  box-shadow: none;
+}
+//
+
 /* ANIMATIONS */
 .slide {
   animation: slide 2s ease forwards;
@@ -1521,8 +1602,23 @@ $app_yellow: rgb(179, 146, 0);
     -webkit-transform: rotate(360deg);
   }
 }
-@keyframes spin {
-  to {
+@keyframes scaleAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes spinAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
     transform: rotate(360deg);
   }
 }

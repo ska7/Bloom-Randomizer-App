@@ -43,9 +43,11 @@ const FBLogin = () => {
       <FacebookProvider appId="319952016030195">
         <LoginButton
           className="fbButton"
+          
           scope="instagram_basic, public_profile, instagram_manage_comments, pages_show_list, pages_read_engagement"
           fields="name,email,picture"
           onCompleted={handleResponse}
+          
           onError={handleError}
         >
           <span>Войти с Facebook</span>
