@@ -131,16 +131,20 @@ export default function Randomizer() {
               <div className="logoDark">
                 <img src={LogoDark}></img>
               </div>
-              <a className="helper-popup" onClick={() => showPopUp(true)}>
+              <div className="helper-popup" onClick={() => showPopUp(true)}>
                 <LoggedOutPopUp />
-              </a>
+              </div>
               <FacebookLogin />
               <StyledPopup
                 open={popUp}
                 closeOnDocumentClick
                 onClose={hidePopUp}
               >
-                <Carousel itemPadding={[0, 0, 10, 0]} renderArrow={customArrow}>
+                <Carousel
+                  itemPadding={[0, 0, 10, 0]}
+                  renderArrow={customArrow}
+                  pagination={false}
+                >
                   {guides.map((guide) => {
                     return (
                       <GuideCard picture={guide.picture} text={guide.text} />
@@ -193,7 +197,9 @@ export default function Randomizer() {
                     timeout={300}
                   >
                     <div className="input-section">
-                      <LoggedInPopUp />
+                      <div className="logged-in-popup-wrapper">
+                        <LoggedInPopUp />
+                      </div>
                       <Input />
                     </div>
                   </CSSTransition>

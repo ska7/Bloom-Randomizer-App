@@ -4,14 +4,7 @@
 
 $iphones: 375px;
 $laptop: 1536px;
-/* big screen 1920x1080 
-  laptop      1536*700
 
-1. iPhones - width 375 height 900
-2. 360×640
-3. 1366×768 - tablets
-4. 1920×1080
-*/
 @mixin center-horizontally {
   display: flex;
   flex-direction: column;
@@ -101,7 +94,7 @@ $app_yellow: rgb(179, 146, 0);
 .input-section {
   position: relative;
   @include center-horizontally;
-  height: 80%;
+
   width: 100%;
 }
 
@@ -403,20 +396,41 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   .input-section {
-    position: relative;
     height: 100%;
     .input-form {
       margin-top: 300px;
     }
+    .logged-in-popup-wrapper {
+      @include center-horizontally;
+      // border: 1px solid black;
+      position: relative;
+      height: 32%;
+      width: 100%;
+    }
   }
 
   .logged-in-pop-up {
-    height: 32%;
-    top: 15%;
+    position: absolute;
+    height: 100%;
   }
 
   .logged-out-pop-up {
     bottom: 150px;
+  }
+
+  .carousel-arrow-left {
+    position: absolute;
+    transition: all 0.3s ease;
+    left: 0px;
+    height: 50px;
+    width: 50px;
+  }
+  .carousel-arrow-right {
+    z-index: 2;
+    position: absolute;
+    right: 0px;
+    height: 50px;
+    width: 50px;
   }
 
   .sign-out-button {
@@ -465,6 +479,34 @@ $app_yellow: rgb(179, 146, 0);
     img {
       height: auto;
       width: auto;
+    }
+  }
+
+  .carousel-arrow-left {
+    position: absolute;
+    transition: all 0.3s ease;
+    left: 0px;
+    height: 100px;
+    width: 100px;
+  }
+  .carousel-arrow-right {
+    z-index: 2;
+    position: absolute;
+    right: 0px;
+    height: 100px;
+    width: 100px;
+  }
+
+  .guide-card {
+    height: 90vh;
+    width: 90vw;
+    img {
+      border: 3px solid white;
+      max-height: 80%;
+      width: auto;
+    }
+    p {
+      font-size: 40px;
     }
   }
 
@@ -987,6 +1029,33 @@ $app_yellow: rgb(179, 146, 0);
     }
   }
 
+  .carousel-arrow-left {
+    position: absolute;
+    transition: all 0.3s ease;
+    left: -20px;
+    height: 50px;
+    width: 50px;
+  }
+  .carousel-arrow-right {
+    z-index: 2;
+    position: absolute;
+    right: -20px;
+    height: 50px;
+    width: 50px;
+  }
+  .guide-card {
+    max-height: 60%;
+    max-width: 60%;
+    img {
+      border: 3px solid white;
+      height: auto;
+      max-width: auto;
+    }
+    p {
+      font-size: 20px;
+    }
+  }
+
   /* FB LOGIN */
   .fbLogin-section {
     margin-right: auto;
@@ -1500,13 +1569,25 @@ $app_yellow: rgb(179, 146, 0);
       max-width: 370px;
     }
   }
+  .carousel-arrow-left {
+    position: absolute;
+    transition: all 0.3s ease;
+    left: -20px;
+  }
+  .carousel-arrow-right {
+    z-index: 2;
+    position: absolute;
+    right: -20px;
+  }
 
   .guide-card {
+    max-height: 90vh;
+    max-width: 90%;
     img {
-      margin-top: 50px;
+      // margin-top: 50px;
       border: 3px solid white;
-      max-height: 85%;
-      max-width: 80%;
+      height: auto;
+      width: 100%;
     }
   }
 
@@ -2043,8 +2124,6 @@ $app_yellow: rgb(179, 146, 0);
   user-select: none;
   color: $app_yellow;
   font-size: 35px;
-  height: 50px;
-  width: 50px;
   margin-top: auto;
   margin-bottom: auto;
   background: transparent;
@@ -2058,12 +2137,12 @@ $app_yellow: rgb(179, 146, 0);
 .carousel-arrow-right {
   z-index: 2;
   position: absolute;
-  right: 0;
+  // right: 0;
 }
 .carousel-arrow-left {
   z-index: 2;
   position: absolute;
-  left: 0;
+  // left: 0;
 }
 .carousel-arrow {
   background: transparent;

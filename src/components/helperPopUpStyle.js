@@ -2,7 +2,7 @@ export const popUpStyle = `
 &-overlay {
 }
 &-content {
-  height: auto;
+  max-height: 90vh;
   width: 90%;
   background: rgba(68, 68, 68, 0.9);
   box-shadow: 0 0 20px 5px black;
