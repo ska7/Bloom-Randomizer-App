@@ -159,6 +159,8 @@ export const GlobalState = ({ children }) => {
   };
 
   const fetchPosts = async () => {
+    loader();
+    dispatch({ type: UPDATE_LOADER_STATUS, payload: "Собираю комменты" });
     const accessToken = localStorage.getItem("accessToken");
     const igBusinessPageID = localStorage.getItem("id");
     try {
@@ -178,8 +180,6 @@ export const GlobalState = ({ children }) => {
   };
 
   const fetchPostIgId = async (id, token) => {
-    loader();
-    dispatch({ type: UPDATE_LOADER_STATUS, payload: "Собираю комменты" });
     let commentsNumber;
     const res = await axios
       .get(
@@ -249,6 +249,7 @@ export const GlobalState = ({ children }) => {
   };
 
   const fetchComments = async (id) => {
+    dispatch({ type: UPDATE_LOADER_STATUS, payload: "" });
     console.log("Starting fetching comments");
     const accessToken = localStorage.getItem("accessToken");
     const primaryBatchUrl = `https://graph.facebook.com/v8.0/${id}/comments?access_token=${accessToken}`;

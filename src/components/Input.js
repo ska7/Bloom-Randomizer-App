@@ -10,7 +10,7 @@ const Input = () => {
   const { randomizerLogic } = useContext(GlobalContext);
   const [state, setState] = useState("");
   const [popUp, showPopUp] = useState(false);
-  const hidePopUp = () => showPopUp(false);
+  const hidePopUp = () => showPopUp("");
 
   const StyledPopup = Styled(Popup)`
     &-overlay {
@@ -33,23 +33,49 @@ const Input = () => {
     }
   `;
 
+  const wrongUrlPopUp = (
+    <p>
+      Упс, неправильная ссылка. Убедись, что ссылка выглядит примерно так&nbsp;{" "}
+      <span style={{ color: "orange" }}>
+        https://www.instagram.com/p/CDlfM7Cg9-0/
+      </span>
+    </p>
+  );
+
+  const wrongUserPopUp = (wrongUsername) => {
+    return <p>Чтобы продолжить, авторизуйся как {wrongUsername}.</p>;
+  };
+
   const validateInput = async (input) => {
-    try {
-      let link = await axios
-        .get(`${input}?__a=1`)
-        .then((res) => {
-          console.log(res);
-          return input;
-        })
-        .catch((e) => {
+    const username = localStorage.getItem("name");
+    let link = await axios
+      .get(`${input}?__a=1`)
+      .then((res) => {
+        if (res.data.graphql.shortcode_media.owner.username === username) {
+          return (link = link.includes("?") ? link.split("?")[0] : link);
+        } else {
+          // const popUp = wrongUserPopUp(
+          //   res.data.graphql.shortcode_media.owner.username
+          // );
+          console.log(
+            "Response USERNAME",
+            res.data.graphql.shortcode_media.owner.username
+          );
+          console.log("LocalStorage USERNAME", username);
+          console.log(
+            typeof username ===
+              typeof res.data.graphql.shortcode_media.owner.username
+          );
+          showPopUp(<p>Huy</p>);
           return false;
-        });
-      // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of it
-      link = link.includes("?") ? link.split("?")[0] : link;
-      return link;
-    } catch (e) {
-      return false;
-    }
+        }
+      })
+      .catch((e) => {
+        // showPopUp(wrongUrlPopUp);
+        return false;
+      });
+    // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of it
+    return link;
   };
 
   const handleEnterPress = async (e) => {
@@ -60,7 +86,7 @@ const Input = () => {
         await randomizerLogic(url);
       } else {
         setState("");
-        showPopUp(true);
+        showPopUp(wrongUrlPopUp);
       }
     }
   };
@@ -102,13 +128,7 @@ const Input = () => {
         </button>
       </div>
       <StyledPopup open={popUp} closeOnDocumentClick onClose={hidePopUp}>
-        <div>
-          Упс, неправильная ссылка. Убедись, что ссылка выглядит примерно
-          так&nbsp;{" "}
-          <span style={{ color: "orange" }}>
-            https://www.instagram.com/p/CDlfM7Cg9-0/
-          </span>
-        </div>
+        {popUp}
       </StyledPopup>
     </>
   );
