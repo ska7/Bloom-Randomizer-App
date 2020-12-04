@@ -36,8 +36,9 @@ const Input = () => {
   const validateInput = async (input) => {
     try {
       let link = await axios
-        .get(input)
-        .then(() => {
+        .get(`${input}?__a=1`)
+        .then((res) => {
+          console.log(res);
           return input;
         })
         .catch((e) => {

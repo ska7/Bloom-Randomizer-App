@@ -13,3 +13,4 @@ export const INIT = "INIT";
 export const NEW_WINNER = "NEW_WINNER";
 export const NEW_GIVE_AWAY = "NEW_GIVE_AWAY";
 export const UPDATE_LOADER_STATUS = "UPDATE_LOADER_STATUS";
+export const UPDATE_IG_INFO = "UPDATE_IG_INFO";

@@ -10,6 +10,7 @@ import {
   NEW_GIVE_AWAY,
   NEW_WINNER,
   POSTS_FETCHED,
+  UPDATE_IG_INFO,
   UPDATE_LOADER_STATUS,
   UPDATE_WINNERS,
 } from "./types";
@@ -25,6 +26,11 @@ const handlers = {
     ...state,
     winners: [...state.winners, payload],
   }),
+  [UPDATE_IG_INFO]: (state, { name, id }) => ({
+    ...state,
+    igUsername: name,
+    igBusinessAccountID: id,
+  }),
   [LOAD_COMMENTS]: (state, { payload }) => ({
     ...state,
     commentsBank: payload,
@@ -33,7 +39,7 @@ const handlers = {
     ...state,
     winnerCommentID: payload,
   }),
-  [POSTS_FETCHED]: (state, { payload }) => ({ ...state, posts: payload }),
+  [POSTS_FETCHED]: (state, { payload }) => ({ ...state, igPosts: payload }),
   [FETCH_COMMENT_DATA]: (state, { payload }) => ({
     ...state,
     winnerCommentData: payload,

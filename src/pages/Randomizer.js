@@ -125,7 +125,7 @@ export default function Randomizer() {
             classNames="fade"
             in={loggedOutPage}
             key={loggedOutPage}
-            timeout={300}
+            timeout={500}
           >
             <div className="logged-out-screen">
               <div className="logoDark">

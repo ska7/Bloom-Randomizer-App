@@ -6,10 +6,11 @@ import { FacebookProvider, LoginButton } from "react-facebook";
 import styled from "styled-components";
 
 const FBLogin = () => {
-  const { userLoggedIn } = useContext(GlobalContext);
-  const handleResponse = (data) => {
-    console.log(data);
+  const { userLoggedIn, fetchInstaInfo } = useContext(GlobalContext);
+  const handleResponse = async (data) => {
+    // console.log("FB Response FB Login Comp", data);
     userLoggedIn(data.tokenDetail.accessToken);
+    await fetchInstaInfo();
   };
 
   const handleError = (error) => {

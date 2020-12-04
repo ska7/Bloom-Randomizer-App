@@ -15,16 +15,16 @@ export default function LoggedInPopUp() {
     </div>
   );
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     setTimeout(() => {
-  //       setState(true);
-  //     }, 1500);
-  //   } else if (isLoggedIn && loading) {
-  //     setState(!!state);
-  //     setSlide("slideOut");
-  //   }
-  // }, [isLoggedIn, loading]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      setTimeout(() => {
+        setState(true);
+      }, 1500);
+    } else if (isLoggedIn && loading) {
+      setState(!!state);
+      setSlide("slideOut");
+    }
+  }, [isLoggedIn, loading]);
 
   return <React.Fragment>{state ? page : null}</React.Fragment>;
 }
