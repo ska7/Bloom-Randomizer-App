@@ -177,8 +177,13 @@ $app_yellow: rgb(179, 146, 0);
   }
 }
 
+.logged-in-pop-up-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .logged-in-pop-up {
-  position: absolute;
   animation: secondPop 0.5s ease;
   height: 25%;
   width: 90%;
@@ -392,6 +397,7 @@ $app_yellow: rgb(179, 146, 0);
     background-position: 0px -400px;
   }
 
+  // Logged In Part
   .logoLight {
     display: flex;
     flex-direction: column;
@@ -399,6 +405,18 @@ $app_yellow: rgb(179, 146, 0);
     height: 30vh;
     width: 100vw;
   }
+
+  .logged-in-pop-up-wrapper {
+    position: relative;
+    height: 30vh;
+    width: 100%;
+    .logged-in-pop-up {
+      position: absolute;
+      height: auto;
+      width: auto;
+    }
+  }
+
   .input-section {
     height: 70vh;
     .input-form {
@@ -412,11 +430,6 @@ $app_yellow: rgb(179, 146, 0);
       height: 32%;
       width: 100%;
     }
-  }
-
-  .logged-in-pop-up {
-    position: absolute;
-    height: 100%;
   }
 
   .logged-out-pop-up {
@@ -578,25 +591,27 @@ $app_yellow: rgb(179, 146, 0);
 
   // Logged in part
 
-  .logged-in-pop-up {
-    position: absolute;
-    animation: secondPop 0.5s ease;
-    bottom: 550px;
-    max-height: 700px;
-    max-width: 700px;
-    img {
-      height: auto;
-      width: auto;
-    }
-  }
-
   .logoLight {
-    margin-top: 20px;
+    margin-top: 50px;
     @include center-horizontally;
     max-width: 759px;
+    height: 10vh;
   }
   img {
     width: 100%;
+  }
+
+  .logged-in-pop-up-wrapper {
+    height: 30vh;
+    width: 100%;
+    position: relative;
+    margin-bottom: 100px;
+    .logged-in-pop-up {
+      position: absolute;
+      animation: secondPop 0.5s ease;
+      height: auto;
+      width: auto;
+    }
   }
 
   .sign-out-button {
@@ -616,7 +631,7 @@ $app_yellow: rgb(179, 146, 0);
   .input-section {
     position: relative;
     @include center-horizontally;
-    margin-top: 50%;
+    height: 90vh;
   }
 
   .input-form {
@@ -1039,6 +1054,7 @@ $app_yellow: rgb(179, 146, 0);
   .logoDark {
     margin-top: 33px;
     width: 100%;
+    height: 30vh;
     img {
       padding-top: 2rem;
       max-height: 50vh;
@@ -1089,7 +1105,6 @@ $app_yellow: rgb(179, 146, 0);
   .fbLogin-section {
     margin-right: auto;
     margin-left: auto;
-    height: 44%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -1114,12 +1129,6 @@ $app_yellow: rgb(179, 146, 0);
       border-radius: 5px;
       box-shadow: 0 0 50px 10px black;
       transition: all 0.6s ease;
-      // .fbButtonTextStyle {
-      //   background: rgba(0, 0, 0, 0.5);
-      //   border-radius: 10px;
-      //   width: 100%;
-      //   color: rgb(255, 208, 0);
-      // }
       h1 {
         max-width: 100%;
         color: white;
@@ -1131,28 +1140,32 @@ $app_yellow: rgb(179, 146, 0);
 
   // Logged in part
 
-  .logged-in-pop-up {
-    position: absolute;
-    animation: secondPop 0.5s ease;
-    bottom: 320px;
-    min-height: 120px;
-    width: auto;
-    img {
-      height: auto;
-    }
-  }
-
   .logoLight {
     margin-top: 20px;
-    @include center-horizontally;
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
     max-width: 759px;
   }
   img {
     width: 100%;
   }
 
+  .logged-in-pop-up-wrapper {
+    position: relative;
+    height: 20vh;
+    width: 100%;
+    margin-bottom: 100px;
+    .logged-in-pop-up {
+      position: absolute;
+      animation: secondPop 0.5s ease;
+      height: auto;
+      width: auto;
+    }
+  }
+
   .sign-out-button {
-    margin-top: 10px;
+    // margin-top: 10px;
     // height: 2rem;
     width: 70%;
     font-size: 0.75rem;
@@ -1168,7 +1181,7 @@ $app_yellow: rgb(179, 146, 0);
   .input-section {
     position: relative;
     @include center-horizontally;
-    margin-top: 70%;
+    height: 90vh;
   }
 
   .input-form {
@@ -1177,7 +1190,7 @@ $app_yellow: rgb(179, 146, 0);
     width: 80vw;
     .go-button {
       height: 2rem;
-      width: 90%;
+      width: 80vw;
       position: absolute;
       @include center-horizontally;
       right: 0;
@@ -1229,7 +1242,7 @@ $app_yellow: rgb(179, 146, 0);
 
     .input-field:focus + .label-name .content-name,
     .input-field:valid + .label-name .content-name {
-      font-size: 1.1rem;
+      font-size: 15px;
       transform: translateY(-150%);
       color: rgb(231, 231, 231);
     }
@@ -1662,30 +1675,34 @@ $app_yellow: rgb(179, 146, 0);
 
   // Logged in part
 
-  .logged-in-pop-up {
-    position: absolute;
-    animation: secondPop 0.5s ease;
-    bottom: 400px;
-    height: 120px;
-    width: 100%;
-    img {
-      height: 100%;
-      max-width: 370px;
-    }
-  }
-
   .logoLight {
-    margin-top: 40px;
-    @include center-horizontally;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     max-width: 759px;
+    height: 15vh;
   }
   img {
     width: 100%;
   }
 
+  .logged-in-pop-up-wrapper {
+    position: relative;
+    padding-bottom: 200px;
+    height: 20vh;
+    width: 100%;
+    @include center-horizontally;
+    .logged-in-pop-up {
+      position: absolute;
+      animation: secondPop 0.5s ease;
+      height: auto;
+      width: auto;
+    }
+  }
+
   .sign-out-button {
     margin-top: 10px;
-    // height: 2rem;
+    height: 2rem;
     width: 70%;
     font-size: 0.75rem;
     color: rgb(66, 66, 66);
@@ -1700,7 +1717,8 @@ $app_yellow: rgb(179, 146, 0);
   .input-section {
     position: relative;
     @include center-horizontally;
-    margin-top: 70%;
+    height: 75vh;
+    // margin-top: 70%;
   }
 
   .input-form {

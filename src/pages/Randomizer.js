@@ -197,7 +197,7 @@ export default function Randomizer() {
                     timeout={300}
                   >
                     <div className="input-section">
-                      <div className="logged-in-popup-wrapper">
+                      <div className="logged-in-pop-up-wrapper">
                         <LoggedInPopUp />
                       </div>
                       <Input />

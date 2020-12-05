@@ -9,7 +9,7 @@ import Styled from "styled-components";
 const Input = () => {
   const { randomizerLogic } = useContext(GlobalContext);
   const [state, setState] = useState("");
-  const [popUp, showPopUp] = useState(false);
+  const [popUp, showPopUp] = useState("");
   const hidePopUp = () => showPopUp("");
 
   const StyledPopup = Styled(Popup)`
@@ -43,7 +43,12 @@ const Input = () => {
   );
 
   const wrongUserPopUp = (wrongUsername) => {
-    return <p>Чтобы продолжить, авторизуйся как {wrongUsername}.</p>;
+    return (
+      <p>
+        Чтобы продолжить, авторизуйся как{" "}
+        <span style={{ color: "orange" }}>{wrongUsername}</span>
+      </p>
+    );
   };
 
   const validateInput = async (input) => {
@@ -52,26 +57,16 @@ const Input = () => {
       .get(`${input}?__a=1`)
       .then((res) => {
         if (res.data.graphql.shortcode_media.owner.username === username) {
-          return (link = link.includes("?") ? link.split("?")[0] : link);
+          return (input = input.includes("?") ? input.split("?")[0] : input);
         } else {
-          // const popUp = wrongUserPopUp(
-          //   res.data.graphql.shortcode_media.owner.username
-          // );
-          console.log(
-            "Response USERNAME",
-            res.data.graphql.shortcode_media.owner.username
+          showPopUp(
+            wrongUserPopUp(res.data.graphql.shortcode_media.owner.username)
           );
-          console.log("LocalStorage USERNAME", username);
-          console.log(
-            typeof username ===
-              typeof res.data.graphql.shortcode_media.owner.username
-          );
-          showPopUp(<p>Huy</p>);
           return false;
         }
       })
       .catch((e) => {
-        // showPopUp(wrongUrlPopUp);
+        showPopUp(wrongUrlPopUp);
         return false;
       });
     // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of it
@@ -86,7 +81,6 @@ const Input = () => {
         await randomizerLogic(url);
       } else {
         setState("");
-        showPopUp(wrongUrlPopUp);
       }
     }
   };
@@ -98,7 +92,6 @@ const Input = () => {
       randomizerLogic(url);
     } else {
       setState("");
-      showPopUp(true);
     }
   };
 
