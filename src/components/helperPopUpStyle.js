@@ -2,7 +2,7 @@ export const popUpStyle = `
 &-overlay {
 }
 &-content {
-  max-height: 90vh;
+  -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
   width: 90%;
   background: rgba(68, 68, 68, 0.9);
   box-shadow: 0 0 20px 5px black;
@@ -20,5 +20,8 @@ export const popUpStyle = `
   @media (min-width: 1440px) and (max-width: 1920px) {
     min-height: 90%;
     width: 50%;
+  }
+  @media (max-height: 749px) and (max-width: 700px) {
+    height: 100%;
   }
 }`;

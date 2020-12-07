@@ -61,23 +61,23 @@ $app_yellow: rgb(179, 146, 0);
   width: 100%;
   display: flex;
   justify-content: center;
+  // Disabling default facebook loader
+  .loader {
+    position: absolute;
+    display: none;
+  }
   .fbButton {
     margin-top: 2px;
     padding: 1rem;
     height: 5rem;
     width: 30%;
     font-size: 1.5rem;
-    // color: $app_yellow;
     background: rgb(255, 255, 255, 0.2);
     border: solid 3px rgb(71, 71, 71);
     border-radius: 5px;
     box-shadow: 0 0 50px 10px black;
     transition: all 0.6s ease;
     font-family: "Cormorant Garamond", serif;
-    .loader {
-      position: absolute;
-      display: none;
-    }
     &:hover {
       cursor: pointer;
       color: white;
@@ -93,72 +93,70 @@ $app_yellow: rgb(179, 146, 0);
   position: relative;
   // @include center-horizontally;
   width: 100%;
-}
-
-.input-form {
-  position: relative;
-  height: auto;
-  width: 60%;
-  font-family: "Amatic";
-  .label-name {
-    font-size: 1.3rem;
-    position: absolute;
-    color: azure;
-    bottom: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    pointer-events: none;
-    border-bottom: 3px solid white;
-  }
-  .input-field {
-    width: 100%;
-    height: 100%;
-    color: rgb(255, 255, 255);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border: none;
-    background: transparent;
-    outline: none;
-  }
-
-  .content-name {
-    position: absolute;
-
-    bottom: 0px;
-    left: 0px;
-    transition: all 0.3s ease;
-  }
-
-  .input-field:focus + .label-name .content-name,
-  .input-field:valid + .label-name .content-name {
-    font-size: 1.1rem;
-    transform: translateY(-200%);
-  }
-
-  .input-field:focus .App {
-    background-position: 0px -450px;
-  }
-
-  .go-button {
-    position: absolute;
-    right: 0;
-    bottom: 1rem;
-    height: 1.7rem;
-    width: 10rem;
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    outline: none;
-    transition: all 0.3s ease;
-    animation: pulse 2s alternate infinite;
-    &:hover {
-      color: $app_yellow;
-      border: 1px solid $app_yellow;
+  .input-form {
+    position: relative;
+    height: auto;
+    width: 60%;
+    font-family: "Amatic";
+    .label-name {
+      font-size: 1.3rem;
+      position: absolute;
+      color: azure;
+      bottom: 0px;
+      left: 0px;
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+      border-bottom: 3px solid white;
+    }
+    .input-field {
+      width: 100%;
+      height: 100%;
+      color: rgb(255, 255, 255);
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border: none;
+      background: transparent;
+      outline: none;
+    }
+  
+    .content-name {
+      position: absolute;
+  
+      bottom: 0px;
+      left: 0px;
+      transition: all 0.3s ease;
+    }
+  
+    .input-field:focus + .label-name .content-name,
+    .input-field:valid + .label-name .content-name {
+      font-size: 1.1rem;
+      transform: translateY(-200%);
+    }
+  
+    .input-field:focus .App {
+      background-position: 0px -450px;
+    }
+  
+    .go-button {
+      position: absolute;
+      right: 0;
+      bottom: 1rem;
+      height: 1.7rem;
+      width: 10rem;
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      outline: none;
+      transition: all 0.3s ease;
+      animation: pulse 2s alternate infinite;
+      &:hover {
+        color: $app_yellow;
+        border: 1px solid $app_yellow;
+      }
     }
   }
 }
-
 /* Pop Ups */
 
 .logged-out-pop-up {
@@ -179,16 +177,15 @@ $app_yellow: rgb(179, 146, 0);
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.logged-in-pop-up {
-  animation: secondPop 0.5s ease;
-  height: 25%;
-  width: 90%;
-  @include center-horizontally;
-  img {
-    height: 100%;
-    min-width: 45%;
+  .logged-in-pop-up {
+    animation: secondPop 0.5s ease;
+    height: 25%;
+    width: 90%;
+    @include center-horizontally;
+    img {
+      height: 100%;
+      min-width: 45%;
+    }
   }
 }
 
@@ -199,20 +196,23 @@ $app_yellow: rgb(179, 146, 0);
 }
 
 .guide-card {
+  position: relative;
   @include center-horizontally;
-  height: 600px;
-  img {
-    margin-top: 50px;
-    border: 3px solid white;
-  }
   p {
     padding: 10px;
-    height: 20%;
     color: rgb(255, 255, 255);
   }
 }
 
-//
+.close-guide-button {
+  // position: absolute;
+  background: transparent;
+  border: none;
+  color: white;
+  span {
+    padding: 5px;
+  }
+}
 
 .sign-out-button {
   margin-top: 2px;
@@ -261,140 +261,155 @@ $app_yellow: rgb(179, 146, 0);
   margin-left: auto;
   height: 10rem;
   width: 100vw;
-}
-.comment-box-wrapper {
-  width: 100%;
-  background: rgb(255, 255, 255, 0.05);
-  box-shadow: 0 0 50px 10px black;
-  .comment-box {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 10rem;
-    width: 60%;
-    // min-width: 50%;
-    margin-right: auto;
-    margin-left: auto;
-    .comment-box-picture {
-      max-width: 50%;
-    }
-    .comment-box-content {
-      width: 50%;
+  .comment-box-wrapper {
+    width: 100%;
+    background: rgb(255, 255, 255, 0.05);
+    box-shadow: 0 0 50px 10px black;
+    .comment-box {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      flex-direction: row;
+      justify-content: space-evenly;
       align-items: center;
-      .comment-box-comment {
-        text-align: center;
-        width: 100%;
-        height: 50%;
+      height: 10rem;
+      width: 60%;
+      // min-width: 50%;
+      margin-right: auto;
+      margin-left: auto;
+      .comment-box-picture {
+        position: relative;
+        margin-left: 5rem;
+        height: 8rem;
+        width: 8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        color: rgb(134, 90, 42);
-        text-shadow: 0 0 10px whitesmoke;
+        .circle {
+          animation: spin 100000ms linear infinite;
+        }
+        .circle-content {
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 3px solid rgb(214, 212, 212);
+          transition: all 0.1s ease;
+          &:hover {
+            cursor: pointer;
+            height: 102%;
+            width: 102%;
+          }
+          .profile-pic {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+          }
+        }
       }
-      .comment-box-name {
-        // @include center-horizontally;
-        width: 100%;
-        text-align: center;
-        // font-size: 30px;
-        // max-height: 100%;
-        font-family: "Libre Baskerville", serif;
-        transition: all 0.5s ease;
-        // text-decoration: underline;
-        text-shadow: 0 0 10px rgb(219, 219, 219);
-        &:hover {
-          cursor: pointer;
+      .comment-box-content {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .comment-box-comment {
+          text-align: center;
+          width: 100%;
+          height: 50%;
+          align-items: center;
+          color: rgb(134, 90, 42);
+          text-shadow: 0 0 10px whitesmoke;
+        }
+        .comment-box-name {
+          width: 100%;
+          text-align: center;
+          font-family: "Libre Baskerville", serif;
+          transition: all 0.5s ease;
+          text-shadow: 0 0 10px rgb(219, 219, 219);
         }
       }
     }
   }
-}
-
-/* Profile Pic Circle */
-.comment-box-picture {
-  position: relative;
-  margin-left: 5rem;
-  height: 8rem;
-  width: 8rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.circle {
-  // position: absolute;
-  // height: 200%;
-  // width: 200%;
-  animation: spin 100000ms linear infinite;
-  // transition: all 0.3s ease;
-}
-
-.circle-content {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid rgb(214, 212, 212);
-  // border-top-color: rgb(243, 214, 215);
-  // border-bottom-color: rgb(249, 106, 108);
-  // border-right-color: rgb(202, 92, 141);
-  // border-left-color: rgb(134, 166, 108);
-  transition: all 0.1s ease;
-  &:hover {
-    cursor: pointer;
-    height: 102%;
-    width: 102%;
-  }
-}
-
-.profile-pic {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-.comment-buttons {
-  position: relative;
-  margin-top: 6rem;
-  height: 10rem;
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  .new-winner-button,
-  .new-give-button {
-    background: transparent;
-    border: 1px solid white;
-    border-radius: 3px;
-    color: white;
-    height: 3rem;
-    width: 30%;
-    transition: all 0.5s ease;
-    &:hover {
-      color: $app_yellow;
-      border: 1px solid $app_yellow;
-      transform: translateY(-5px);
-      height: 4rem;
+  .comment-buttons {
+    position: relative;
+    margin-top: 6rem;
+    height: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    .new-winner-button,
+    .new-give-button {
+      background: transparent;
+      border: 1px solid white;
+      border-radius: 3px;
+      color: white;
+      height: 3rem;
+      width: 30%;
+      transition: all 0.5s ease;
+      &:hover {
+        color: $app_yellow;
+        border: 1px solid $app_yellow;
+        transform: translateY(-5px);
+        height: 4rem;
+      }
     }
   }
 }
 
-.popup-content {
-  -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
-}
-
 // Desktops
 
-@media (min-width: 1440px) {
+@media (min-width: 1440px)  {
   .App {
     background-size: cover;
     background-position: 0px -400px;
   }
 
+  // Logged Out Part
+
+  .logged-out-pop-up {
+    bottom: 150px;
+  }
+
+  .close-guide-button {
+    top: 0px;
+    left: 0px;
+    font-size: 20px;
+    outline: none;
+    color: white;
+    background: transparent;
+    border: none;
+    margin: 10px 0px;
+  }
+  
+  .guide-card {
+    height: 600px;
+    img {
+      // margin-top: 50px;
+      border: 3px solid white;
+      max-height: 90%;
+      max-width: 80%;
+    }
+
+  }
+  .carousel-arrow-left {
+    position: absolute;
+    transition: all 0.3s ease;
+    left: 0px;
+    height: 50px;
+    width: 50px;
+  }
+  .carousel-arrow-right {
+    z-index: 2;
+    position: absolute;
+    right: 0px;
+    height: 50px;
+    width: 50px;
+  }
   // Logged In Part
   .logoLight {
     display: flex;
@@ -429,26 +444,6 @@ $app_yellow: rgb(179, 146, 0);
       width: 100%;
     }
   }
-
-  .logged-out-pop-up {
-    bottom: 150px;
-  }
-
-  .carousel-arrow-left {
-    position: absolute;
-    transition: all 0.3s ease;
-    left: 0px;
-    height: 50px;
-    width: 50px;
-  }
-  .carousel-arrow-right {
-    z-index: 2;
-    position: absolute;
-    right: 0px;
-    height: 50px;
-    width: 50px;
-  }
-
   .sign-out-button {
     position: absolute;
     width: 75px;
@@ -457,19 +452,15 @@ $app_yellow: rgb(179, 146, 0);
     right: 50px;
     box-shadow: 0 0 50px 3px black;
   }
-  .guide-card {
-    img {
-      margin-top: 50px;
-      border: 3px solid white;
-      max-height: 90%;
-      max-width: 80%;
-    }
-  }
 
   // Comment Section
   .comment-box-wrapper {
     .comment-box {
       .comment-box-picture {
+        .circle {
+          height: 250%;
+          width: 250%;
+        }
       }
       .comment-box-content {
         .comment-box-comment {
@@ -484,10 +475,12 @@ $app_yellow: rgb(179, 146, 0);
       }
     }
   }
-
-  .circle {
-    height: 250%;
-    width: 250%;
+  .loader {
+    .spinner-border {
+      height: 60px;
+      width: 60px;
+      color: rgb(204, 140, 145);
+    }
   }
 }
 
@@ -538,17 +531,17 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   .guide-card {
-    height: 90vh;
-    width: 90vw;
-    img {
-      border: 3px solid white;
-      max-height: 80%;
-      width: auto;
-    }
+    height: 50%;
+    width: 50%;
     p {
-      font-size: 40px;
+      font-size: 33px;
     }
   }
+  .close-guide-button {
+    font-size: 4vw;
+    margin: 25px 0px;
+  }
+
 
   /* FB LOGIN */
   .fbLogin-section {
@@ -562,7 +555,8 @@ $app_yellow: rgb(179, 146, 0);
       @include center-horizontally;
       width: 70%;
       height: 6rem;
-      font-size: 45px;
+      font-size: 35px;
+      font-weight: bold;
       // font-family: "Amatic SC";
       transition: all 0.5s ease;
       margin-top: auto;
@@ -588,6 +582,10 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   // Logged in part
+
+  .input-pop-up {
+    font-size: 34px;
+  }
 
   .logoLight {
     margin-top: 50px;
@@ -1042,7 +1040,7 @@ $app_yellow: rgb(179, 146, 0);
 
 // Device under 749px height
 
-@media (max-height: 749px) {
+@media (max-height: 749px) and (max-width: 700px) {
   .App {
     background-position: 11% 20%;
     background-size: 875px 1312px;
@@ -1087,16 +1085,19 @@ $app_yellow: rgb(179, 146, 0);
     width: 50px;
   }
   .guide-card {
-    max-height: 60%;
-    max-width: 60%;
-    img {
-      border: 3px solid white;
-      height: auto;
-      max-width: auto;
-    }
+    max-height: 75%;
+    max-width: 75%;
     p {
-      font-size: 20px;
+      font-size: 18px;
+      width: 100%;
     }
+  }
+  .close-guide-button {
+    font-size: 4vw;
+    margin-top: 25px;
+  }
+  .close-guide-button:focus {
+    outline: none;
   }
 
   /* FB LOGIN */
@@ -1137,6 +1138,10 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   // Logged in part
+
+  .input-pop-up {
+    font-size: 17px;
+  }
 
   .logoLight {
     margin-top: 20px;
@@ -1409,14 +1414,8 @@ $app_yellow: rgb(179, 146, 0);
   // Loader
 
   .loader {
-    // border: 1px solid black;
     position: absolute;
     top: 15rem;
-    // left: 0;
-    // right: 0;
-    // margin-left: auto;
-    // margin-right: auto;
-    // width: 25rem;
     width: 100%;
     color: black;
     .comments-count {
@@ -1427,6 +1426,11 @@ $app_yellow: rgb(179, 146, 0);
       padding: 1rem;
       @include center-horizontally;
       width: 100%;
+    }
+    .spinner-border {
+      height: 50px;
+      width: 50px;
+      color: rgb(204, 140, 145);
     }
   }
 
@@ -1613,22 +1617,25 @@ $app_yellow: rgb(179, 146, 0);
     position: absolute;
     transition: all 0.3s ease;
     left: -20px;
+    height: 50px;
+    width: 50px;
   }
   .carousel-arrow-right {
     z-index: 2;
     position: absolute;
     right: -20px;
+    height: 50px;
+    width: 50px;
   }
 
   .guide-card {
-    max-height: 90vh;
+    max-height: 90%;
     max-width: 90%;
-    img {
-      // margin-top: 50px;
-      border: 3px solid white;
-      height: auto;
-      width: 100%;
-    }
+    margin-top: 10px;
+  }
+
+   .close-guide-button:focus {
+    outline: none;
   }
 
   /* FB LOGIN */
@@ -1651,7 +1658,7 @@ $app_yellow: rgb(179, 146, 0);
       margin-bottom: auto;
       padding: 1rem;
 
-      color: rgb(36, 86, 128);
+      color: rgb(153, 87, 13);
 
       background: rgb(255, 255, 255, 0.2);
       border: solid 3px rgb(71, 71, 71);
@@ -1829,7 +1836,7 @@ $app_yellow: rgb(179, 146, 0);
       position: absolute;
       right: 0;
       left: 0;
-      top: 35%;
+      top: 40%;
       margin-right: auto;
       margin-left: auto;
       height: 10rem;
@@ -1964,6 +1971,12 @@ $app_yellow: rgb(179, 146, 0);
       padding: 1rem;
       @include center-horizontally;
       width: 100%;
+    }
+    .spinner-border {
+      height: 60px;
+      width: 60px;
+      color: rgb(204, 140, 145);
+
     }
   }
 
@@ -2331,4 +2344,4 @@ $app_yellow: rgb(179, 146, 0);
     opacity: 1;
     box-shadow: 0 0 500px rgba(241, 241, 241, 0);
   }
-}
+} 

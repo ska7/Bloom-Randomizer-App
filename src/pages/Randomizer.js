@@ -140,6 +140,7 @@ export default function Randomizer() {
                 closeOnDocumentClick
                 onClose={hidePopUp}
               >
+                <button className='close-guide-button' onClick={() => showPopUp(false)}><span>X</span>Закрыть</button>
                 <Carousel
                   itemPadding={[0, 0, 10, 0]}
                   renderArrow={customArrow}
