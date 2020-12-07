@@ -46,11 +46,8 @@ const RandomComment = () => {
     }
   };
 
-  const formatUsername = (data) => {
-    return data.length >= 15 ? `${data.slice(0, 15)}... ` : data;
-  };
   const formatComment = (data) => {
-    return data.length >= 150 ? `${data.slice(0, 150)}... ` : data;
+    return data.length >= 50 ? `${data.slice(0, 50)}... ` : data;
   };
 
   useEffect(() => {

@@ -34,7 +34,7 @@ const Input = () => {
   `;
 
   const wrongUrlPopUp = (
-    <p>
+    <p className='input-pop-up'>
       Упс, неправильная ссылка. Убедись, что ссылка выглядит примерно так&nbsp;{" "}
       <span style={{ color: "orange" }}>
         https://www.instagram.com/p/CDlfM7Cg9-0/
@@ -44,7 +44,7 @@ const Input = () => {
 
   const wrongUserPopUp = (wrongUsername) => {
     return (
-      <p>
+      <p className='input-pop-up'>
         Чтобы продолжить, авторизуйся как{" "}
         <span style={{ color: "orange" }}>{wrongUsername}</span>
       </p>

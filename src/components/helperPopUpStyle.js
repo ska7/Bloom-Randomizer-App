@@ -4,7 +4,7 @@ export const popUpStyle = `
 &-content {
   -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
   width: 90%;
-  background: rgba(68, 68, 68, 0.9);
+  background: rgba(68, 68, 68, 0.7);
   box-shadow: 0 0 20px 5px black;
   user-select: none;
   font-size: 20px;
