@@ -25,6 +25,7 @@ export default function Randomizer() {
   const [showInput, setShowInput] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [popUp, showPopUp] = useState(false);
+  const [username, setUsername] = useState("");
   const hidePopUp = () => showPopUp(false);
 
   const StyledPopup = Styled(Popup)`
@@ -114,6 +115,8 @@ export default function Randomizer() {
 
   useEffect(() => {
     loginCheck();
+    const igUsername = localStorage.getItem("name");
+    setUsername(igUsername);
   }, []);
 
   return (
@@ -140,7 +143,12 @@ export default function Randomizer() {
                 closeOnDocumentClick
                 onClose={hidePopUp}
               >
-                <button className='close-guide-button' onClick={() => showPopUp(false)}><span>X</span>Закрыть</button>
+                <button
+                  className="close-guide-button"
+                  onClick={() => showPopUp(false)}
+                >
+                  <span>X</span>Закрыть
+                </button>
                 <Carousel
                   itemPadding={[0, 0, 10, 0]}
                   renderArrow={customArrow}
@@ -186,7 +194,8 @@ export default function Randomizer() {
                 <img src={LogoLight}></img>
               </div>
               <button className="sign-out-button" onClick={signOut}>
-                ВЫХОД
+                ВЫХОД{" "}
+                <span className="sign-out-button-username">{username}</span>
               </button>
 
               <TransitionGroup component={null}>

@@ -15,7 +15,6 @@ import {
   NEW_GIVE_AWAY,
   NEW_WINNER,
   POSTS_FETCHED,
-  UPDATE_IG_INFO,
   UPDATE_LOADER_STATUS,
   UPDATE_WINNERS,
 } from "./types";
@@ -148,7 +147,6 @@ export const GlobalState = ({ children }) => {
           );
         })
         .then((res) => {
-          console.log("FINALE RESPONSE", res);
           localStorage.setItem("name", res.data.username);
           localStorage.setItem("id", res.data.id);
           return res.data.id;
@@ -385,11 +383,11 @@ export const GlobalState = ({ children }) => {
       const comments = await fetchComments(id);
       // Fetch winner comment data
       await fetchCommentData(comments, winnerCommentID, state.winners);
-      return false;
+      // return false;
     } catch (e) {
       console.log(e);
       dispatch({ type: NEW_GIVE_AWAY });
-      return true;
+      // return true;
     }
   };
 
@@ -407,6 +405,7 @@ export const GlobalState = ({ children }) => {
         commentsBank: state.commentsBank,
         commentsQuantity: state.commentsQuantity,
         loaderStatus: state.loaderStatus,
+        igUsername: state.igUsername,
         fetchInstaInfo,
         newWinner,
         newGiveAway,
