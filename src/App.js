@@ -70,7 +70,7 @@ function App() {
 
   // Below are several checks made to change states for smooth css transitions
   useEffect(() => {
-    slideCheck(isLoggedIn, loading, winnerCommentData);
+    slideCheck(isLoggedIn);
     setLoader(loading ? true : false);
     setShowInput(!loading && !winnerCommentData ? true : false);
     setShowComment(winnerCommentData ? true : false);

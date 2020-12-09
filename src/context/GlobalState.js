@@ -63,7 +63,8 @@ export const GlobalState = ({ children }) => {
   // =================== Login Related Functions
 
   const signOut = () => {
-    localStorage.clear();
+    localStorage.removeItem("id");
+    localStorage.removeItem("accessToken");
     dispatch({ type: INIT });
     loginCheck();
   };

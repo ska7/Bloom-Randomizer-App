@@ -5,26 +5,10 @@ import axios from "axios";
 import Styled from "styled-components";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { inputPopUpStyle } from "./helperPopUpStyle";
 
 const StyledPopup = Styled(Popup)`
-  &-overlay {
-  }
-  &-content {
-    min-height: 30%;
-    width: 80%;
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 20px 5px black;
-    user-select: none;
-    font-size: 20px;
-    color: white;
-    display: flex;
-    font-family: "Amatic SC";
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border-radius: 15px;
-  }
+${inputPopUpStyle}
 `;
 
 const Input = () => {
@@ -59,6 +43,7 @@ const Input = () => {
       .get(`${input}?__a=1`)
       .then((res) => {
         if (res.data.graphql.shortcode_media.owner.username === username) {
+          // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of everything after the question mark
           return (input = input.includes("?") ? input.split("?")[0] : input);
         } else {
           setOpen(true);
@@ -73,30 +58,22 @@ const Input = () => {
         setPopUp(wrongUrlPopUp);
         return false;
       });
-    // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of it
+
     return link;
   };
 
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
       const url = await validateInput(state);
-      if (url) {
-        setState("");
-        await randomizerLogic(url);
-      } else {
-        setState("");
-      }
+      setState("");
+      url && (await randomizerLogic(url));
     }
   };
 
   const handleGoButtonClick = async () => {
     const url = await validateInput(state);
-    if (url) {
-      setState("");
-      randomizerLogic(url);
-    } else {
-      setState("");
-    }
+    setState("");
+    url && (await randomizerLogic(url));
   };
 
   return (
