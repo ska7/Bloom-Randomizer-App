@@ -6,7 +6,6 @@ import { globalReducer } from "./globalReducer";
 import {
   FETCH_COMMENT_DATA,
   GET_COMMENTS_QUANTITY,
-  GET_POST_URL,
   INIT,
   LOADING,
   LOAD_COMMENTS,
@@ -19,7 +18,6 @@ import {
   UPDATE_WINNERS,
 } from "./types";
 
-const base_url = "https://localhost:3000/";
 const fbUrl = "https://graph.facebook.com/me/accounts?access_token=";
 const diaBloomAvatar =
   "https://scontent-waw1-1.cdninstagram.com/v/t51.2885-19/s150x150/120194219_1405772352959804_3358456821050278774_n.jpg?_nc_ht=scontent-waw1-1.cdninstagram.com&_nc_ohc=-OfRSODnoAkAX-QukDj&_nc_tp=25&oh=08de320eec28af9aa253d2fa80ca54bf&oe=5FD4FE85";
@@ -28,7 +26,6 @@ export const GlobalState = ({ children }) => {
   const initState = {
     isLoggedIn: null,
     loading: null,
-    postURL: "",
     winnerCommentID: null,
     winners: [],
     igUsername: "",
@@ -41,9 +38,12 @@ export const GlobalState = ({ children }) => {
   };
   const [state, dispatch] = useReducer(globalReducer, initState);
 
+  // Displays loader
   const loader = () => dispatch({ type: LOADING });
 
+  // Runs when 'new winner' button is clicled
   const newWinner = async () => {
+    // Login Check is needed because sometimes an access token may expire in the middle of a give-away and cause bugs.
     const loggedIn = await loginCheck();
     if (loggedIn) {
       dispatch({
@@ -57,12 +57,12 @@ export const GlobalState = ({ children }) => {
     }
   };
 
+  // Runs when 'new give' button is clicled
   const newGiveAway = () => dispatch({ type: NEW_GIVE_AWAY });
 
-  // Login Related Functions
+  // =================== Login Related Functions
 
   const signOut = () => {
-    localStorage.removeItem("accessToken");
     localStorage.clear();
     dispatch({ type: INIT });
     loginCheck();
@@ -79,7 +79,6 @@ export const GlobalState = ({ children }) => {
     const res = await axios
       .get(`${fbUrl}${token}`)
       .then((res) => {
-        console.log("RESPONSE FROM INSTA", res);
         return res;
       })
       .catch((e) => {
@@ -104,46 +103,37 @@ export const GlobalState = ({ children }) => {
     }
   };
 
-  // Instagram Posts Related Functions
+  // =================== Instagram Posts Related Functions
 
-  const getPostURL = (url) => {
-    dispatch({ type: GET_POST_URL, payload: url });
-  };
-
+  // Func makes use of bigInt library to emulate url link of the instagram post to later compare it to the input so we can find the one matching.
   function getInstagramUrlFromMediaId(media_id) {
     var alphabet =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
     var shortenedId = "";
-    // media_id = media_id.substring(0, media_id.indexOf('_'));
-
     while (media_id > 0) {
       var remainder = bigInt(media_id).mod(64);
       media_id = bigInt(media_id).minus(remainder).divide(64).toString();
       shortenedId = alphabet.charAt(remainder) + shortenedId;
     }
-
     return "https://www.instagram.com/p/" + shortenedId + "/";
   }
 
-  const fetchInstaInfo = async () => {
-    const accessToken = localStorage.getItem("accessToken");
+  // Func to fetch instagram username and instagram business page id. Both are stored in the local storage
+  const fetchInstaInfo = async (token) => {
     try {
       const fbBusinessPageID = await axios
-        .get(
-          `https://graph.facebook.com/me/accounts?access_token=${accessToken}`
-        )
+        .get(`https://graph.facebook.com/me/accounts?access_token=${token}`)
         .then((fbRes) => {
-          console.log("FB USER ID", fbRes.data.data[0].id);
           return fbRes.data.data[0].id;
         });
 
-      const igBusinessPageID = await axios
+      await axios
         .get(
-          `https://graph.facebook.com/${fbBusinessPageID}?fields=instagram_business_account,username&access_token=${accessToken}`
+          `https://graph.facebook.com/${fbBusinessPageID}?fields=instagram_business_account,username&access_token=${token}`
         )
         .then((fbRes) => {
           return axios.get(
-            `https://graph.facebook.com/${fbRes.data.instagram_business_account.id}?fields=username&access_token=${accessToken}`
+            `https://graph.facebook.com/${fbRes.data.instagram_business_account.id}?fields=username&access_token=${token}`
           );
         })
         .then((res) => {
@@ -157,11 +147,11 @@ export const GlobalState = ({ children }) => {
   };
 
   const fetchPosts = async () => {
-    loader();
     dispatch({ type: UPDATE_LOADER_STATUS, payload: "Собираю комменты" });
     const accessToken = localStorage.getItem("accessToken");
     const igBusinessPageID = localStorage.getItem("id");
     try {
+      // We fetch posts and store them in the state.
       const igPosts = await axios
         .get(
           `https://graph.facebook.com/v8.0/${igBusinessPageID}/media?access_token=${accessToken}`
@@ -170,26 +160,29 @@ export const GlobalState = ({ children }) => {
           return fbRes.data.data;
         });
 
-      dispatch({ type: POSTS_FETCHED, payload: igPosts }); // Do I need it if posts get saved in a variable in the Randomizer logic func?
+      dispatch({ type: POSTS_FETCHED, payload: igPosts });
       return igPosts;
     } catch (err) {
       console.log(err);
     }
   };
 
+  // Each IG post has two different IDs : public ID and Instagram API ID.
+  // Public ID is exposed whereas Instagram API ID must be fetched via API by using its public ID. IG API ID will be used to fetch post data.
   const fetchPostIgId = async (id, token) => {
-    let commentsNumber;
     const res = await axios
       .get(
         `https://graph.facebook.com/v8.0/${id}?fields=comments_count,id,ig_id&access_token=${token}`
       )
       .then((res) => {
-        commentsNumber = res.data.comments_count;
         return res.data.ig_id;
       });
     return res;
   };
 
+  // Func that loops through the array of fetched IG posts and does a get request for each post to get its Instagram API ID.
+  // Having Insta API ID of each post, we then emulate the url link for each to compare it to the user input.
+  // In the end, we return the Instagram API ID of the matched post.
   const matchID = async (array, callback, token, inputUrl) => {
     for (const id of array) {
       const ig_id = await callback(id, token);
@@ -200,6 +193,7 @@ export const GlobalState = ({ children }) => {
     }
   };
 
+  // Here we glue the match post logic together. This func uses matchID and fetchPostIgId funcs from above.
   const matchPost = async (posts, url) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -209,19 +203,18 @@ export const GlobalState = ({ children }) => {
       });
       // Map through all the IDs and return the one mathing postID.
       const matchedID = await matchID(IDs, fetchPostIgId, accessToken, url);
-      // console.log("ID was matched successfully:", matchedID);
-      // dispatch({ type: GET_POST_INSTA_ID, payload: matchedID });
       return matchedID;
     } catch (err) {
       console.log("Error occured during post match:", err);
     }
   };
 
-  // Comments related functions
+  // ====================== Comments related functions
 
   // Function to fetch a single comments batch
 
   const fetchBatch = async (url) => {
+    // If this func returns a cursor, the app will know that there's another page with comments and it should fetch it.
     let cursor = "";
     // Fetching primary batch
     const comments = await axios.get(url).then((res) => {
@@ -237,7 +230,7 @@ export const GlobalState = ({ children }) => {
     };
   };
 
-  // Function to merge one comments batch with all others
+  // Func to merge a single comments batch with all other batches
   const pushComments = (commentsArray, batch) => {
     batch.forEach((comment) => {
       commentsArray.push(comment);
@@ -246,9 +239,10 @@ export const GlobalState = ({ children }) => {
     return commentsArray;
   };
 
+  // Comments are fetched by using the Instagram API ID of the matched post.
   const fetchComments = async (id) => {
+    // Loader status changes to an empty string so the number of comments processed can be displayed on the loader
     dispatch({ type: UPDATE_LOADER_STATUS, payload: "" });
-    console.log("Starting fetching comments");
     const accessToken = localStorage.getItem("accessToken");
     const primaryBatchUrl = `https://graph.facebook.com/v8.0/${id}/comments?access_token=${accessToken}`;
     let cursorAfter = "";
@@ -267,18 +261,16 @@ export const GlobalState = ({ children }) => {
         dispatch({ type: GET_COMMENTS_QUANTITY, payload: comments.length });
         dispatch({ type: LOAD_COMMENTS, payload: comments });
       }
-      // 2 If the comments array isn't empty and there was a pagination cursor in the last fetch, we fetch the next batch
+      // 2. If the comments array isn't empty and there was a pagination cursor in the last fetch, we fetch the next batch
       else if (comments && comments.length && cursorAfter) {
         const nextBatchUrl = `https://graph.facebook.com/v8.0/${id}/comments?fields=id,text,username&access_token=${accessToken}&limit=50&after=${cursorAfter}&pretty=1`;
         const { batch, cursor } = await fetchBatch(nextBatchUrl);
         pushComments(comments, batch);
-
-        // Break the loop if there's no pagination cursor in the response
-
         cursorAfter = cursor;
         dispatch({ type: GET_COMMENTS_QUANTITY, payload: comments.length });
         dispatch({ type: LOAD_COMMENTS, payload: comments });
       } else {
+        // Break the loop if there's no pagination cursor in the response
         fetch = false;
         break;
       }
@@ -286,14 +278,15 @@ export const GlobalState = ({ children }) => {
     return comments;
   };
 
+  // Func generates a random number from 0 to comments.length and returns the id of the winner comment.
   const winnerCommentID = (comments) => {
     const index = Math.floor(Math.random() * Math.floor(comments.length));
     // console.log(`RANDOM INDEX IN THE RANGE OF ${comments.length}:${index}`);
     const commentID = comments[index];
-    console.log(`Random comments chosen is : ${JSON.stringify(commentID.id)}`);
     return commentID.id;
   };
 
+  // Func takes in 3 params : array with IG comments, func to generate a random number, and array with usernames who already won thus should not participate
   const fetchCommentData = async (comments, getRandomID, winners) => {
     let findingWinner = true;
     const accessToken = localStorage.getItem("accessToken");
@@ -311,7 +304,8 @@ export const GlobalState = ({ children }) => {
           });
         newArray = deleteCommentFromArray(newArray, winnerCommentID);
         // Having the username, check if it's in the winners array. If it is not, fetch the profile picture and dispatch winner comment data
-        if (!winners.includes(username)) {
+        if (!winners.includes(username) && newArray.length >= 2) {
+          dispatch({ type: UPDATE_WINNERS, payload: username });
           const picture = await axios
             .get(`https://www.instagram.com/${username}/?__a=1 `)
             .then((res) => {
@@ -325,11 +319,11 @@ export const GlobalState = ({ children }) => {
               content: text,
             },
           });
-          dispatch({ type: UPDATE_WINNERS, payload: username });
+
           loader();
           findingWinner = false;
-        } else if (newArray.length <= 1 && winners.includes(username)) {
-          console.log(`NO MORE UNIQUE WINNERS, START OVER`);
+        } // If there's 0 comments left in the array and the last username already won, display the "no users left to choose from" message
+        else if (newArray.length <= 1 && winners.includes(username)) {
           dispatch({
             type: FETCH_COMMENT_DATA,
             payload: {
@@ -340,18 +334,17 @@ export const GlobalState = ({ children }) => {
           });
           loader();
           findingWinner = false;
-        } else {
-          console.log("FOUND DUPLICATEEEE");
         }
         dispatch({ type: LOAD_COMMENTS, payload: newArray });
       }
     } catch (e) {
+      // If something goes wrong, display the error message
       dispatch({
         type: FETCH_COMMENT_DATA,
         payload: {
           picture: diaBloomAvatar,
           username: "dia.bloom",
-          content: "Больше не из кого выбирать!",
+          content: `Упс, ошибка! Давай еще раз, нажми на "Еще рандом"`,
         },
       });
       loader();
@@ -359,6 +352,7 @@ export const GlobalState = ({ children }) => {
     // End of while loop
   };
 
+  // This func deletes an already processed comment from the comments array
   const deleteCommentFromArray = (commentsArray, winnerCommentID) => {
     let res = [];
     commentsArray.forEach((comment) => {
@@ -366,7 +360,6 @@ export const GlobalState = ({ children }) => {
         res.push(comment);
       }
     });
-    // console.log(`NEW ARRAY,`, res);
     return res;
   };
 
@@ -375,19 +368,19 @@ export const GlobalState = ({ children }) => {
   const randomizerLogic = async (url) => {
     try {
       await loginCheck();
-      // Fetch posts
-      const posts = await fetchPosts();
+      // if state.igPosts is empty, fetch posts.
+      // We store posts in case user wants to proceed with another give away and we don't have to do more get requests than necessary
+      loader();
+      const posts = !state.igPosts.length ? await fetchPosts() : state.igPosts;
       // Find id of the post with the matching url
       const id = await matchPost(posts, url);
       // Fetch winner comment id
       const comments = await fetchComments(id);
       // Fetch winner comment data
       await fetchCommentData(comments, winnerCommentID, state.winners);
-      // return false;
     } catch (e) {
       console.log(e);
       dispatch({ type: NEW_GIVE_AWAY });
-      // return true;
     }
   };
 
@@ -395,11 +388,6 @@ export const GlobalState = ({ children }) => {
     <GlobalContext.Provider
       value={{
         isLoggedIn: state.isLoggedIn,
-        accessToken: state.accessToken,
-        postURL: state.postURL,
-        posts: state.posts,
-        postInstaID: state.postInstaID,
-        winnerCommentID: state.winnerCommentID,
         winnerCommentData: state.winnerCommentData,
         loading: state.loading,
         commentsBank: state.commentsBank,
@@ -410,10 +398,7 @@ export const GlobalState = ({ children }) => {
         newWinner,
         newGiveAway,
         loginCheck,
-        getPostURL,
         userLoggedIn,
-        fetchComments,
-        fetchCommentData,
         signOut,
         randomizerLogic,
         loader,

@@ -1,13 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { CSSTransition } from "react-transition-group";
-import { GlobalContext } from "../context/globalContext";
+import React, { useState, useEffect } from "react";
 import Avatar from "../img/LoggedInPopUp.png";
 
 export default function LoggedInPopUp() {
   const [state, setState] = useState(false);
-  const [slide, setSlide] = useState("");
-
-  const { isLoggedIn, loading } = useContext(GlobalContext);
 
   const page = (
     <div className={`logged-in-pop-up`}>
@@ -16,15 +11,10 @@ export default function LoggedInPopUp() {
   );
 
   useEffect(() => {
-    if (isLoggedIn) {
-      setTimeout(() => {
-        setState(true);
-      }, 1500);
-    } else if (isLoggedIn && loading) {
-      setState(!!state);
-      setSlide("slideOut");
-    }
-  }, [isLoggedIn, loading]);
+    setTimeout(() => {
+      setState(true);
+    }, 1500);
+  }, []);
 
   return <React.Fragment>{state ? page : null}</React.Fragment>;
 }

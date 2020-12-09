@@ -1,6 +1,5 @@
 import {
   FETCH_COMMENT_DATA,
-  FETCH_WINNER_COMMENT_ID,
   GET_COMMENTS_QUANTITY,
   INIT,
   LOADING,
@@ -10,7 +9,6 @@ import {
   NEW_GIVE_AWAY,
   NEW_WINNER,
   POSTS_FETCHED,
-  UPDATE_IG_INFO,
   UPDATE_LOADER_STATUS,
   UPDATE_WINNERS,
 } from "./types";
@@ -26,18 +24,9 @@ const handlers = {
     ...state,
     winners: [...state.winners, payload],
   }),
-  [UPDATE_IG_INFO]: (state, { name, id }) => ({
-    ...state,
-    igUsername: name,
-    igBusinessAccountID: id,
-  }),
   [LOAD_COMMENTS]: (state, { payload }) => ({
     ...state,
     commentsBank: payload,
-  }),
-  [FETCH_WINNER_COMMENT_ID]: (state, { payload }) => ({
-    ...state,
-    winnerCommentID: payload,
   }),
   [POSTS_FETCHED]: (state, { payload }) => ({ ...state, igPosts: payload }),
   [FETCH_COMMENT_DATA]: (state, { payload }) => ({
@@ -48,12 +37,15 @@ const handlers = {
   [INIT]: () => ({
     isLoggedIn: null,
     loading: null,
-    postURL: "",
     winnerCommentID: null,
     winners: [],
+    igUsername: "",
+    igBusinessAccountID: "",
+    igPosts: [],
     winnerCommentData: null,
     commentsBank: [],
     commentsQuantity: 0,
+    loaderStatus: "",
   }),
   [GET_COMMENTS_QUANTITY]: (state, { payload }) => ({
     ...state,
@@ -63,15 +55,16 @@ const handlers = {
     ...state,
     winnerCommentData: null,
   }),
-  [NEW_GIVE_AWAY]: () => ({
+  [NEW_GIVE_AWAY]: (state) => ({
+    ...state,
     isLoggedIn: true,
     loading: null,
-    postURL: "",
     winnerCommentID: null,
     winners: [],
     winnerCommentData: null,
     commentsBank: [],
     commentsQuantity: 0,
+    loaderStatus: "",
   }),
   [UPDATE_LOADER_STATUS]: (state, { payload }) => ({
     ...state,

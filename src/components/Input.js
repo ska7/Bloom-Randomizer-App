@@ -1,40 +1,42 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState } from "react";
 import "../App.scss";
 import { GlobalContext } from "../context/globalContext";
 import axios from "axios";
+import Styled from "styled-components";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import Styled from "styled-components";
+
+const StyledPopup = Styled(Popup)`
+  &-overlay {
+  }
+  &-content {
+    min-height: 30%;
+    width: 80%;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 20px 5px black;
+    user-select: none;
+    font-size: 20px;
+    color: white;
+    display: flex;
+    font-family: "Amatic SC";
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 15px;
+  }
+`;
 
 const Input = () => {
   const { randomizerLogic } = useContext(GlobalContext);
   const [state, setState] = useState("");
-  const [popUp, showPopUp] = useState("");
-  const hidePopUp = () => showPopUp("");
+  const [open, setOpen] = useState(false);
+  const [popUp, setPopUp] = useState("");
 
-  const StyledPopup = Styled(Popup)`
-    &-overlay {
-    }
-    &-content {
-      min-height: 30%;
-      width: 80%;
-      background: rgba(0, 0, 0, 0.8);
-      box-shadow: 0 0 20px 5px black;
-      user-select: none;
-      font-size: 20px;
-      color: white;
-      display: flex;
-      font-family: 'Amatic SC';
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      border-radius: 15px;
-    }
-  `;
+  const hidePopUp = () => setOpen(false);
 
   const wrongUrlPopUp = (
-    <p className='input-pop-up'>
+    <p className="input-pop-up">
       Упс, неправильная ссылка. Убедись, что ссылка выглядит примерно так&nbsp;{" "}
       <span style={{ color: "orange" }}>
         https://www.instagram.com/p/CDlfM7Cg9-0/
@@ -44,7 +46,7 @@ const Input = () => {
 
   const wrongUserPopUp = (wrongUsername) => {
     return (
-      <p className='input-pop-up'>
+      <p className="input-pop-up">
         Чтобы продолжить, авторизуйся как{" "}
         <span style={{ color: "orange" }}>{wrongUsername}</span>
       </p>
@@ -59,14 +61,16 @@ const Input = () => {
         if (res.data.graphql.shortcode_media.owner.username === username) {
           return (input = input.includes("?") ? input.split("?")[0] : input);
         } else {
-          showPopUp(
+          setOpen(true);
+          setPopUp(
             wrongUserPopUp(res.data.graphql.shortcode_media.owner.username)
           );
           return false;
         }
       })
       .catch((e) => {
-        showPopUp(wrongUrlPopUp);
+        setOpen(true);
+        setPopUp(wrongUrlPopUp);
         return false;
       });
     // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of it
@@ -120,7 +124,7 @@ const Input = () => {
           GO
         </button>
       </div>
-      <StyledPopup open={popUp} closeOnDocumentClick onClose={hidePopUp}>
+      <StyledPopup open={open} closeOnDocumentClick onClose={hidePopUp}>
         {popUp}
       </StyledPopup>
     </>

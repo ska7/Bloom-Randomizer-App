@@ -57,14 +57,16 @@ $app_yellow: rgb(179, 146, 0);
 /* FB Button*/
 
 .fbLogin-section {
+  position: relative;
   margin-top: 10%;
   width: 100%;
   display: flex;
   justify-content: center;
-  // Disabling default facebook loader
   .loader {
     position: absolute;
-    display: none;
+    top: 50%;
+    left: 0;
+    right: 0;
   }
   .fbButton {
     margin-top: 2px;
@@ -357,6 +359,10 @@ $app_yellow: rgb(179, 146, 0);
   }
 
   // Logged Out Part
+  .fbButton {
+    color: rgb(182, 139, 21);
+    font-weight: bold;
+  }
 
   .logged-out-pop-up {
     bottom: 150px;
@@ -445,6 +451,7 @@ $app_yellow: rgb(179, 146, 0);
   }
   .sign-out-button {
     position: absolute;
+    font-size: 80%;
     width: 75px;
     height: 75px;
     top: 20px;
@@ -452,7 +459,6 @@ $app_yellow: rgb(179, 146, 0);
     box-shadow: 0 0 50px 3px black;
     .sign-out-button-username {
       padding: 4px;
-      font-size: 100%;
     }
   }
 
@@ -474,6 +480,7 @@ $app_yellow: rgb(179, 146, 0);
           }
         }
         .comment-box-content {
+          margin-left: 50px;
           .comment-box-comment {
             font-size: 15px;
           }

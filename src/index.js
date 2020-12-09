@@ -3,10 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { GlobalState } from "./context/GlobalState";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalState>
+      <App />
+    </GlobalState>
   </React.StrictMode>,
   document.getElementById("root")
 );

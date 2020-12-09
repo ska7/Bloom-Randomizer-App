@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { GlobalContext } from "../context/globalContext";
+import React, { useState, useEffect } from "react";
 import Avatar from "../img/LoggedOutPopUp.png";
 
 export default function LoggedOutPopUp() {
   const [state, setState] = useState(false);
-
-  const { isLoggedIn } = useContext(GlobalContext);
 
   const popUp = (
     <div className={`logged-out-pop-up`}>
@@ -13,14 +10,10 @@ export default function LoggedOutPopUp() {
     </div>
   );
   useEffect(() => {
-    if (!isLoggedIn) {
-      setTimeout(() => {
-        setState(true);
-      }, 1500);
-    } else {
+    setTimeout(() => {
       setState(true);
-    }
-  }, [isLoggedIn]);
+    }, 1500);
+  }, []);
 
   return <React.Fragment>{state ? popUp : null}</React.Fragment>;
 }
