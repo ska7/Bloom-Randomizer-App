@@ -25,6 +25,11 @@ export const popUpStyle = `
   @media (max-height: 749px) and (max-width: 700px) {
     height: 100%;
   }
+  // Landscape Mode Width > 655px
+
+  @media (orientation: landscape) and (min-width: 655px) {
+    height: 100%;
+  }
 }`;
 
 export const inputPopUpStyle = `

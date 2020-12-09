@@ -39,12 +39,13 @@ const Input = () => {
 
   const validateInput = async (input) => {
     const username = localStorage.getItem("name");
-    let link = await axios
-      .get(`${input}?__a=1`)
+    // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of everything after the question mark
+    let link = input.includes("?") ? input.split("?")[0] : input;
+    link = await axios
+      .get(`${link}?__a=1`)
       .then((res) => {
         if (res.data.graphql.shortcode_media.owner.username === username) {
-          // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of everything after the question mark
-          return (input = input.includes("?") ? input.split("?")[0] : input);
+          return link;
         } else {
           setOpen(true);
           setPopUp(
@@ -91,12 +92,10 @@ const Input = () => {
             type="text"
             required="yes"
           ></input>
-
           <label className="label-name" htmlFor="input-post">
             <span className="content-name">Instagram Post</span>
           </label>
         </div>
-
         <button onClick={handleGoButtonClick} className="go-button">
           GO
         </button>

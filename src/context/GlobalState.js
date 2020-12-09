@@ -94,11 +94,9 @@ export const GlobalState = ({ children }) => {
     const check = await checkToken(accessToken);
 
     if ((accessToken !== null && check === 400) || accessToken === null) {
-      console.log("400 error in Global State. Token expired or is null.");
       dispatch({ type: LOGIN_FAILED });
       return false;
     } else {
-      console.log("Success in login check");
       dispatch({ type: LOGIN_SUCCEEDED });
       return true;
     }
