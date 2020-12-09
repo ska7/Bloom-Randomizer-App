@@ -39,11 +39,7 @@ const RandomComment = () => {
   };
 
   const handleClickNewGiveAway = () => {
-    if (isLoggedIn) {
-      newGiveAway();
-    } else {
-      signOut();
-    }
+    isLoggedIn ? newGiveAway() : signOut();
   };
 
   const formatComment = (data) => {
@@ -79,7 +75,7 @@ const RandomComment = () => {
       />
       <div className="comment-buttons">
         {showButton && (
-          // Show this button only if there is still people to choose from
+          // Show this button only if there are still users to choose from
           <button className="new-winner-button" onClick={handleClickNewWinner}>
             Еще Рандом
           </button>

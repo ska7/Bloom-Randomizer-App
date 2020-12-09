@@ -121,9 +121,11 @@ function App() {
                     <span>X</span>Закрыть
                   </button>
                   <Carousel
+                    className="carousel"
                     itemPadding={[0, 0, 10, 0]}
                     renderArrow={customArrow}
                     pagination={false}
+                    autoTabIndexVisibleItems={false}
                   >
                     {guides.map((guide, idx) => {
                       return (

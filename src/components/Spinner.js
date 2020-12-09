@@ -1,20 +1,17 @@
-import React, { Fragment } from "react";
+import React from "react";
+import loader from "../img/loader-red.png";
 
 export default function Spinner({ loaderStatus, commentsQuantity }) {
   return (
-    <Fragment>
+    <>
       <div className="loader">
-        <div className="spinner-section">
-          <div className="spinner spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
+        <img className="loader-circle" src={loader} alt="loader"></img>
         <span className="comments-count">
           {loaderStatus
             ? `${loaderStatus}`
             : `Обработано ${commentsQuantity} комментов`}
         </span>
       </div>
-    </Fragment>
+    </>
   );
 }

@@ -17,7 +17,7 @@ const FBLogin = () => {
 
   return (
     <div className="fbLogin-section">
-      <FacebookProvider appId="319952016030195">
+      <FacebookProvider appId={`${process.env.REACT_APP_FACEBOOK_APP_ID}`}>
         <LoginButton
           className="fbButton"
           scope="instagram_basic, pages_show_list, pages_read_engagement"
@@ -33,5 +33,3 @@ const FBLogin = () => {
 };
 
 export default FBLogin;
-
-// public_profile, instagram_manage_comments,

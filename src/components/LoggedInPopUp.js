@@ -4,7 +4,7 @@ import Avatar from "../img/LoggedInPopUp.png";
 export default function LoggedInPopUp() {
   const [state, setState] = useState(false);
 
-  const page = (
+  const popUp = (
     <div className={`logged-in-pop-up`}>
       <img src={Avatar} alt="avatar"></img>
     </div>
@@ -16,5 +16,5 @@ export default function LoggedInPopUp() {
     }, 1500);
   }, []);
 
-  return <React.Fragment>{state ? page : null}</React.Fragment>;
+  return <React.Fragment>{state ? popUp : null}</React.Fragment>;
 }

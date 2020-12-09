@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Bloom Randomizer",
+  "name": "Bloom Randomizer: Insta Give-Aways",
+  "description": "Bloom Randomizer by @aralinnikita and @dia.bloom. Инстаграм розыгрыши, рандомайзер по комментариям под постом",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,12 +11,7 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "64x64"
     }
   ],
   "start_url": ".",
