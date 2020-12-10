@@ -21,3 +21,13 @@ This is Bloom Randomizer app built on React JS. It utilizes Facebook Graph API t
     * fetch another comment (there's always going to be a new unique winner, no duplicates) by clicking on "Еще рандом"
     * do another give-away by clicking on "Другой Пост"
     * sign out in case another instagram account should be used
+
+## Use it! 
+
+All apps using Facebook API should undergo a check by Facebook to go live. 
+
+As of now, due to Facebook taking too long to review the app, it is not in the live mode. 
+
+Nevertheless, you can test it. Login as thomradioo@gmail.com, the password is - Randomizer1! . The account attached is https://www.instagram.com/testernikita/
+
+;)
