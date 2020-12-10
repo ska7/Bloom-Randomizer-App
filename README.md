@@ -30,3 +30,7 @@ As of now, due to Facebook taking too long to review the app, it is not in the l
 
 Nevertheless, you can test it. Login as thomradioo@gmail.com, the password is - Randomizer1! . The account attached is https://www.instagram.com/testernikita/
 
+You can use either of the posts there to test the app.
+
+;)
+
