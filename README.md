@@ -1,6 +1,6 @@
 ## What is it? 
 
-This is Bloom Randomizer app built on React JS. It utilizes Facebook Graph API to fetch Instagram Post Comments and returns a random one - the winner comment.
+This is Bloom Randomizer app built with React JS. It utilizes Facebook Graph API to fetch Instagram Post Comments and returns a random one - the winner comment.
 
 ## Randomizer Flow:
 
@@ -30,4 +30,3 @@ As of now, due to Facebook taking too long to review the app, it is not in the l
 
 Nevertheless, you can test it. Login as thomradioo@gmail.com, the password is - Randomizer1! . The account attached is https://www.instagram.com/testernikita/
 
-;)
