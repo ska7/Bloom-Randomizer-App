@@ -28,7 +28,9 @@ All apps using Facebook API should undergo a check by Facebook to go live.
 
 As of now, due to Facebook taking too long to review the app, it is not in the live mode. 
 
-Nevertheless, you can test it. Login as thomradioo@gmail.com, the password is - Randomizer1! . The account attached is https://www.instagram.com/testernikita/
+Nevertheless, you can test it. 
+
+## Test FB Account - thomradioo@gmail.com, the password - Randomizer1! . The account attached is https://www.instagram.com/testernikita/
 
 You can use either of the posts there to test the app.
 
