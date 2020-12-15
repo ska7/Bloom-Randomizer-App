@@ -1,68 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What is it? 
 
-## Available Scripts
+This is Bloom Randomizer app built with React JS. It utilizes Facebook Graph API to fetch Instagram Post Comments and returns a random one - the winner comment.
 
-In the project directory, you can run:
+## Randomizer Flow:
 
-### `npm start`
+1. There are two options we have on page load:
+* User isn't logged in (the app has no access token) so they get a button to sign in with their Facebook account. There's a handy pop up on the bottom in case help is needed.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* User is logged in (the app has the access token) and they see the input field right await.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+2. Into the input field User pastes the url link of their IG Post they want to fetch a random comment from.
 
-### `npm test`
+3. The app validates the input. If the validation fails, there are two different pop up messages to be displayed depending on the error.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Then, the app displays the loader with the comments count.
 
-### `npm run build`
+5. After the comment data is fetched, it is displayed on the screen.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+6. In the end, User may do one of the following things:
+    * fetch another comment (there's always going to be a new unique winner, no duplicates) by clicking on "Еще рандом"
+    * do another give-away by clicking on "Другой Пост"
+    * sign out in case another instagram account should be used
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Use it! 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+All apps using Facebook API should undergo a check by Facebook to go live. 
 
-### `npm run eject`
+As of now, due to Facebook taking too long to review the app, it is not in the live mode. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Nevertheless, you can test it. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<strong>Test FB Account</strong> - thomradioo@gmail.com, <strong>the password</strong> - Randomizer1! . The account attached is https://www.instagram.com/testernikita/
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+You can use either of the posts there to test the app.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+;)
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
