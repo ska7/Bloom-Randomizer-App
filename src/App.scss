@@ -1039,15 +1039,14 @@ $app_yellow: rgb(179, 146, 0);
 
   /* FB LOGIN */
   .fbLogin-section {
-    height: 46%;
+    height: 20vh;
     .fbButton {
       @include center-horizontally;
       width: 70%;
       height: 4rem;
       font-size: 22px;
       font-weight: bold;
-      margin-top: auto;
-      margin-bottom: auto;
+      margin-bottom: 100px;
       color: rgb(153, 87, 13);
       &:hover {
         cursor: pointer;
