@@ -389,6 +389,9 @@ $app_yellow: rgb(179, 146, 0);
     background: transparent;
     border: none;
     margin: 10px 0px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .guide-card {
