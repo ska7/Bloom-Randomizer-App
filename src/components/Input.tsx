@@ -17,9 +17,6 @@ const Input = () => {
     updateLoaderStatus,
     randomizerLogic,
   } = useContext<IGlobalContext>(GlobalContext);
-  const [input, takeInput] = useState("");
-  const [open, setOpen] = useState(false);
-  const [popUp, setPopUp] = useState<string | JSX.Element>("");
 
   const hidePopUp = () => setOpen(false);
 
@@ -42,8 +39,6 @@ const Input = () => {
   };
 
   const validateInput = async (input: string) => {
-    loader();
-    updateLoaderStatus("Проверяю ссылку");
     const username = localStorage.getItem("name");
     // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of everything after the question mark
     let link: string = input.includes("?") ? input.split("?")[0] : input;
@@ -53,7 +48,6 @@ const Input = () => {
         if (res.data.graphql.shortcode_media.owner.username === username) {
           return link;
         } else {
-          loader();
           setOpen(true);
           setPopUp(
             wrongUserPopUp(res.data.graphql.shortcode_media.owner.username)
@@ -62,7 +56,6 @@ const Input = () => {
         }
       })
       .catch((e) => {
-        loader();
         setOpen(true);
         setPopUp(wrongUrlPopUp);
         return "";
@@ -75,15 +68,27 @@ const Input = () => {
     if (e.key === "Enter") {
       const url: string = await validateInput(input);
       takeInput("");
-      url && (await randomizerLogic(url));
+      if (url) {
+        updateLoaderStatus("Проверяю ссылку");
+        loader();
+        await randomizerLogic(url);
+      }
     }
   };
 
   const handleGoButtonClick = async () => {
     const url: string = await validateInput(input);
     takeInput("");
-    url && (await randomizerLogic(url));
+    if (url) {
+      updateLoaderStatus("Проверяю ссылку");
+      loader();
+      await randomizerLogic(url);
+    }
   };
+
+  const [input, takeInput] = useState("");
+  const [open, setOpen] = useState(false);
+  const [popUp, setPopUp] = useState<string | JSX.Element>(wrongUrlPopUp);
 
   return (
     <>
