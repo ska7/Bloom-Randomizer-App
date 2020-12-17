@@ -1,3 +1,4 @@
+import { ICommentProps } from "components/comment/CommentBody";
 import { createContext } from "react";
 
 interface IComment {
@@ -8,7 +9,7 @@ interface IComment {
 
 export interface IGlobalContext {
   isLoggedIn: boolean | null;
-  winnerCommentData: object | null;
+  winnerCommentData: ICommentProps | null;
   loading: boolean | null;
   commentsBank: IComment[];
   commentsQuantity: number;

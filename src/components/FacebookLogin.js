@@ -7,7 +7,7 @@ const FBLogin = () => {
   const { userLoggedIn, fetchInstaInfo } = useContext(GlobalContext);
 
   const handleResponse = async (data) => {
-    await fetchInstaInfo(data.tokenDetail.accessToken);
+    fetchInstaInfo(data.tokenDetail.accessToken);
     userLoggedIn(data.tokenDetail.accessToken);
   };
 

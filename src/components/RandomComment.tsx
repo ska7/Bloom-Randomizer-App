@@ -5,10 +5,10 @@ import React, {
   useState,
   useRef,
 } from "react";
-import { GlobalContext } from "../context/globalContext";
-import Comment from "./Comment";
+import { GlobalContext, IGlobalContext } from "../context/globalContext";
+import Comment, { ICommentProps } from "./comment/CommentBody";
 
-const RandomComment = () => {
+const RandomComment: React.FC = () => {
   const {
     winnerCommentData,
     newWinner,
@@ -17,11 +17,11 @@ const RandomComment = () => {
     signOut,
     loader,
     commentsBank,
-  } = useContext(GlobalContext);
+  } = useContext<IGlobalContext>(GlobalContext);
 
-  const winnerSound = useRef();
+  const winnerSound = useRef<HTMLAudioElement>(null);
 
-  const [comment, setComment] = useState({
+  const [comment, setComment] = useState<ICommentProps>({
     picture: "",
     username: "",
     content: "",
@@ -42,14 +42,14 @@ const RandomComment = () => {
     isLoggedIn ? newGiveAway() : signOut();
   };
 
-  const formatComment = (data) => {
+  const formatComment = (data: string) => {
     return data.length >= 50 ? `${data.slice(0, 50)}... ` : data;
   };
 
   useEffect(() => {
     commentsBank.length <= 1 && setShowButton(false);
     if (winnerCommentData) {
-      winnerSound.current.play();
+      winnerSound.current!.play();
       setComment({
         picture: winnerCommentData.picture,
         username: winnerCommentData.username,
@@ -64,7 +64,6 @@ const RandomComment = () => {
         <audio
           ref={winnerSound}
           className="sound"
-          type="audio/mp3"
           src={`${process.env.PUBLIC_URL}/winnerSound.mp3`}
         ></audio>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Avatar from "../img/LoggedInPopUp.png";
 
-export default function LoggedInPopUp() {
+const LoggedInPopUp: React.FC = () => {
   const [state, setState] = useState(false);
 
   const popUp = (
@@ -17,4 +17,6 @@ export default function LoggedInPopUp() {
   }, []);
 
   return <React.Fragment>{state ? popUp : null}</React.Fragment>;
-}
+};
+
+export default LoggedInPopUp;

@@ -48,16 +48,16 @@ const Input = () => {
         if (res.data.graphql.shortcode_media.owner.username === username) {
           return link;
         } else {
-          setOpen(true);
           setPopUp(
             wrongUserPopUp(res.data.graphql.shortcode_media.owner.username)
           );
+          setOpen(true);
           return "";
         }
       })
       .catch((e) => {
-        setOpen(true);
         setPopUp(wrongUrlPopUp);
+        setOpen(true);
         return "";
       });
 
@@ -88,7 +88,7 @@ const Input = () => {
 
   const [input, takeInput] = useState("");
   const [open, setOpen] = useState(false);
-  const [popUp, setPopUp] = useState<string | JSX.Element>(wrongUrlPopUp);
+  const [popUp, setPopUp] = useState<string | JSX.Element>();
 
   return (
     <>

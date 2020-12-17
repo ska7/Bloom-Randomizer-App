@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, Fragment } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Carousel from "react-elastic-carousel";
 import Styled from "styled-components";
 import Popup from "reactjs-popup";
@@ -17,7 +17,7 @@ import { popUpStyle } from "./components/helperPopUpStyle";
 import GuideCard from "./components/GuideCard";
 import { guides } from "./components/guideItems";
 import "./App.scss";
-import { fromArray } from "big-integer";
+// import { fromArray } from "big-integer";
 
 const StyledPopup = Styled(Popup)`
 ${popUpStyle}
