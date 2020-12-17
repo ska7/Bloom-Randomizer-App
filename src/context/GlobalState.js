@@ -41,15 +41,15 @@ export const GlobalState = ({ children }) => {
   // Displays loader
   const loader = () => dispatch({ type: LOADING });
 
+  const updateLoaderStatus = (status) => {
+    dispatch({ type: UPDATE_LOADER_STATUS, payload: status });
+  };
   // Runs when 'new winner' button is clicled
   const newWinner = async () => {
     // Login Check is needed because sometimes an access token may expire in the middle of a give-away and cause bugs.
     const loggedIn = await loginCheck();
     if (loggedIn) {
-      dispatch({
-        type: UPDATE_LOADER_STATUS,
-        payload: "Ищу нового победителя",
-      });
+      updateLoaderStatus("Ищу нового победителя");
       dispatch({ type: NEW_WINNER });
       fetchCommentData(state.commentsBank, winnerCommentID, state.winners);
     } else {
@@ -146,7 +146,7 @@ export const GlobalState = ({ children }) => {
   };
 
   const fetchPosts = async () => {
-    dispatch({ type: UPDATE_LOADER_STATUS, payload: "Собираю комменты" });
+    updateLoaderStatus("Собираю комменты");
     const accessToken = localStorage.getItem("accessToken");
     const igBusinessPageID = localStorage.getItem("id");
     try {
@@ -241,7 +241,7 @@ export const GlobalState = ({ children }) => {
   // Comments are fetched by using the Instagram API ID of the matched post.
   const fetchComments = async (id) => {
     // Loader status changes to an empty string so the number of comments processed can be displayed on the loader
-    dispatch({ type: UPDATE_LOADER_STATUS, payload: "" });
+    updateLoaderStatus("");
     const accessToken = localStorage.getItem("accessToken");
     const primaryBatchUrl = `https://graph.facebook.com/v8.0/${id}/comments?access_token=${accessToken}`;
     let cursorAfter = "";
@@ -369,7 +369,7 @@ export const GlobalState = ({ children }) => {
       await loginCheck();
       // if state.igPosts is empty, fetch posts.
       // We store posts in case user wants to proceed with another give away and we don't have to do more get requests than necessary
-      loader();
+      // loader();
       const posts = !state.igPosts.length ? await fetchPosts() : state.igPosts;
       // Find id of the post with the matching url
       const id = await matchPost(posts, url);
@@ -393,6 +393,7 @@ export const GlobalState = ({ children }) => {
         commentsQuantity: state.commentsQuantity,
         loaderStatus: state.loaderStatus,
         igUsername: state.igUsername,
+        updateLoaderStatus,
         fetchInstaInfo,
         newWinner,
         newGiveAway,

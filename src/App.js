@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, Fragment } from "react";
-import Carousel, { consts } from "react-elastic-carousel";
+import Carousel from "react-elastic-carousel";
 import Styled from "styled-components";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
@@ -17,6 +17,7 @@ import { popUpStyle } from "./components/helperPopUpStyle";
 import GuideCard from "./components/GuideCard";
 import { guides } from "./components/guideItems";
 import "./App.scss";
+import { fromArray } from "big-integer";
 
 const StyledPopup = Styled(Popup)`
 ${popUpStyle}
@@ -35,7 +36,7 @@ function App() {
   // Custom arrows for the setup guide pop up
   const customArrow = ({ type, onClick, isEdge }) => {
     const pointer =
-      type === consts.PREV ? (
+      type === "PREV" ? (
         <span className="carousel-arrow-left">⤾</span>
       ) : (
         <span className="carousel-arrow-right">⤿</span>
@@ -88,7 +89,7 @@ function App() {
 
   // Transitions below enable smooth animations between components
   return (
-    <Fragment>
+    <>
       <div className="App">
         {/* Below is the blister that runs through the page when the winner comment is displayed */}
         <div className={`blister ${showComment && "slide"}`}></div>
@@ -210,7 +211,7 @@ function App() {
           )}
         </TransitionGroup>
       </div>
-    </Fragment>
+    </>
   );
 }
 

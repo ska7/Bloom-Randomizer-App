@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import "../App.scss";
-import { GlobalContext } from "../context/globalContext";
+import { GlobalContext, IGlobalContext } from "../context/globalContext";
 import axios from "axios";
 import Styled from "styled-components";
 import Popup from "reactjs-popup";
@@ -12,10 +12,14 @@ ${inputPopUpStyle}
 `;
 
 const Input = () => {
-  const { randomizerLogic } = useContext(GlobalContext);
-  const [state, setState] = useState("");
+  const {
+    loader,
+    updateLoaderStatus,
+    randomizerLogic,
+  } = useContext<IGlobalContext>(GlobalContext);
+  const [input, takeInput] = useState("");
   const [open, setOpen] = useState(false);
-  const [popUp, setPopUp] = useState("");
+  const [popUp, setPopUp] = useState<string | JSX.Element>("");
 
   const hidePopUp = () => setOpen(false);
 
@@ -28,7 +32,7 @@ const Input = () => {
     </p>
   );
 
-  const wrongUserPopUp = (wrongUsername) => {
+  const wrongUserPopUp = (wrongUsername: string) => {
     return (
       <p className="input-pop-up">
         Чтобы продолжить, авторизуйся как{" "}
@@ -37,43 +41,47 @@ const Input = () => {
     );
   };
 
-  const validateInput = async (input) => {
+  const validateInput = async (input: string) => {
+    loader();
+    updateLoaderStatus("Проверяю ссылку");
     const username = localStorage.getItem("name");
     // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of everything after the question mark
-    let link = input.includes("?") ? input.split("?")[0] : input;
+    let link: string = input.includes("?") ? input.split("?")[0] : input;
     link = await axios
       .get(`${link}?__a=1`)
       .then((res) => {
         if (res.data.graphql.shortcode_media.owner.username === username) {
           return link;
         } else {
+          loader();
           setOpen(true);
           setPopUp(
             wrongUserPopUp(res.data.graphql.shortcode_media.owner.username)
           );
-          return false;
+          return "";
         }
       })
       .catch((e) => {
+        loader();
         setOpen(true);
         setPopUp(wrongUrlPopUp);
-        return false;
+        return "";
       });
 
     return link;
   };
 
-  const handleEnterPress = async (e) => {
+  const handleEnterPress = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      const url = await validateInput(state);
-      setState("");
+      const url: string = await validateInput(input);
+      takeInput("");
       url && (await randomizerLogic(url));
     }
   };
 
   const handleGoButtonClick = async () => {
-    const url = await validateInput(state);
-    setState("");
+    const url: string = await validateInput(input);
+    takeInput("");
     url && (await randomizerLogic(url));
   };
 
@@ -83,14 +91,16 @@ const Input = () => {
         <div className="input-wrapper">
           <input
             autoComplete="off"
-            maxLength="45"
+            maxLength={45}
             onKeyPress={handleEnterPress}
-            value={state}
-            onChange={(e) => setState(e.target.value)}
+            value={input}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              takeInput(e.target.value)
+            }
             className="input-field"
             name="input-post"
             type="text"
-            required="yes"
+            required
           ></input>
           <label className="label-name" htmlFor="input-post">
             <span className="content-name">Instagram Post</span>
