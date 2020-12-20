@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Avatar from "../img/LoggedOutPopUp.png";
 
-export default function LoggedOutPopUp() {
+const LoggedOutPopUp: React.FC = () => {
   const [state, setState] = useState(false);
 
   const popUp = (
-    <div className={`logged-out-pop-up`}>
+    <div className="logged-out-pop-up">
       <img src={Avatar} alt="avatar"></img>
     </div>
   );
@@ -16,4 +16,6 @@ export default function LoggedOutPopUp() {
   }, []);
 
   return <React.Fragment>{state ? popUp : null}</React.Fragment>;
-}
+};
+
+export default LoggedOutPopUp;

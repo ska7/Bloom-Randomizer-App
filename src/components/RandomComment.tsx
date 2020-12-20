@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  Fragment,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { GlobalContext, IGlobalContext } from "../context/globalContext";
 import Comment, { ICommentProps } from "./comment/CommentBody";
 
@@ -59,7 +53,7 @@ const RandomComment: React.FC = () => {
   }, [winnerCommentData, commentsBank]);
 
   return (
-    <Fragment>
+    <>
       <div className="winner-audio">
         <audio
           ref={winnerSound}
@@ -83,7 +77,7 @@ const RandomComment: React.FC = () => {
           Другой Пост
         </button>
       </div>
-    </Fragment>
+    </>
   );
 };
 

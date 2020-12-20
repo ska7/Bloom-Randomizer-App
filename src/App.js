@@ -17,7 +17,6 @@ import { popUpStyle } from "./components/helperPopUpStyle";
 import GuideCard from "./components/GuideCard";
 import { guides } from "./components/guideItems";
 import "./App.scss";
-// import { fromArray } from "big-integer";
 
 const StyledPopup = Styled(Popup)`
 ${popUpStyle}

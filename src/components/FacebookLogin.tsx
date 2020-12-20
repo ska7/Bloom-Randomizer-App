@@ -1,17 +1,26 @@
-import React, { useContext } from "react";
+import React, { Key, useContext } from "react";
 import "../App.scss";
-import { GlobalContext } from "../context/globalContext";
+import { GlobalContext, IGlobalContext } from "../context/globalContext";
+//@ts-ignore
 import { FacebookProvider, LoginButton } from "react-facebook";
 
-const FBLogin = () => {
-  const { userLoggedIn, fetchInstaInfo } = useContext(GlobalContext);
+interface IHandleResponseArgs {
+  tokenDetail: {
+    accessToken: string;
+  };
+}
 
-  const handleResponse = async (data) => {
+const FBLogin: React.FC = () => {
+  const { userLoggedIn, fetchInstaInfo } = useContext<IGlobalContext>(
+    GlobalContext
+  );
+
+  const handleResponse = async (data: IHandleResponseArgs) => {
     fetchInstaInfo(data.tokenDetail.accessToken);
     userLoggedIn(data.tokenDetail.accessToken);
   };
 
-  const handleError = (error) => {
+  const handleError = (error: object) => {
     console.log(error);
   };
 
