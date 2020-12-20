@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import "../App.scss";
 import { GlobalContext, IGlobalContext } from "../context/globalContext";
 import axios from "axios";
@@ -18,6 +18,11 @@ const Input = () => {
     randomizerLogic,
   } = useContext<IGlobalContext>(GlobalContext);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [input, takeInput] = useState("");
+  const [open, setOpen] = useState(false);
+  const [popUp, setPopUp] = useState<string | JSX.Element>("");
+
   const hidePopUp = () => setOpen(false);
 
   const wrongUrlPopUp = (
@@ -29,7 +34,7 @@ const Input = () => {
     </p>
   );
 
-  const wrongUserPopUp = (wrongUsername: string) => {
+  const wrongUserPopUp = (wrongUsername: string): JSX.Element => {
     return (
       <p className="input-pop-up">
         Чтобы продолжить, авторизуйся как{" "}
@@ -38,7 +43,7 @@ const Input = () => {
     );
   };
 
-  const validateInput = async (input: string) => {
+  const validateInput = async (input: string): Promise<string> => {
     const username = localStorage.getItem("name");
     // Insta Mobile App appends '?' to the link when it's copied, thus we should get rid of everything after the question mark
     let link: string = input.includes("?") ? input.split("?")[0] : input;
@@ -64,7 +69,7 @@ const Input = () => {
     return link;
   };
 
-  const handleEnterPress = async (e: React.KeyboardEvent) => {
+  const handleEnterPress = async (e: React.KeyboardEvent): Promise<void> => {
     if (e.key === "Enter") {
       const url: string = await validateInput(input);
       takeInput("");
@@ -76,7 +81,7 @@ const Input = () => {
     }
   };
 
-  const handleGoButtonClick = async () => {
+  const handleGoButtonClick = async (): Promise<void> => {
     const url: string = await validateInput(input);
     takeInput("");
     if (url) {
@@ -86,9 +91,11 @@ const Input = () => {
     }
   };
 
-  const [input, takeInput] = useState("");
-  const [open, setOpen] = useState(false);
-  const [popUp, setPopUp] = useState<string | JSX.Element>();
+  useEffect(() => {
+    setTimeout(() => {
+      inputRef.current!.focus();
+    }, 1500);
+  }, []);
 
   return (
     <>
@@ -106,6 +113,7 @@ const Input = () => {
             name="input-post"
             type="text"
             required
+            ref={inputRef}
           ></input>
           <label className="label-name" htmlFor="input-post">
             <span className="content-name">Instagram Post</span>

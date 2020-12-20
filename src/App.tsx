@@ -5,7 +5,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import FacebookLogin from "./components/FacebookLogin";
-import { GlobalContext } from "./context/globalContext";
+import { GlobalContext, IGlobalContext } from "./context/globalContext";
 import LogoDark from "./img/logo_dark.png";
 import LoggedOutPopUp from "./components/LoggedOutPopUp";
 import Comment from "./components/RandomComment";
@@ -17,23 +17,42 @@ import { popUpStyle } from "./components/helperPopUpStyle";
 import GuideCard from "./components/GuideCard";
 import { guides } from "./components/guideItems";
 import "./App.scss";
+import { stringify } from "querystring";
 
 const StyledPopup = Styled(Popup)`
 ${popUpStyle}
 `;
 
 function App() {
+  const {
+    loginCheck,
+    isLoggedIn,
+    loading,
+    signOut,
+    winnerCommentData,
+    commentsQuantity,
+    loaderStatus,
+  } = useContext<IGlobalContext>(GlobalContext);
+
   const [loggedOutPage, setLoggedOutPage] = useState(false);
   const [loggedInPage, setLoggedInPage] = useState(false);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState<boolean | null>(false);
   const [showInput, setShowInput] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [popUp, showPopUp] = useState(false);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState<string | null>("");
   const hidePopUp = () => showPopUp(false);
 
   // Custom arrows for the setup guide pop up
-  const customArrow = ({ type, onClick, isEdge }) => {
+  const customArrow = ({
+    type,
+    onClick,
+    isEdge,
+  }: {
+    type: string;
+    onClick: () => any;
+    isEdge: boolean;
+  }): JSX.Element => {
     const pointer =
       type === "PREV" ? (
         <span className="carousel-arrow-left">⤾</span>
@@ -47,18 +66,8 @@ function App() {
     );
   };
 
-  const {
-    loginCheck,
-    isLoggedIn,
-    loading,
-    signOut,
-    winnerCommentData,
-    commentsQuantity,
-    loaderStatus,
-  } = useContext(GlobalContext);
-
   // This func checks the login state and renders the corresponding page without any unnecessary blinks
-  const slideCheck = (isLoggedIn) => {
+  const slideCheck = (isLoggedIn: boolean | null) => {
     if (isLoggedIn) {
       setLoggedOutPage(false);
       setLoggedInPage(true);
@@ -71,7 +80,7 @@ function App() {
   // Below are several checks made to change states for smooth css transitions
   useEffect(() => {
     slideCheck(isLoggedIn);
-    setLoader(loading ? true : false);
+    setLoader(loading); // what if just loading without true or false? Gotta check
     setShowInput(!loading && !winnerCommentData ? true : false);
     setShowComment(winnerCommentData ? true : false);
   }, [isLoggedIn, loading, winnerCommentData]);
@@ -94,12 +103,7 @@ function App() {
         <div className={`blister ${showComment && "slide"}`}></div>
         <TransitionGroup component={null}>
           {loggedOutPage && (
-            <CSSTransition
-              classNames="fade"
-              in={loggedOutPage}
-              key={loggedOutPage}
-              timeout={500}
-            >
+            <CSSTransition classNames="fade" in={loggedOutPage} timeout={500}>
               <div className="logged-out-screen">
                 <div className="logoDark">
                   <img src={LogoDark} alt="logo-dark"></img>
@@ -125,6 +129,7 @@ function App() {
                     itemPadding={[0, 0, 10, 0]}
                     renderArrow={customArrow}
                     pagination={false}
+                    //@ts-ignore
                     autoTabIndexVisibleItems={false}
                   >
                     {guides.map((guide, idx) => {
@@ -144,12 +149,7 @@ function App() {
         </TransitionGroup>
         <TransitionGroup component={null}>
           {loader && (
-            <CSSTransition
-              classNames="fade"
-              in={loader}
-              key={loading}
-              timeout={300}
-            >
+            <CSSTransition classNames="fade" in={loader} timeout={300}>
               <Spinner
                 loaderStatus={loaderStatus}
                 commentsQuantity={commentsQuantity}
@@ -160,12 +160,7 @@ function App() {
 
         <TransitionGroup component={null}>
           {loggedInPage && (
-            <CSSTransition
-              classNames="fade"
-              in={loggedInPage}
-              key={loggedInPage}
-              timeout={300}
-            >
+            <CSSTransition classNames="fade" in={loggedInPage} timeout={300}>
               <div className="logged-in-screen">
                 <div className={`logoLight`}>
                   <img src={LogoLight} alt="logo-light"></img>
@@ -180,7 +175,6 @@ function App() {
                     <CSSTransition
                       classNames="fade"
                       in={showInput}
-                      key={showInput}
                       timeout={300}
                     >
                       <div className="input-section">

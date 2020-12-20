@@ -2,7 +2,7 @@ import * as React from "react";
 
 interface IGuideCardProps {
   picture: string;
-  text: string;
+  text: JSX.Element;
 }
 
 const GuideCard: React.FC<IGuideCardProps> = ({ picture, text }) => {
