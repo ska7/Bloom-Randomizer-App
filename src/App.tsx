@@ -17,13 +17,12 @@ import { popUpStyle } from "./components/helperPopUpStyle";
 import GuideCard from "./components/GuideCard";
 import { guides } from "./components/guideItems";
 import "./App.scss";
-import { stringify } from "querystring";
 
 const StyledPopup = Styled(Popup)`
 ${popUpStyle}
 `;
 
-function App() {
+const App: React.FC = () => {
   const {
     loginCheck,
     isLoggedIn,
@@ -80,7 +79,7 @@ function App() {
   // Below are several checks made to change states for smooth css transitions
   useEffect(() => {
     slideCheck(isLoggedIn);
-    setLoader(loading); // what if just loading without true or false? Gotta check
+    setLoader(loading);
     setShowInput(!loading && !winnerCommentData ? true : false);
     setShowComment(winnerCommentData ? true : false);
   }, [isLoggedIn, loading, winnerCommentData]);
@@ -206,6 +205,6 @@ function App() {
       </div>
     </>
   );
-}
+};
 
 export default App;
