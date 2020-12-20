@@ -1,8 +1,8 @@
 import React, { useReducer } from "react";
 import axios from "axios";
 import bigInt from "big-integer";
-import { GlobalContext } from "./globalContext";
-import { globalReducer } from "./globalReducer";
+import { GlobalContext, IGlobalContext } from "./globalContext";
+import { globalReducer, IGlobalState, IPost, IComment } from "./globalReducer";
 import {
   FETCH_COMMENT_DATA,
   GET_COMMENTS_QUANTITY,
@@ -22,8 +22,8 @@ const fbUrl = "https://graph.facebook.com/me/accounts?access_token=";
 const diaBloomAvatar =
   "https://scontent-waw1-1.cdninstagram.com/v/t51.2885-19/s150x150/120194219_1405772352959804_3358456821050278774_n.jpg?_nc_ht=scontent-waw1-1.cdninstagram.com&_nc_ohc=-OfRSODnoAkAX-QukDj&_nc_tp=25&oh=08de320eec28af9aa253d2fa80ca54bf&oe=5FD4FE85";
 
-export const GlobalState = ({ children }) => {
-  const initState = {
+const GlobalState: React.FC<React.ReactNode> = ({ children }) => {
+  const initState: IGlobalState = {
     isLoggedIn: null,
     loading: null,
     winnerCommentID: null,
@@ -36,16 +36,17 @@ export const GlobalState = ({ children }) => {
     commentsQuantity: 0,
     loaderStatus: "",
   };
+
   const [state, dispatch] = useReducer(globalReducer, initState);
 
   // Displays loader
   const loader = () => dispatch({ type: LOADING });
 
-  const updateLoaderStatus = (status) => {
+  const updateLoaderStatus = (status: string) => {
     dispatch({ type: UPDATE_LOADER_STATUS, payload: status });
   };
   // Runs when 'new winner' button is clicled
-  const newWinner = async () => {
+  const newWinner = async (): Promise<void> => {
     // Login Check is needed because sometimes an access token may expire in the middle of a give-away and cause bugs.
     const loggedIn = await loginCheck();
     if (loggedIn) {
@@ -58,25 +59,25 @@ export const GlobalState = ({ children }) => {
   };
 
   // Runs when 'new give' button is clicled
-  const newGiveAway = () => dispatch({ type: NEW_GIVE_AWAY });
+  const newGiveAway = (): void => dispatch({ type: NEW_GIVE_AWAY });
 
   // =================== Login Related Functions
 
-  const signOut = () => {
+  const signOut = (): void => {
     localStorage.removeItem("id");
     localStorage.removeItem("accessToken");
     dispatch({ type: INIT });
     loginCheck();
   };
 
-  const userLoggedIn = (token) => {
+  const userLoggedIn = (token: string): void => {
     localStorage.setItem("accessToken", token);
     dispatch({
       type: LOGIN_SUCCEEDED,
     });
   };
 
-  const checkToken = async (token) => {
+  const checkToken = async (token: string): Promise<string> => {
     const res = await axios
       .get(`${fbUrl}${token}`)
       .then((res) => {
@@ -85,15 +86,15 @@ export const GlobalState = ({ children }) => {
       .catch((e) => {
         return e.response.status;
       });
-
+    console.log("TOKEN IN CHECK TOKEN", res);
     return res;
   };
 
-  const loginCheck = async () => {
+  const loginCheck = async (): Promise<boolean> => {
     const accessToken = localStorage.getItem("accessToken");
-    const check = await checkToken(accessToken);
+    const check = accessToken ? await checkToken(accessToken) : 400;
 
-    if ((accessToken !== null && check === 400) || accessToken === null) {
+    if ((accessToken && check === 400) || accessToken === null) {
       dispatch({ type: LOGIN_FAILED });
       return false;
     } else {
@@ -105,20 +106,21 @@ export const GlobalState = ({ children }) => {
   // =================== Instagram Posts Related Functions
 
   // Func makes use of bigInt library to emulate url link of the instagram post to later compare it to the input so we can find the one matching.
-  function getInstagramUrlFromMediaId(media_id) {
+  const getInstagramUrlFromMediaId = (media_id: any): string => {
     var alphabet =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
     var shortenedId = "";
     while (media_id > 0) {
-      var remainder = bigInt(media_id).mod(64);
+      var remainder: any = bigInt(media_id).mod(64);
       media_id = bigInt(media_id).minus(remainder).divide(64).toString();
+      console.log("WHAT IS UP WITH MEDIA ID", media_id);
       shortenedId = alphabet.charAt(remainder) + shortenedId;
     }
     return "https://www.instagram.com/p/" + shortenedId + "/";
-  }
+  };
 
   // Func to fetch instagram username and instagram business page id. Both are stored in the local storage
-  const fetchInstaInfo = async (token) => {
+  const fetchInstaInfo = async (token: string): Promise<void> => {
     try {
       const fbBusinessPageID = await axios
         .get(`https://graph.facebook.com/me/accounts?access_token=${token}`)
@@ -145,13 +147,13 @@ export const GlobalState = ({ children }) => {
     }
   };
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (): Promise<IPost[]> => {
     updateLoaderStatus("Собираю комменты");
     const accessToken = localStorage.getItem("accessToken");
     const igBusinessPageID = localStorage.getItem("id");
     try {
       // We fetch posts and store them in the state.
-      const igPosts = await axios
+      const igPosts: IPost[] = await axios
         .get(
           `https://graph.facebook.com/v8.0/${igBusinessPageID}/media?access_token=${accessToken}`
         )
@@ -163,18 +165,22 @@ export const GlobalState = ({ children }) => {
       return igPosts;
     } catch (err) {
       console.log(err);
+      return err;
     }
   };
 
   // Each IG post has two different IDs : public ID and Instagram API ID.
   // Public ID is exposed whereas Instagram API ID must be fetched via API by using its public ID. IG API ID will be used to fetch post data.
-  const fetchPostIgId = async (id, token) => {
-    const res = await axios
+  const fetchPostIgId = async (id: string, token: string): Promise<string> => {
+    const res: string = await axios
       .get(
-        `https://graph.facebook.com/v8.0/${id}?fields=comments_count,id,ig_id&access_token=${token}`
+        `https://graph.facebook.com/v8.0/${id}?fields=ig_id&access_token=${token}`
       )
       .then((res) => {
         return res.data.ig_id;
+      })
+      .catch((e) => {
+        return e;
       });
     return res;
   };
@@ -182,29 +188,38 @@ export const GlobalState = ({ children }) => {
   // Func that loops through the array of fetched IG posts and does a get request for each post to get its Instagram API ID.
   // Having Insta API ID of each post, we then emulate the url link for each to compare it to the user input.
   // In the end, we return the Instagram API ID of the matched post.
-  const matchID = async (array, callback, token, inputUrl) => {
+  const matchID = async (
+    array: string[],
+    callback: (id: string, token: string) => Promise<string>,
+    token: string,
+    inputUrl: string
+  ): Promise<string> => {
+    let matchedID = "";
     for (const id of array) {
       const ig_id = await callback(id, token);
       const url = getInstagramUrlFromMediaId(ig_id);
       if (url === inputUrl) {
-        return id;
+        matchedID = id;
       }
     }
+
+    return matchedID;
   };
 
   // Here we glue the match post logic together. This func uses matchID and fetchPostIgId funcs from above.
-  const matchPost = async (posts, url) => {
+  const matchPost = async (posts: IPost[], url: string): Promise<string> => {
     try {
-      const accessToken = localStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("accessToken") || "";
       // Create an array with IDs
-      const IDs = posts.map((post) => {
+      const IDs = posts.map((post: { id: string }) => {
         return post.id;
       });
       // Map through all the IDs and return the one mathing postID.
       const matchedID = await matchID(IDs, fetchPostIgId, accessToken, url);
       return matchedID;
     } catch (err) {
-      console.log("Error occured during post match:", err);
+      console.log(err);
+      return err;
     }
   };
 
@@ -212,7 +227,9 @@ export const GlobalState = ({ children }) => {
 
   // Function to fetch a single comments batch
 
-  const fetchBatch = async (url) => {
+  const fetchBatch = async (
+    url: string
+  ): Promise<{ batch: IComment[]; cursor: string }> => {
     // If this func returns a cursor, the app will know that there's another page with comments and it should fetch it.
     let cursor = "";
     // Fetching primary batch
@@ -230,7 +247,7 @@ export const GlobalState = ({ children }) => {
   };
 
   // Func to merge a single comments batch with all other batches
-  const pushComments = (commentsArray, batch) => {
+  const pushComments = (commentsArray: IComment[], batch: IComment[]) => {
     batch.forEach((comment) => {
       commentsArray.push(comment);
     });
@@ -239,20 +256,21 @@ export const GlobalState = ({ children }) => {
   };
 
   // Comments are fetched by using the Instagram API ID of the matched post.
-  const fetchComments = async (id) => {
+  const fetchComments = async (id: string) => {
     // Loader status changes to an empty string so the number of comments processed can be displayed on the loader
     updateLoaderStatus("");
     const accessToken = localStorage.getItem("accessToken");
     const primaryBatchUrl = `https://graph.facebook.com/v8.0/${id}/comments?access_token=${accessToken}`;
     let cursorAfter = "";
     let fetch = true;
-    let comments = [];
+    let comments: IComment[] = [];
 
     while (fetch) {
       // 1. If the comments array is empty, we fetch the first batch
 
       if (!comments.length) {
         const { batch, cursor } = await fetchBatch(primaryBatchUrl);
+
         pushComments(comments, batch);
         // Break the loop if there's no pagination cursor in the response
 
@@ -264,9 +282,11 @@ export const GlobalState = ({ children }) => {
       else if (comments && comments.length && cursorAfter) {
         const nextBatchUrl = `https://graph.facebook.com/v8.0/${id}/comments?fields=id,text,username&access_token=${accessToken}&limit=50&after=${cursorAfter}&pretty=1`;
         const { batch, cursor } = await fetchBatch(nextBatchUrl);
+
         pushComments(comments, batch);
         cursorAfter = cursor;
         dispatch({ type: GET_COMMENTS_QUANTITY, payload: comments.length });
+
         dispatch({ type: LOAD_COMMENTS, payload: comments });
       } else {
         // Break the loop if there's no pagination cursor in the response
@@ -274,11 +294,13 @@ export const GlobalState = ({ children }) => {
         break;
       }
     }
+
     return comments;
   };
 
   // Func generates a random number from 0 to comments.length and returns the id of the winner comment.
-  const winnerCommentID = (comments) => {
+
+  const winnerCommentID = (comments: IComment[]) => {
     const index = Math.floor(Math.random() * Math.floor(comments.length));
     // console.log(`RANDOM INDEX IN THE RANGE OF ${comments.length}:${index}`);
     const commentID = comments[index];
@@ -286,7 +308,12 @@ export const GlobalState = ({ children }) => {
   };
 
   // Func takes in 3 params : array with IG comments, func to generate a random number, and array with usernames who already won thus should not participate
-  const fetchCommentData = async (comments, getRandomID, winners) => {
+
+  const fetchCommentData = async (
+    comments: IComment[],
+    getRandomID: (comments: IComment[]) => string,
+    winners: string[]
+  ) => {
     let findingWinner = true;
     const accessToken = localStorage.getItem("accessToken");
     let newArray = comments;
@@ -352,19 +379,25 @@ export const GlobalState = ({ children }) => {
   };
 
   // This func deletes an already processed comment from the comments array
-  const deleteCommentFromArray = (commentsArray, winnerCommentID) => {
-    let res = [];
+
+  const deleteCommentFromArray = (
+    commentsArray: IComment[],
+    winnerCommentID: string
+  ) => {
+    let res: IComment[] = [];
+
     commentsArray.forEach((comment) => {
       if (comment.id !== winnerCommentID) {
         res.push(comment);
       }
     });
+
     return res;
   };
 
   // Randomizer Logic
 
-  const randomizerLogic = async (url) => {
+  const randomizerLogic = async (url: string) => {
     try {
       await loginCheck();
       // if state.igPosts is empty, fetch posts.
@@ -383,28 +416,28 @@ export const GlobalState = ({ children }) => {
     }
   };
 
+  const context: IGlobalContext = {
+    isLoggedIn: state.isLoggedIn,
+    winnerCommentData: state.winnerCommentData,
+    loading: state.loading,
+    commentsBank: state.commentsBank,
+    commentsQuantity: state.commentsQuantity,
+    loaderStatus: state.loaderStatus,
+    igUsername: state.igUsername,
+    updateLoaderStatus,
+    fetchInstaInfo,
+    newWinner,
+    newGiveAway,
+    loginCheck,
+    userLoggedIn,
+    signOut,
+    randomizerLogic,
+    loader,
+  };
+
   return (
-    <GlobalContext.Provider
-      value={{
-        isLoggedIn: state.isLoggedIn,
-        winnerCommentData: state.winnerCommentData,
-        loading: state.loading,
-        commentsBank: state.commentsBank,
-        commentsQuantity: state.commentsQuantity,
-        loaderStatus: state.loaderStatus,
-        igUsername: state.igUsername,
-        updateLoaderStatus,
-        fetchInstaInfo,
-        newWinner,
-        newGiveAway,
-        loginCheck,
-        userLoggedIn,
-        signOut,
-        randomizerLogic,
-        loader,
-      }}
-    >
-      {children}
-    </GlobalContext.Provider>
+    <GlobalContext.Provider value={context}>{children}</GlobalContext.Provider>
   );
 };
+
+export default GlobalState;

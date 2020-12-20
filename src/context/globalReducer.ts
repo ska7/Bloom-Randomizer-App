@@ -14,13 +14,13 @@ import {
   UPDATE_WINNERS,
 } from "./types";
 
-interface IComment {
+export interface IComment {
   id: string;
   text: string;
   timestamp?: string;
 }
 
-interface IPost {
+export interface IPost {
   id: string;
 }
 
@@ -39,8 +39,24 @@ export interface IGlobalState {
 }
 
 interface Handlers {
-  [key: string]: (state: IGlobalState, payload?: any) => void;
+  [key: string]: (state: IGlobalState, payload?: any) => IGlobalState;
 }
+
+export type Actions =
+  | {
+      type:
+        | "LOGIN_SUCCEEDED"
+        | "LOGIN_FAILED"
+        | "INIT"
+        | "LOADING"
+        | "NEW_WINNER"
+        | "NEW_GIVE_AWAY";
+    }
+  | { type: "UPDATE_WINNERS" | "UPDATE_LOADER_STATUS"; payload: string }
+  | { type: "LOAD_COMMENTS"; payload: IComment[] }
+  | { type: "POSTS_FETCHED"; payload: IPost[] }
+  | { type: "FETCH_COMMENT_DATA"; payload: ICommentProps }
+  | { type: "GET_COMMENTS_QUANTITY"; payload: number };
 
 const handlers: Handlers = {
   [LOGIN_SUCCEEDED]: (state: IGlobalState) => ({
@@ -49,19 +65,28 @@ const handlers: Handlers = {
   }),
 
   [LOGIN_FAILED]: (state: IGlobalState) => ({ ...state, isLoggedIn: false }),
-  [UPDATE_WINNERS]: (state: IGlobalState, { payload }: any) => ({
+  [UPDATE_WINNERS]: (state: IGlobalState, payload: string) => ({
     ...state,
     winners: [...state.winners, payload],
   }),
-  [LOAD_COMMENTS]: (state: IGlobalState, { payload }: any) => ({
+  [LOAD_COMMENTS]: (
+    state: IGlobalState,
+    { payload }: { payload: IComment[] }
+  ) => ({
     ...state,
     commentsBank: payload,
   }),
-  [POSTS_FETCHED]: (state: IGlobalState, { payload }: any) => ({
+  [POSTS_FETCHED]: (
+    state: IGlobalState,
+    { payload }: { payload: IPost[] }
+  ) => ({
     ...state,
     igPosts: payload,
   }),
-  [FETCH_COMMENT_DATA]: (state: IGlobalState, { payload }: any) => ({
+  [FETCH_COMMENT_DATA]: (
+    state: IGlobalState,
+    { payload }: { payload: ICommentProps }
+  ) => ({
     ...state,
     winnerCommentData: payload,
   }),
@@ -79,7 +104,10 @@ const handlers: Handlers = {
     commentsQuantity: 0,
     loaderStatus: "",
   }),
-  [GET_COMMENTS_QUANTITY]: (state: IGlobalState, { payload }: any) => ({
+  [GET_COMMENTS_QUANTITY]: (
+    state: IGlobalState,
+    { payload }: { payload: number }
+  ) => ({
     ...state,
     commentsQuantity: payload,
   }),
@@ -98,7 +126,10 @@ const handlers: Handlers = {
     commentsQuantity: 0,
     loaderStatus: "",
   }),
-  [UPDATE_LOADER_STATUS]: (state: IGlobalState, { payload }: any) => ({
+  [UPDATE_LOADER_STATUS]: (
+    state: IGlobalState,
+    { payload }: { payload: string }
+  ) => ({
     ...state,
     loaderStatus: payload,
   }),
@@ -107,8 +138,8 @@ const handlers: Handlers = {
 
 export const globalReducer = (
   state: IGlobalState,
-  action: { type: string }
-) => {
+  action: Actions
+): IGlobalState => {
   const handle = handlers[action.type] || handlers.DEFAULT;
   return handle(state, action);
 };

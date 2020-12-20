@@ -1,4 +1,4 @@
-import React, { Key, useContext } from "react";
+import React, { useContext } from "react";
 import "../App.scss";
 import { GlobalContext, IGlobalContext } from "../context/globalContext";
 //@ts-ignore
@@ -15,12 +15,12 @@ const FBLogin: React.FC = () => {
     GlobalContext
   );
 
-  const handleResponse = async (data: IHandleResponseArgs) => {
+  const handleResponse = async (data: IHandleResponseArgs): Promise<void> => {
     fetchInstaInfo(data.tokenDetail.accessToken);
     userLoggedIn(data.tokenDetail.accessToken);
   };
 
-  const handleError = (error: object) => {
+  const handleError = (error: object): void => {
     console.log(error);
   };
 

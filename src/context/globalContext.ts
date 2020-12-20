@@ -1,13 +1,20 @@
 import { ICommentProps } from "components/comment/CommentBody";
 import { createContext } from "react";
-import { IGlobalState } from "./globalReducer";
+import { IComment } from "./globalReducer";
 
-export interface IGlobalContext extends IGlobalState {
+export interface IGlobalContext {
+  isLoggedIn: boolean | null;
+  winnerCommentData: ICommentProps | null;
+  loading: boolean | null;
+  commentsBank: IComment[];
+  igUsername: string;
+  commentsQuantity: number;
+  loaderStatus: string;
   updateLoaderStatus: (status: string) => void;
-  fetchInstaInfo: (token: string) => string;
+  fetchInstaInfo: (token: string) => Promise<void>;
   newWinner: () => void;
   newGiveAway: () => void;
-  loginCheck: () => boolean;
+  loginCheck: () => Promise<boolean>;
   userLoggedIn: (token: string) => void;
   signOut: () => void;
   randomizerLogic: (url: string) => void;
